@@ -1,18 +1,21 @@
 import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
-import org.hibernate.Session;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Map;
 
 /**
  * Created by luben on 2015-11-03.
  */
 public class Main {
+    ///*
     private static final SessionFactory ourSessionFactory;
     private static final ServiceRegistry serviceRegistry;
 
@@ -32,8 +35,12 @@ public class Main {
         return ourSessionFactory.openSession();
     }
 
+    //*/
     public static void main(final String[] args) throws Exception {
+        //*//
+
         final Session session = getSession();
+
         try {
             System.out.println("querying all the managed entities...");
             final Map metadataMap = session.getSessionFactory().getAllClassMetadata();
@@ -47,7 +54,15 @@ public class Main {
                 }
             }
         } finally {
+            ClassLoader cl = ClassLoader.getSystemClassLoader();
+
+            URL[] urls = ((URLClassLoader)cl).getURLs();
+
+            for(URL url: urls){
+                System.out.println(url.getFile());
+            }
             session.close();
-        }
+        }//*/
+
     }
 }
