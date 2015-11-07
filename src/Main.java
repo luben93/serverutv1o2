@@ -55,11 +55,16 @@ public class Main {
             }
         } finally {
             ClassLoader cl = ClassLoader.getSystemClassLoader();
+            Map<String, String> env = System.getenv();
+            for (String envName : env.keySet()) {
+                System.out.format("%s=%s%n",envName,env.get(envName));
+            }
+            System.out.println(env.get("SERVERUTVUSER"));
 
             URL[] urls = ((URLClassLoader)cl).getURLs();
 
             for(URL url: urls){
-                System.out.println(url.getFile());
+             //   System.out.println(url.getFile());
             }
             session.close();
         }//*/

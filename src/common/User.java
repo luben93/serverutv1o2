@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 /**
  * Created by luben on 2015-11-03.
+ * demo test
  */
 
 @Entity
@@ -17,6 +18,9 @@ public class User {
     private int id;
     @Column(name = "name")
     private String name;
+
+    public User() {
+    }
 
     public Integer getAge() {
         return age;
