@@ -22,5 +22,6 @@
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <mapping class="common.User"/>
+        <mapping class="common.model.Users"/>
     </session-factory>
 </hibernate-configuration>

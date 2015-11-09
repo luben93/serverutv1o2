@@ -10,7 +10,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="messages")
-public class messages {
+public class Messages {
     @Id
     @Column(name="id")
     private int id;
