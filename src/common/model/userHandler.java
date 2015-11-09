@@ -17,20 +17,34 @@ public class UserHandler {
         sesh.beginTransaction();
         List result = sesh.createQuery("from Users where username='"+username+"' and password='"+cryptWithMD5(password)+"'").list();
         sesh.getTransaction().commit();
-        System.out.println(result.toString());
+        System.out.println(result.get(0).toString());
         return true;
     }
 
-    public static boolean register(String name,String pass) throws NoSuchAlgorithmException {
+    public static boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
+        List existing=sesh.createQuery("from Users where username='"+name+"'").list();
+        if(existing.get(0)!=null){
+            throw  new UserAlreadyExistExecption("user already exists");
+        }
         sesh.beginTransaction();
         Users u=new Users();
         u.setUsername(name);
         u.setPassword(cryptWithMD5(pass));
+        u.setuId(autoIncr());
         sesh.save(u);
         sesh.getTransaction().commit();
         return true;
     }
 
+    static int autoIncr(){
+
+        List<Integer> result=sesh.createQuery("select max(uId) from Users").list();
+        Integer userId=1;
+        if(result.get(0)!=null){
+            userId=result.get(0)+1;
+        }
+        return userId;
+    }
 
     static String cryptWithMD5(String pass){
         try {

@@ -20,6 +20,15 @@ public class Users {
     @Column(name="password")
     private String password;
 
+    @Override
+    public String toString() {
+        return "Users{" +
+                "uId=" + uId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
     public int getuId() {
         return uId;
     }
