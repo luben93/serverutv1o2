@@ -12,10 +12,10 @@
     <h:outputLabel value="Hello, user"/>
     <h:form id="userForm">
         <h:outputLabel value="User name:"/>
-        <h:inputText value="#{userBean.name}"/><br/>
-        <h:outputLabel value="User age:"/>
-        <h:inputText value="#{userBean.age}"/><br/>
-        <h:commandButton value="submit" action="#{userBean.saveUser}"/>
+        <h:inputText value="#{loginBean.name}"/><br/>
+        <h:outputLabel value="User pass:"/>
+        <h:inputSecret value="#{loginBean.pass}"/><br/>
+        <h:commandButton value="submit" action="#{loginBean.login}"/>
 
     </h:form>
 </f:view>

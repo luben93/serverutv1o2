@@ -3,5 +3,24 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
     http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
-  
+        <managed-bean>
+            <managed-bean-name>SimpleLogin</managed-bean-name>
+            <managed-bean-class>common.view.loginBean
+            </managed-bean-class>
+            <managed-bean-scope>request</managed-bean-scope>
+        </managed-bean>
+        <navigation-rule>
+            <from-view-id>/user.xhtml</from-view-id>
+            <navigation-case>
+                <from-action>#{SimpleLogin.login}</from-action>
+                <from-outcome>success</from-outcome>
+                <to-view-id>out.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-action>#{SimpleLogin.login}</from-action>
+                <from-outcome>fail</from-outcome>
+                <to-view-id>fail.jsp</to-view-id>
+            </navigation-case>
+        </navigation-rule>
+
 </faces-config>

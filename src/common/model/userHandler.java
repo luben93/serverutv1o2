@@ -17,8 +17,10 @@ public class UserHandler {
         sesh.beginTransaction();
         List result = sesh.createQuery("from Users where username='"+username+"' and password='"+cryptWithMD5(password)+"'").list();
         sesh.getTransaction().commit();
-        System.out.println(result.get(0).toString());
-        return true;
+        if(result.get(0)!=null) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
