@@ -31,7 +31,8 @@ public class UserHandler {
         return true;
     }
 
-    public static String cryptWithMD5(String pass){
+
+    static String cryptWithMD5(String pass){
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] passBytes = pass.getBytes();
