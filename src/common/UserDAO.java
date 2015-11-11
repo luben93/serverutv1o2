@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class UserDAO {
     Session sesh = HibUtil.getSessionFactory().openSession();
-    public void save(User u){
+    public void save(UserTmp u){
         sesh.beginTransaction();
         sesh.save(u);
         sesh.getTransaction().commit();
@@ -18,7 +18,7 @@ public class UserDAO {
     }
 
     public Integer getId(){
-        Query q=sesh.createQuery("select max(user.id) from User user");
+        Query q=sesh.createQuery("select max(user.id) from UserTmp user");
         List<Integer> result=q.list();
         Integer userId=1;
         if(result.get(0)!=null){

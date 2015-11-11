@@ -42,7 +42,7 @@ public class UserBean {
         }
         UserDAO dao=new UserDAO();
         Integer userId=dao.getId();
-        User user = new User(userId,name,age);
+        UserTmp user = new UserTmp(userId,name,age);
         dao.save(user);
         System.out.println("Saved");
         return "out";

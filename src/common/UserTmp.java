@@ -12,14 +12,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class UserTmp {
     @Id
     @Column(name = "id")
     private int id;
     @Column(name = "name")
     private String name;
 
-    public User() {
+    public UserTmp() {
     }
 
     public Integer getAge() {
@@ -49,7 +49,7 @@ public class User {
     @Column(name = "age")
     private Integer age;
 
-    public User(int id, String name, Integer age) {
+    public UserTmp(int id, String name, Integer age) {
         this.id = id;
         this.name = name;
         this.age = age;

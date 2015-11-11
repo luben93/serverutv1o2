@@ -21,7 +21,12 @@
         <property name="show_sql">true</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <mapping class="common.User"/>
+        <mapping class="common.UserTmp"/>
         <mapping class="common.model.Users"/>
+        <mapping class="common.model.Profile"/>
+        <mapping class="common.model.User"/>
+        <mapping class="common.model.Wall"/>
+        <mapping class="common.model.Message"/>
+        <mapping class="common.model.ChatMessage"/>
     </session-factory>
 </hibernate-configuration>
