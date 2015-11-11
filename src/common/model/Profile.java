@@ -2,10 +2,11 @@ package common.model;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.mapping.List;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by sirena on 2015-11-10.
@@ -21,11 +22,8 @@ public class Profile implements Serializable {
     private int gender;
     private User user;
     private String description;
-    @ManyToMany
-    @JoinTable(name = "user_friends",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    protected List friends = null;
+    private Set<Profile> friends = new HashSet<>();
+    private Set<Profile> friendsOf = new HashSet<>();
    /* private Collection<Profile> friends = new ArrayList<>();
     private Collection<Profile> friendOf = new ArrayList<>();
     private Collection<ChatMessage> messages = new ArrayList<>();
@@ -41,6 +39,15 @@ public class Profile implements Serializable {
 
     public void setU_id(long u_id) {
         this.u_id = u_id;
+    }
+
+    @ManyToMany(mappedBy = "friends")
+    public Set<Profile> getFriendsOf() {
+        return friendsOf;
+    }
+
+    public void setFriendsOf(Set<Profile> friendsOf) {
+        this.friendsOf = friendsOf;
     }
 
     public String getName() {
@@ -83,6 +90,19 @@ public class Profile implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @ManyToMany(cascade =  CascadeType.ALL)
+    @JoinTable(name="tbl_friends",
+            joinColumns=@JoinColumn(name="f_id"),
+            inverseJoinColumns=@JoinColumn(name="u_id")
+    )
+    public Set<Profile> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<Profile> friends) {
+        this.friends = friends;
     }
 /*
     @ManyToMany(cascade =  CascadeType.ALL)

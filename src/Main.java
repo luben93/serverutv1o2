@@ -16,7 +16,7 @@ public class Main {
     public static void main(final String[] args) throws NoSuchAlgorithmException {
         sesh.beginTransaction();
         User u=new User();
-        u.setUsername("llklk");
+        u.setUsername("jullanhoer");
         u.setPassword("pappa");
 
         Profile p = new Profile();
@@ -59,7 +59,7 @@ public class Main {
         p.setFriends(fr);
         p.setMessages(messagesChat);
         p.setUser(u);*/
-        sesh.flush();
+    //    sesh.flush();
         sesh.save(u);
         sesh.save(p);
         sesh.getTransaction().commit();

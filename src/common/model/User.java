@@ -14,9 +14,10 @@ public class User{
     private Profile profile;
     private Wall wall;
 
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="id", unique=true,nullable = false)
+    @Column(name="u_id", unique=true,nullable = false)
     public long getU_id() {
         return u_id;
     }
@@ -60,5 +61,7 @@ public class User{
     public void setWall(Wall wall) {
         this.wall = wall;
     }
+
+
 
 }
