@@ -18,5 +18,7 @@ hs_err_pid*
 .idea
 *.iml
 out
+.gradle
+build
 gen
 # Created by .ignore support plugin (hsz.mobi)
