@@ -19,7 +19,7 @@
             <navigation-case>
                 <from-action>#{SimpleLogin.login}</from-action>
                 <from-outcome>fail</from-outcome>
-                <to-view-id>/fail.jsp</to-view-id>
+                <to-view-id>/fail.xhtml</to-view-id>
             </navigation-case>
         </navigation-rule>
 
