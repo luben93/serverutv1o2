@@ -158,4 +158,13 @@ public class tester {
        // System.out.println(wwwp);
         assertEquals(5,5);
     }
+
+    @Test
+    public void testStuff(){
+        common.view.loginBean lb=new common.view.loginBean();
+        lb.setName("hej");
+        lb.setPass("hem");
+        lb.login();
+        assertEquals(true,lb.isLoggedIn());
+    }
 }

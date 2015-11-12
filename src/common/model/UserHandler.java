@@ -4,7 +4,6 @@ import org.hibernate.Session;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 /**
  * Created by luben on 2015-11-07.
@@ -13,12 +12,24 @@ public class UserHandler {
     static Session sesh = HibUtil.getSessionFactory().openSession();
     private User user;
 
+    public boolean isLoggdIn(){
+        if(user!=null){
+            return true;
+        }
+        return false;
+    }
+
+    public User getUser(){
+       // return user;// bad practice, men vad hjälper hibernate för annars??????
+        return new UserClone(user);
+    }
+
     public boolean login(String username,String password){
 
         sesh.beginTransaction();
-        List result = sesh.createQuery("from User where username='"+username+"' and password='"+cryptWithMD5(password)+"'").list();
+        user = (User) sesh.createQuery("from User where username='"+username+"' and password='"+cryptWithMD5(password)+"'").uniqueResult();
         sesh.getTransaction().commit();
-        if(result.get(0)!=null) {
+        if(user!=null) {
             return true;
         }
         return false;
