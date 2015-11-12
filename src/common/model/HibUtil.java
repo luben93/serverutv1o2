@@ -1,4 +1,4 @@
-package common;
+package common.model;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -7,9 +7,8 @@ import org.hibernate.SessionFactoryObserver;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
-import common.model.*;
 /**
- * Created by luben on 2015-11-03.
+ * Created by sirena on 2015-11-03.
  */
 public class HibUtil {
 
@@ -57,7 +56,6 @@ public class HibUtil {
     private static  Configuration getConfiguration() {
         Configuration cfg = new Configuration();
         cfg.addAnnotatedClass(User.class );
-        cfg.addAnnotatedClass(Post.class );
         cfg.addAnnotatedClass(Profile.class );
         cfg.addAnnotatedClass(WallPost.class );
         cfg.addAnnotatedClass(ChatMessage.class );

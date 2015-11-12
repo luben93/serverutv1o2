@@ -84,28 +84,6 @@ public class User{
         this.follow = follow;
     }
 
-
-    /*
-    @OneToMany(mappedBy = "user",fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-   /* @JoinTable(name="chat_table",
-            joinColumns={@JoinColumn(name="a_id")},
-            inverseJoinColumns={@JoinColumn(name="b_id")}
-    )*/
-    /*
-    public Set<ChatMessage> getPosts() {
-        return messages;
-    }
-
-    public void setPosts(Collection<ChatMessage> messages) {
-        this.messages = messages;
-    }
-    */
-//    @OneToMany(fetch=FetchType.LAZY, mappedBy = "user")
-   /* @JoinTable(name="chat_table",
-            joinColumns={@JoinColumn(name="a_id")},
-            inverseJoinColumns={@JoinColumn(name="b_id")}
-    )*/
-
     @ElementCollection(targetClass=ChatMessage.class,fetch=FetchType.EAGER)
     @JoinTable (name = "chatmessage", joinColumns = @JoinColumn(name="User_ID"))
     public Set<ChatMessage> getMessages() {

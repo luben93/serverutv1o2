@@ -17,17 +17,10 @@ public class Profile implements Serializable {
     private long u_id;
     private String name;
     private int age;
-    private int gender;
+    @Column( columnDefinition = "boolean default true")
+    private boolean isFemale = true;
     private User user;
     private String description;
-
-  //  private Collection<ChatMessage> FromMessages = new ArrayList<>();
-    //private Collection<ChatMessage> ToMessages = new ArrayList<>();
-
-   /* private Collection<Profile> friends = new ArrayList<>();
-    private Collection<Profile> friendOf = new ArrayList<>();
-    private Collection<ChatMessage> messages = new ArrayList<>();
-*/
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -40,16 +33,6 @@ public class Profile implements Serializable {
     public void setU_id(long u_id) {
         this.u_id = u_id;
     }
-
-
-   /* @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "from")
-    public Collection<ChatMessage> getFromMessages() {
-        return FromMessages;
-    }
-
-    public void setFromMessages(Collection<ChatMessage> FromMessages) {
-        this.FromMessages = FromMessages;
-    }*/
 
     public String getName() {
         return name;
@@ -67,13 +50,12 @@ public class Profile implements Serializable {
         this.age = age;
     }
 
-    public int getGender() {
-        return gender;
+    public boolean getIsFemale() {
+        return isFemale;
     }
 
-    //0 = woman, 1 = man
-    public void setGender(int gender) {
-        this.gender = gender;
+    public void setIsFemale(boolean isFemale) {
+        this.isFemale = isFemale;
     }
 
     public String getDescription() {
@@ -93,17 +75,4 @@ public class Profile implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-
-
-   /* @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    public Collection<ChatMessage> getToMessages() {
-        return ToMessages;
-    }
-
-    public void setToMessages(Collection<ChatMessage> toMessages) {
-        ToMessages = toMessages;
-    }
-*/
-    // @OneToOne(fetch = FetchType.LAZY,mappedBy = "profile",cascade = CascadeType.ALL)
-
 }
