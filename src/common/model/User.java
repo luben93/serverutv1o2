@@ -1,6 +1,8 @@
 package common.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by sirena on 2015-11-10.
@@ -13,7 +15,7 @@ public class User{
     private String password;
     private Profile profile;
     private Wall wall;
-
+    private Collection<ChatMessage> messages = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -43,7 +45,14 @@ public class User{
     public void setPassword(String password) {
         this.password = password;
     }
+    @OneToOne(cascade=CascadeType.ALL, mappedBy = "user")
+    public Wall getWall() {
+        return wall;
+    }
 
+    public void setWall(Wall wall) {
+        this.wall = wall;
+    }
     @OneToOne(cascade=CascadeType.ALL, mappedBy = "user")
     public Profile getProfile() {
         return profile;
@@ -53,15 +62,31 @@ public class User{
         this.profile = profile;
     }
 
-    @OneToOne(fetch = FetchType.LAZY,mappedBy = "user",cascade = CascadeType.ALL)
-    public Wall getWall() {
-        return wall;
+    /*
+    @OneToMany(mappedBy = "user",fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+   /* @JoinTable(name="chat_table",
+            joinColumns={@JoinColumn(name="a_id")},
+            inverseJoinColumns={@JoinColumn(name="b_id")}
+    )*/
+    /*
+    public Set<ChatMessage> getPosts() {
+        return messages;
     }
 
-    public void setWall(Wall wall) {
-        this.wall = wall;
+    public void setPosts(Collection<ChatMessage> messages) {
+        this.messages = messages;
+    }
+    */
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "user")
+   /* @JoinTable(name="chat_table",
+            joinColumns={@JoinColumn(name="a_id")},
+            inverseJoinColumns={@JoinColumn(name="b_id")}
+    )*/
+    public Collection<ChatMessage> getMessages() {
+        return messages;
     }
 
-
-
+    public void setMessages(Collection<ChatMessage> messages) {
+        this.messages = messages;
+    }
 }

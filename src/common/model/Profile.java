@@ -5,8 +5,8 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by sirena on 2015-11-10.
@@ -22,8 +22,11 @@ public class Profile implements Serializable {
     private int gender;
     private User user;
     private String description;
-    private Set<Profile> friends = new HashSet<>();
-    private Set<Profile> friendsOf = new HashSet<>();
+    private Collection<Profile> followed = new ArrayList<>();
+    private Collection<Profile> follow = new ArrayList<>();
+  //  private Collection<ChatMessage> FromMessages = new ArrayList<>();
+    //private Collection<ChatMessage> ToMessages = new ArrayList<>();
+
    /* private Collection<Profile> friends = new ArrayList<>();
     private Collection<Profile> friendOf = new ArrayList<>();
     private Collection<ChatMessage> messages = new ArrayList<>();
@@ -41,14 +44,15 @@ public class Profile implements Serializable {
         this.u_id = u_id;
     }
 
-    @ManyToMany(mappedBy = "friends")
-    public Set<Profile> getFriendsOf() {
-        return friendsOf;
+
+   /* @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "from")
+    public Collection<ChatMessage> getFromMessages() {
+        return FromMessages;
     }
 
-    public void setFriendsOf(Set<Profile> friendsOf) {
-        this.friendsOf = friendsOf;
-    }
+    public void setFromMessages(Collection<ChatMessage> FromMessages) {
+        this.FromMessages = FromMessages;
+    }*/
 
     public String getName() {
         return name;
@@ -70,6 +74,7 @@ public class Profile implements Serializable {
         return gender;
     }
 
+    //0 = woman, 1 = man
     public void setGender(int gender) {
         this.gender = gender;
     }
@@ -97,49 +102,36 @@ public class Profile implements Serializable {
             joinColumns=@JoinColumn(name="f_id"),
             inverseJoinColumns=@JoinColumn(name="u_id")
     )
-    public Set<Profile> getFriends() {
-        return friends;
+    public Collection<Profile> getFollowed() {
+        return followed;
     }
 
-    public void setFriends(Set<Profile> friends) {
-        this.friends = friends;
+    public void setFollowed(Collection<Profile> followed) {
+        this.followed = followed;
     }
-/*
+
     @ManyToMany(cascade =  CascadeType.ALL)
     @JoinTable(name="tbl_friends",
-            joinColumns=@JoinColumn(name="f_id"),
-            inverseJoinColumns=@JoinColumn(name="u_id")
+            joinColumns=@JoinColumn(name="u_id"),
+            inverseJoinColumns=@JoinColumn(name="f_id")
     )
-  //@OneToMany(fetch = FetchType.LAZY,cascade =  CascadeType.ALL)
-    public Collection<Profile> getFriends() {
-        return friends;
+    public Collection<Profile> getFollow() {
+        return follow;
     }
 
-    public void setFriends(Collection<Profile> friends) {
-        this.friends = friends;
+    public void setFollow(Collection<Profile> follow) {
+        this.follow = follow;
     }
 
-    @ManyToMany( cascade = CascadeType.ALL)
-    @JoinTable(name="tbl_friends",
-            joinColumns=@JoinColumn(name="f_id"),
-            inverseJoinColumns=@JoinColumn(name="u_id")
-    )
- // @OneToMany(fetch = FetchType.LAZY,cascade =  CascadeType.ALL)
-    public Collection<Profile> getFriendOf() {
-        return friendOf;
+   /* @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    public Collection<ChatMessage> getToMessages() {
+        return ToMessages;
     }
 
-    public void setFriendOf(Collection<Profile> friendOf) {
-        this.friendOf = friendOf;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "to",cascade = CascadeType.ALL)
-    public Collection<ChatMessage> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(Collection<ChatMessage> messages) {
-        this.messages = messages;
+    public void setToMessages(Collection<ChatMessage> toMessages) {
+        ToMessages = toMessages;
     }
 */
+    // @OneToOne(fetch = FetchType.LAZY,mappedBy = "profile",cascade = CascadeType.ALL)
+
 }

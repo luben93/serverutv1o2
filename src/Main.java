@@ -1,10 +1,13 @@
 import common.HibUtil;
+import common.model.Post;
 import common.model.Profile;
 import common.model.User;
+import common.model.Wall;
 import org.hibernate.Session;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 /**
  * Created by luben on 2015-11-03.
@@ -15,24 +18,76 @@ public class Main {
 
     public static void main(final String[] args) throws NoSuchAlgorithmException {
         sesh.beginTransaction();
-        User u=new User();
-        u.setUsername("jullanhoer");
-        u.setPassword("pappa");
 
+        //Create user
+       User u=new User();
+        u.setUsername("user_cool_ju7llan");
+        u.setPassword(cryptWithMD5("secret"));
+
+        //Create profile
         Profile p = new Profile();
-        p.setAge(54);
-        p.setDescription("dfsd");
-        p.setGender(1);
-        p.setName("dsafdsf");
-        //Profile profile = (Profile) sesh.createQuery("from Profile p where p.u_id = 112").uniqueResult();
+        p.setAge(23);
+        p.setDescription("Cool girl");
+        //0 = woman, 1 = man
+        p.setGender(0);
+        p.setName("Sirena9392");
 
 
-      //  ArrayList<Profile> pr = new ArrayList<>();
-        //pr.add(profile);
-       // p.setFriends(pr);
+ /*
+
+     /*   Wall w = new Wall();
+        ArrayList<Post> messages = new ArrayList<>();
+        Post m = new Post();
+        m.setMessage("jullan owns");
+        messages.add(m);
+        w.setPosts(messages
+        w.setUser(u);
+        u.setWall(w);*/
+
+       /* Wall w = new Wall();
+        ArrayList<Post> messages = new ArrayList<>();
+        Post m = new Post();
+        m.setMessage("jullan owns");
+        messages.add(m);
+        w.setPosts(messages);
+        p.setWall(w);
+        w.setProfile(p);*/
+       // User u2 = (User) sesh.createQuery("from User p where p.u_id = 162").uniqueResult();
+
+      //  User u1 = (User) sesh.createQuery("from User p where p.u_id = 12").uniqueResult();
+      //  Profile profile = (Profile) sesh.createQuery("from Profile p where p.u_id = 2").uniqueResult();
+        Wall w = new Wall(); //profile.se
+        Post post = new Post();
+        post.setPost("Jiullaneciol");
+        ArrayList<Post> posts = new ArrayList<>();
+        posts.add(post);
+        w.setPosts(posts);
+        w.setUser(u);
+        u.setWall(w);
+
+    /*    ChatMessage cm = new ChatMessage();
+        cm.setMessage("noooooooo");
+     //   cm.setUser(u);
+        cm.setUser(u1);
+        ArrayList<ChatMessage> cma = new ArrayList<>();
+        cma.add(cm);
+
+        u2.setMessages(cma);*/
+    /*   Profile profile = (Profile) sesh.createQuery("from Profile p where p.u_id = 2").uniqueResult();
+
+        Collection<Profile> pr = new ArrayList<>();
+        pr.add(profile);
+        p.setFollow(pr);*/
+
+
+
        // p.setFriendOf(pr);
-        p.setUser(u);
+
+
+     /*   p.setUser(u);
         u.setProfile(p);
+     */
+
       //  Profile profile = (Profile) sesh.createQuery("from user mod where mod.moduleID = 1").uniqueResult();
 /*
         ArrayList<ChatMessage> messagesChat = new ArrayList<>();
@@ -45,23 +100,24 @@ public class Main {
         fr.add(f);
         cm.setTo(f);
         Wall w = new Wall();
-        ArrayList<Message> m = new ArrayList<>();
-        Message msg = new Message();
+        ArrayList<Post> m = new ArrayList<>();
+        Post msg = new Post();
         msg.setMessage("hu");
         m.add(msg);
-        msg = new Message();
+        msg = new Post();
         msg.setMessage("ha");
         m.add(msg);
-        w.setMessages(m);
+        w.setPosts(m);
         w.setUser(u);
         u.setWall(w);
         u.setProfile(p);
         p.setFriends(fr);
-        p.setMessages(messagesChat);
+        p.setPosts(messagesChat);
         p.setUser(u);*/
     //    sesh.flush();
-        sesh.save(u);
-        sesh.save(p);
+        sesh.saveOrUpdate(u);
+        sesh.saveOrUpdate(w);
+        //sesh.save(p);
         sesh.getTransaction().commit();
         /*
         Session s = HibUtil.openSession();

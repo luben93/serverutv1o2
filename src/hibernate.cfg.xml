@@ -26,7 +26,7 @@
         <mapping class="common.model.Profile"/>
         <mapping class="common.model.User"/>
         <mapping class="common.model.Wall"/>
-        <mapping class="common.model.Message"/>
+        <mapping class="common.model.Post"/>
         <mapping class="common.model.ChatMessage"/>
     </session-factory>
 </hibernate-configuration>
