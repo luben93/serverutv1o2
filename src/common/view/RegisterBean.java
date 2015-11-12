@@ -1,21 +1,18 @@
 package common.view;
 
+import common.model.UserAlreadyExistExecption;
 import common.model.UserHandler;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by luben on 2015-11-07.
  */
-@ManagedBean(name="loginBean",eager=true)
-@SessionScoped
-public class loginBean {
-    public boolean isLoggedIn() {
-        return isLoggedIn;
-    }
-
-    private boolean isLoggedIn=false;
+@ManagedBean(name="RegisterBean",eager=true)
+@RequestScoped
+public class RegisterBean {
     private String name;
     private String pass;
 
@@ -38,10 +35,15 @@ public class loginBean {
     public String login(){
 
         UserHandler uh=new UserHandler();
-        if(uh.login(name,pass)) {
-            System.out.println("logged in");
-            isLoggedIn=true;
-            return "success";
+        try {
+            if(uh.register(name,pass)) {
+                return "success";
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UserAlreadyExistExecption userAlreadyExistExecption) {
+            userAlreadyExistExecption.printStackTrace();
+            return "fail";
         }
         //TODO not logged in
         return "fail";

@@ -1,11 +1,19 @@
 package common.model;
 
+import org.hibernate.Session;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 /**
  * Created by luben on 2015-11-07.
  */
 public class UserHandler {
-   /* static Session sesh = HibUtil.getSessionFactory().openSession();
-    public static boolean login(String username,String password){
+    static Session sesh = HibUtil.getSessionFactory().openSession();
+    private User user;
+
+    public boolean login(String username,String password){
 
         sesh.beginTransaction();
         List result = sesh.createQuery("from User where username='"+username+"' and password='"+cryptWithMD5(password)+"'").list();
@@ -16,21 +24,21 @@ public class UserHandler {
         return false;
     }
 
-    public static boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
-        List existing=sesh.createQuery("from User where username='"+name+"'").list();
-        if(existing.get(0)!=null){
+    public boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
+        User existing=(User) sesh.createQuery("from User where username='"+name+"'").uniqueResult();
+        if(existing!=null){
             throw  new UserAlreadyExistExecption("user already exists");
         }
         sesh.beginTransaction();
-        User u=new User();
-        u.setUsername(name);
-        u.setPassword(cryptWithMD5(pass));
-        //u.setuId(autoIncr());
-        sesh.save(u);
+         user=new User();
+        user.setUsername(name);//TODO check email
+        user.setPassword(cryptWithMD5(pass));
+
+        sesh.save(user);
         sesh.getTransaction().commit();
         return true;
     }
-
+/*
     static int autoIncr(){
 
         List<Integer> result=sesh.createQuery("select max(uId) from Users").list();
@@ -40,6 +48,7 @@ public class UserHandler {
         }
         return userId;
     }
+    */
 
     static String cryptWithMD5(String pass){
         try {
@@ -59,7 +68,7 @@ public class UserHandler {
         return null;
 
 
-    }*/
+    }
 
 }
 
