@@ -1,21 +1,14 @@
 package common.model;
 
-import common.HibUtil;
-import org.hibernate.Session;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-
 /**
  * Created by luben on 2015-11-07.
  */
 public class UserHandler {
-    static Session sesh = HibUtil.getSessionFactory().openSession();
+   /* static Session sesh = HibUtil.getSessionFactory().openSession();
     public static boolean login(String username,String password){
 
         sesh.beginTransaction();
-        List result = sesh.createQuery("from Users where username='"+username+"' and password='"+cryptWithMD5(password)+"'").list();
+        List result = sesh.createQuery("from User where username='"+username+"' and password='"+cryptWithMD5(password)+"'").list();
         sesh.getTransaction().commit();
         if(result.get(0)!=null) {
             return true;
@@ -24,15 +17,15 @@ public class UserHandler {
     }
 
     public static boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
-        List existing=sesh.createQuery("from Users where username='"+name+"'").list();
+        List existing=sesh.createQuery("from User where username='"+name+"'").list();
         if(existing.get(0)!=null){
             throw  new UserAlreadyExistExecption("user already exists");
         }
         sesh.beginTransaction();
-        Users u=new Users();
+        User u=new User();
         u.setUsername(name);
         u.setPassword(cryptWithMD5(pass));
-        u.setuId(autoIncr());
+        //u.setuId(autoIncr());
         sesh.save(u);
         sesh.getTransaction().commit();
         return true;
@@ -66,7 +59,7 @@ public class UserHandler {
         return null;
 
 
-    }
+    }*/
 
 }
 
