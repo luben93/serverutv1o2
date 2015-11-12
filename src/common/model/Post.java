@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by sirena on 2015-11-10.
  */
 @Entity
-@Table(name="message")
+@Table(name="post")
 public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
 

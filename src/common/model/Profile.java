@@ -5,8 +5,6 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by sirena on 2015-11-10.
@@ -22,8 +20,7 @@ public class Profile implements Serializable {
     private int gender;
     private User user;
     private String description;
-    private Collection<Profile> followed = new ArrayList<>();
-    private Collection<Profile> follow = new ArrayList<>();
+
   //  private Collection<ChatMessage> FromMessages = new ArrayList<>();
     //private Collection<ChatMessage> ToMessages = new ArrayList<>();
 
@@ -97,31 +94,6 @@ public class Profile implements Serializable {
         this.user = user;
     }
 
-    @ManyToMany(cascade =  CascadeType.ALL)
-    @JoinTable(name="tbl_friends",
-            joinColumns=@JoinColumn(name="f_id"),
-            inverseJoinColumns=@JoinColumn(name="u_id")
-    )
-    public Collection<Profile> getFollowed() {
-        return followed;
-    }
-
-    public void setFollowed(Collection<Profile> followed) {
-        this.followed = followed;
-    }
-
-    @ManyToMany(cascade =  CascadeType.ALL)
-    @JoinTable(name="tbl_friends",
-            joinColumns=@JoinColumn(name="u_id"),
-            inverseJoinColumns=@JoinColumn(name="f_id")
-    )
-    public Collection<Profile> getFollow() {
-        return follow;
-    }
-
-    public void setFollow(Collection<Profile> follow) {
-        this.follow = follow;
-    }
 
    /* @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     public Collection<ChatMessage> getToMessages() {

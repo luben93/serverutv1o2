@@ -1,13 +1,12 @@
 import common.HibUtil;
-import common.model.Post;
-import common.model.Profile;
 import common.model.User;
-import common.model.Wall;
+import common.model.WallPost;
 import org.hibernate.Session;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by luben on 2015-11-03.
@@ -20,8 +19,16 @@ public class Main {
         sesh.beginTransaction();
 
         //Create user
-       User u=new User();
-        u.setUsername("user_cool_ju7llan");
+     /*  User u=new User();
+
+        Set<ChatMessage> chatmess = new HashSet<ChatMessage>();
+        ChatMessage chm = new ChatMessage();
+        chm.setMessage("cool");
+
+        chatmess.add(chm);
+        u.setMessages(chatmess);
+
+        u.setUsername("cooling");
         u.setPassword(cryptWithMD5("secret"));
 
         //Create profile
@@ -31,7 +38,15 @@ public class Main {
         //0 = woman, 1 = man
         p.setGender(0);
         p.setName("Sirena9392");
+*/
+        User u = (User) sesh.createQuery("from User p where p.u_id = 2").uniqueResult();
 
+        WallPost wp = new WallPost();
+        Collection<WallPost> wpc = new ArrayList<>();
+        wp.setPost("oooook");
+        wpc.add(wp);
+        wp.setUser(u);
+        u.setWallPost(wpc);
 
  /*
 
@@ -56,14 +71,14 @@ public class Main {
 
       //  User u1 = (User) sesh.createQuery("from User p where p.u_id = 12").uniqueResult();
       //  Profile profile = (Profile) sesh.createQuery("from Profile p where p.u_id = 2").uniqueResult();
-        Wall w = new Wall(); //profile.se
+     /*   Wall w = new Wall(); //profile.se
         Post post = new Post();
         post.setPost("Jiullaneciol");
         ArrayList<Post> posts = new ArrayList<>();
         posts.add(post);
-        w.setPosts(posts);
-        w.setUser(u);
-        u.setWall(w);
+        w.setPosts(posts);*/
+     //   w.setUser(u);
+       // u.setWall(w);
 
     /*    ChatMessage cm = new ChatMessage();
         cm.setMessage("noooooooo");
@@ -116,9 +131,10 @@ public class Main {
         p.setUser(u);*/
     //    sesh.flush();
         sesh.saveOrUpdate(u);
-        sesh.saveOrUpdate(w);
+        sesh.saveOrUpdate(wp);
         //sesh.save(p);
         sesh.getTransaction().commit();
+        sesh.close();
         /*
         Session s = HibUtil.openSession();
         s.beginTransaction();

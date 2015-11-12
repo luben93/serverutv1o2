@@ -3,6 +3,7 @@ package common.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by sirena on 2015-11-10.
@@ -14,8 +15,10 @@ public class User{
     private String username;
     private String password;
     private Profile profile;
-    private Wall wall;
-    private Collection<ChatMessage> messages = new ArrayList<>();
+    private Collection<WallPost> wallPost;
+    private Set<ChatMessage> messages;
+    private Collection<User> followed = new ArrayList<>();
+    private Collection<User> follow = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -45,14 +48,7 @@ public class User{
     public void setPassword(String password) {
         this.password = password;
     }
-    @OneToOne(cascade=CascadeType.ALL, mappedBy = "user")
-    public Wall getWall() {
-        return wall;
-    }
 
-    public void setWall(Wall wall) {
-        this.wall = wall;
-    }
     @OneToOne(cascade=CascadeType.ALL, mappedBy = "user")
     public Profile getProfile() {
         return profile;
@@ -61,6 +57,33 @@ public class User{
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+
+    @ManyToMany(cascade =  CascadeType.ALL)
+    @JoinTable(name="tbl_friends",
+            joinColumns=@JoinColumn(name="f_id"),
+            inverseJoinColumns=@JoinColumn(name="u_id")
+    )
+    public Collection<User> getFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(Collection<User> followed) {
+        this.followed = followed;
+    }
+
+    @ManyToMany(cascade =  CascadeType.ALL)
+    @JoinTable(name="tbl_friends",
+            joinColumns=@JoinColumn(name="u_id"),
+            inverseJoinColumns=@JoinColumn(name="f_id")
+    )
+    public Collection<User> getFollow() {
+        return follow;
+    }
+
+    public void setFollow(Collection<User> follow) {
+        this.follow = follow;
+    }
+
 
     /*
     @OneToMany(mappedBy = "user",fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
@@ -77,16 +100,28 @@ public class User{
         this.messages = messages;
     }
     */
-    @OneToMany(fetch=FetchType.LAZY, mappedBy = "user")
+//    @OneToMany(fetch=FetchType.LAZY, mappedBy = "user")
    /* @JoinTable(name="chat_table",
             joinColumns={@JoinColumn(name="a_id")},
             inverseJoinColumns={@JoinColumn(name="b_id")}
     )*/
-    public Collection<ChatMessage> getMessages() {
+
+    @ElementCollection(targetClass=ChatMessage.class,fetch=FetchType.EAGER)
+    @JoinTable (name = "chatmessage", joinColumns = @JoinColumn(name="User_ID"))
+    public Set<ChatMessage> getMessages() {
         return messages;
     }
 
-    public void setMessages(Collection<ChatMessage> messages) {
+    public void setMessages(Set<ChatMessage> messages) {
         this.messages = messages;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "user")
+    public Collection<WallPost> getWallPost() {
+        return wallPost;
+    }
+
+    public void setWallPost(Collection<WallPost> wallPost) {
+        this.wallPost = wallPost;
     }
 }

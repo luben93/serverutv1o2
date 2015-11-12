@@ -59,7 +59,7 @@ public class HibUtil {
         cfg.addAnnotatedClass(User.class );
         cfg.addAnnotatedClass(Post.class );
         cfg.addAnnotatedClass(Profile.class );
-        cfg.addAnnotatedClass(Wall.class );
+        cfg.addAnnotatedClass(WallPost.class );
         cfg.addAnnotatedClass(ChatMessage.class );
 
         cfg.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver");

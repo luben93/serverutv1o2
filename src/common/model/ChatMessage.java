@@ -1,29 +1,27 @@
 package common.model;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parent;
 
-import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Optional;
 
 /**
  * Created by sirena on 2015-11-10.
  */
-@Entity
+@Embeddable
 @Table(name="chatmessage")
 public class ChatMessage implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private long messageId;
+   // private long messageId;
     private String message;
    // private long to_id;
    // private Profile from;
   //  private Profile to;
+
     private User user;
-    private long u_id;
+    //private long u_id;
 
    /* @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -36,7 +34,7 @@ public class ChatMessage implements Serializable {
         this.messageId = messageId;
     }*/
 
-    @Id
+    /*@Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(name = "generator", strategy = "foreign",
             parameters = @org.hibernate.annotations.Parameter(name = "property", value = "user"))
@@ -46,7 +44,7 @@ public class ChatMessage implements Serializable {
 
     public void setU_id(long u_id) {
         this.u_id = u_id;
-    }
+    }*/
 
     public String getMessage() {
         return message;
@@ -58,8 +56,9 @@ public class ChatMessage implements Serializable {
 
 //    @ManyToOne(optional = false)
 
-    @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name="u_id",insertable = false, updatable = false)
+   // @ManyToOne(cascade= CascadeType.ALL)
+   // @JoinColumn(name="u_id",insertable = false, updatable = false)
+    @Parent
     public User getUser() {
         return user;
     }

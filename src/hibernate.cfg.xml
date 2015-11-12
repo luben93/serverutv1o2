@@ -25,7 +25,7 @@
         <mapping class="common.model.Users"/>
         <mapping class="common.model.Profile"/>
         <mapping class="common.model.User"/>
-        <mapping class="common.model.Wall"/>
+        <mapping class="common.model.WallPost"/>
         <mapping class="common.model.Post"/>
         <mapping class="common.model.ChatMessage"/>
     </session-factory>
