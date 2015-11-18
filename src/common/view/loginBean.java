@@ -1,6 +1,8 @@
 package common.view;
 
+import common.bo.ProfileHandler;
 import common.bo.UserHandler;
+import common.model.Profile;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -31,6 +33,10 @@ public class loginBean {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public Profile getProfile(){
+        return ProfileHandler.getProfile(name);
     }
 
     public String login() {

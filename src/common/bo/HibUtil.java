@@ -65,7 +65,7 @@ public class HibUtil {
         cfg.addAnnotatedClass(ChatMessage.class );
 
         cfg.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver");
-        cfg.setProperty("hibernate.connection.url","jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_1b33dad8f5f8d1c");
+      //  cfg.setProperty("hibernate.connection.url","jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_1b33dad8f5f8d1c");
         cfg.setProperty("hibernate.show_sql", "true");
         cfg.setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
         cfg.setProperty("hibernate.hbm2ddl.auto", "update");

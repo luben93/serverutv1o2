@@ -35,6 +35,8 @@ public class UserHandler {
 
         sesh.save(user);
         sesh.getTransaction().commit();
+
+        ProfileHandler.setDefaultProfile(user);
         return true;
     }
 /*
