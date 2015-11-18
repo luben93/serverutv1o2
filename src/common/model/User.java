@@ -1,6 +1,7 @@
 package common.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name="user")
-public class User{
+public class User implements Serializable{
     private long u_id;
     private String username;
     private String password;

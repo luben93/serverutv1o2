@@ -5,11 +5,24 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
 <f:view>
-    <h:outputLabel value="Welcome #{loginBean.name} !"/>
-    <h:outputLabel value="#{loginBean.getProfile.age} "/>
-    <h:form id="logout">
-    <h:commandButton value="Log out" action="#{loginBean.logout}"/>
-    </h:form>
+    <div class="profile">
+        <h:outputLabel value="Welcome #{loginBean.profile.name} !"/>
+        <h:outputLabel value="Age: #{loginBean.profile.age} "/>
+        <h:outputLabel value="Description: #{loginBean.profile.description} "/>
+        <h:outputLabel value="gender: #{loginBean.gender} "/>
+    </div>
+
+    <div class="logout">
+        <h:form id="logout">
+            <h:commandButton value="Log out" action="#{loginBean.logout}"/>
+        </h:form>
+    </div>
+
+    <div class="wall">
+        <h:outputLabel value="wall content"/><!-- TODO foreach -->
+    </div>
 </f:view>
+</body>
 </html>

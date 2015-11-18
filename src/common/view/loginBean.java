@@ -7,6 +7,7 @@ import common.model.Profile;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 
 /**
  * Created by luben on 2015-11-07.
@@ -18,6 +19,9 @@ public class loginBean {
 
     private String name;
     private String pass;
+    private Profile profile;
+    private String gender;
+
 
     public String getName() {
         return name;
@@ -35,11 +39,22 @@ public class loginBean {
         this.pass = pass;
     }
 
-    public Profile getProfile(){
-        return ProfileHandler.getProfile(name);
+     public Profile getProfile() throws IOException, ClassNotFoundException {
+        return ProfileHandler.getProfile(name);//TODO ajabaja inte skicka model lager
+                                                //TODO även om det är en kopia
     }
 
-    public String login() {
+    public String getGender() throws IOException, ClassNotFoundException {
+        if (ProfileHandler.getProfile(name).getIsFemale()){
+            return "woman";
+        }else{
+            return "man";
+        }
+    }
+
+
+
+    public String login()  {
         if (UserHandler.login(name, pass)) {
             System.out.println("logged in");
             return "home";

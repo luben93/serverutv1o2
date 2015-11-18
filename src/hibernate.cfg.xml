@@ -13,8 +13,8 @@
         <!-- <property name="hbm2ddl.auto">update</property> -->
 
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">
-            jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_1b33dad8f5f8d1c</property>
+        <!--property name="hibernate.connection.url">
+            jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_1b33dad8f5f8d1c</property-->
         <!--<property name="hibernate.connection.username">luben</property>
         <property name="hibernate.connection.password">****</property>-->
         <property name="hibernate.connection.pool_size">10</property>

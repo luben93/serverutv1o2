@@ -4,13 +4,11 @@ import common.model.ChatMessage;
 import common.model.Profile;
 import common.model.User;
 import common.model.WallPost;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.SessionFactoryObserver;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
+
 /**
  * Created by sirena on 2015-11-03.
  */
@@ -25,7 +23,7 @@ public class HibUtil {
             serviceRegistry = new ServiceRegistryBuilder().applySettings(
                     config.getProperties()).buildServiceRegistry();
             config.setSessionFactoryObserver(new SessionFactoryObserver() {
-                private static final long  serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public void sessionFactoryCreated(SessionFactory factory) {
@@ -49,6 +47,7 @@ public class HibUtil {
         }
     }
 
+    /*
     public static  Session openSession() {
         return ourSessionFactory.openSession();
     }
@@ -56,25 +55,55 @@ public class HibUtil {
     public static Session getSession() throws HibernateException {
         return ourSessionFactory.openSession();
     }
-
-    private static  Configuration getConfiguration() {
+*/
+    private static Configuration getConfiguration() {
         Configuration cfg = new Configuration();
-        cfg.addAnnotatedClass(User.class );
-        cfg.addAnnotatedClass(Profile.class );
-        cfg.addAnnotatedClass(WallPost.class );
-        cfg.addAnnotatedClass(ChatMessage.class );
+        cfg.addAnnotatedClass(User.class);
+        cfg.addAnnotatedClass(Profile.class);
+        cfg.addAnnotatedClass(WallPost.class);
+        cfg.addAnnotatedClass(ChatMessage.class);
 
-        cfg.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver");
-      //  cfg.setProperty("hibernate.connection.url","jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_1b33dad8f5f8d1c");
+        cfg.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
+        //  cfg.setProperty("hibernate.connection.url","jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_1b33dad8f5f8d1c");
         cfg.setProperty("hibernate.show_sql", "true");
-        cfg.setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
+        cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         cfg.setProperty("hibernate.hbm2ddl.auto", "update");
-        cfg.setProperty("hibernate.cache.provider_class","org.hibernate.cache.NoCacheProvider");
+        cfg.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
         cfg.setProperty("hibernate.current_session_context_class", "thread");
         return cfg;
     }
 
-    public static SessionFactory getSessionFactory() {
-        return ourSessionFactory;
+    public static SessionFactory newSession(){
+        Configuration config = getConfiguration();
+        ServiceRegistry sr = new ServiceRegistryBuilder().applySettings(
+                config.getProperties()).buildServiceRegistry();
+        config.setSessionFactoryObserver(new SessionFactoryObserver() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void sessionFactoryCreated(SessionFactory factory) {
+            }
+
+            @Override
+            public void sessionFactoryClosed(SessionFactory factory) {
+                ServiceRegistryBuilder.destroy(serviceRegistry);
+            }
+        });
+        return config.buildSessionFactory(serviceRegistry);
+    }
+
+    public static SessionFactory getSessionFactory() throws RuntimeException {
+        int i = 0;
+        SessionFactory sesh =ourSessionFactory;
+        while (i != 5) {
+            try {
+                return sesh;
+            } catch (TransactionException t) {
+                t.printStackTrace();
+                sesh=newSession();
+                i++;
+            }
+        }
+        throw new RuntimeException("session error, restart tomcat");
     }
 }

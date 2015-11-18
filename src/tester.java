@@ -164,7 +164,9 @@ public class tester {
         common.view.loginBean lb=new common.view.loginBean();
         lb.setName("hej");
         lb.setPass("hem");
-        lb.login();
-       // assertEquals(true,lb.isLoggedIn());
+
+            lb.login();
+
+        // assertEquals(true,lb.isLoggedIn());
     }
 }
