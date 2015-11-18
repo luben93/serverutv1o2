@@ -4,6 +4,7 @@ import common.bo.UserHandler;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  * Created by luben on 2015-11-07.
@@ -38,6 +39,11 @@ public class loginBean {
             return "home";
         }
         //TODO not logged in
+        return "index";
+    }
+
+    public String logout(){
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "index";
     }
 
