@@ -1,4 +1,4 @@
-import common.model.HibUtil;
+import common.bo.HibUtil;
 import org.hibernate.Session;
 
 import java.security.NoSuchAlgorithmException;

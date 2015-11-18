@@ -1,4 +1,4 @@
-package common.model;
+package common.bo;
 
 /**
  * Created by luben on 2015-11-09.

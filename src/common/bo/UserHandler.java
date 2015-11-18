@@ -1,5 +1,6 @@
-package common.model;
+package common.bo;
 
+import common.model.User;
 import org.hibernate.Session;
 
 import java.security.MessageDigest;
@@ -10,24 +11,11 @@ import java.security.NoSuchAlgorithmException;
  */
 public class UserHandler {
     static Session sesh = HibUtil.getSessionFactory().openSession();
-    private User user;
 
-    public boolean isLoggdIn(){
-        if(user!=null){
-            return true;
-        }
-        return false;
-    }
-
-    public User getUser(){
-       // return user;// bad practice, men vad hjälper hibernate för annars??????
-        return new UserClone(user);
-    }
-
-    public boolean login(String username,String password){
+    public static boolean login(String username,String password){
 
         sesh.beginTransaction();
-        user = (User) sesh.createQuery("from User where username='"+username+"' and password='"+cryptWithMD5(password)+"'").uniqueResult();
+        User user = (User) sesh.createQuery("from User where username='"+username+"' and password='"+cryptWithMD5(password)+"'").uniqueResult();
         sesh.getTransaction().commit();
         if(user!=null) {
             return true;
@@ -35,13 +23,13 @@ public class UserHandler {
         return false;
     }
 
-    public boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
+    public static boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
         User existing=(User) sesh.createQuery("from User where username='"+name+"'").uniqueResult();
         if(existing!=null){
             throw  new UserAlreadyExistExecption("user already exists");
         }
         sesh.beginTransaction();
-         user=new User();
+        User user=new User();
         user.setUsername(name);//TODO check email
         user.setPassword(cryptWithMD5(pass));
 

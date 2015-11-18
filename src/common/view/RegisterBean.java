@@ -1,7 +1,7 @@
 package common.view;
 
-import common.model.UserAlreadyExistExecption;
-import common.model.UserHandler;
+import common.bo.UserAlreadyExistExecption;
+import common.bo.UserHandler;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -33,20 +33,18 @@ public class RegisterBean {
     }
 
     public String login(){
-
-        UserHandler uh=new UserHandler();
         try {
-            if(uh.register(name,pass)) {
-                return "success";
+            if(UserHandler.register(name,pass)) {
+                return "home";
             }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UserAlreadyExistExecption userAlreadyExistExecption) {
             userAlreadyExistExecption.printStackTrace();
-            return "fail";
+            return "index";
         }
         //TODO not logged in
-        return "fail";
+        return "index";
     }
 
 }

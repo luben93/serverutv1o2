@@ -1,5 +1,9 @@
-package common.model;
+package common.bo;
 
+import common.model.ChatMessage;
+import common.model.Profile;
+import common.model.User;
+import common.model.WallPost;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

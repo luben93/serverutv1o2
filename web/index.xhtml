@@ -5,9 +5,21 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-   <f:view>
-      <h:outputLabel value="Hello, world"/>
-   </f:view>
-   <a href="user.xhtml">click me</a>
+<h:head>
+   <title>Login</title>
+</h:head>
+<f:view>
+   <h:outputLabel value="Hello, user"/>
+   <h:form id="userForm">
+      <h:outputLabel value="User name:"/>
+      <h:inputText value="#{loginBean.name}"/><br/>
+      <h:outputLabel value="User pass:"/>
+      <h:inputSecret value="#{loginBean.pass}"/><br/>
+      <h:commandButton value="submit" action="#{loginBean.login}"/>
 
+   </h:form>
+   <h:outputLabel value="register here"/>
+   <a href="registerUser.xhtml">click me</a>
+
+</f:view>
 </html>
