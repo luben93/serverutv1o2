@@ -1,13 +1,14 @@
 package common.bo;
 
 import common.model.User;
+import common.view.SimpleUser;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -47,9 +48,13 @@ public class UserHandler {
 
     public static Collection search(String name) throws IOException, ClassNotFoundException {
         Session sesh=seshF.openSession();
-        Collection<Serializable> res=sesh.createQuery("from User where username='"+name+"'").list();
+        Collection out= new ArrayList<SimpleUser>();
+        Collection<User> res=sesh.createQuery("from User where username like '%"+name+"%'").list();
+        for (User u: res) {
+            out.add(new SimpleUser(u.getUsername(),u.getU_id()));
+        }
         sesh.close();
-        return res;
+        return out;
     }
 /*
     static int autoIncr(){

@@ -61,7 +61,7 @@ public class loginBean {
     }
 
     public Collection getResults() throws IOException, ClassNotFoundException {
-        return UserHandler.search(searchName);
+        return UserHandler.search(searchName);//TODO fuuuuuuuu not safe at all, actuall list of all user with name
     }
 
 
