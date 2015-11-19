@@ -9,6 +9,13 @@ import java.util.Set;
 /**
  * Created by sirena on 2015-11-10.
  */
+
+@NamedQueries({
+        @NamedQuery(
+                name = "findUserByUsername",
+                query = "from User u where u.username = :name"
+        )
+})
 @Entity
 @Table(name="user")
 public class User implements Serializable{

@@ -1,11 +1,4 @@
-import common.bo.HibUtil;
-import common.model.User;
-import common.model.WallPost;
-import org.hibernate.Session;
-import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,9 +9,9 @@ import static org.junit.Assert.assertEquals;
 public class tester {
     @Test
     public void evaluatesExpression() {
-        Session sesh = HibUtil.getSessionFactory().openSession();
+       /* Session sesh = HibUtil.getSessionFactory().openSession();
         sesh.beginTransaction();
-
+*/
         //Create user
      /*  User u=new User();
 
@@ -40,13 +33,13 @@ public class tester {
         p.setGender(0);
         p.setName("Sirena9392");
 */
-        User u = (User) sesh.createQuery("from User p where p.u_id = 2").uniqueResult();
+       /* User u = (User) sesh.createQuery("from User p where p.u_id = 2").uniqueResult();
         WallPost wp = new WallPost();
         Collection<WallPost> wpc = new ArrayList<>();
         wp.setPost("oooook");
         wpc.add(wp);
         wp.setUser(u);
-        u.setWallPost(wpc);
+        u.setWallPost(wpc);*/
 
  /*
 
@@ -130,11 +123,11 @@ public class tester {
         p.setPosts(messagesChat);
         p.setUser(u);*/
         //    sesh.flush();
-        sesh.saveOrUpdate(u);
+     /*   sesh.saveOrUpdate(u);
         sesh.saveOrUpdate(wp);
         //sesh.save(p);
         sesh.getTransaction().commit();
-        sesh.close();
+        sesh.close();*/
 
         /*
         Session s = HibUtil.openSession();
