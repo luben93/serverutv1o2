@@ -4,7 +4,8 @@ import common.model.ChatMessage;
 import common.model.Profile;
 import common.model.User;
 import common.model.WallPost;
-import org.hibernate.*;
+import org.hibernate.SessionFactory;
+import org.hibernate.SessionFactoryObserver;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
@@ -95,15 +96,15 @@ public class HibUtil {
     public static SessionFactory getSessionFactory() throws RuntimeException {
         int i = 0;
         SessionFactory sesh =ourSessionFactory;
-        while (i != 5) {
-            try {
+//        while (i != 5) {
+//            try {
                 return sesh;
-            } catch (TransactionException t) {
-                t.printStackTrace();
-                sesh=newSession();
-                i++;
-            }
-        }
-        throw new RuntimeException("session error, restart tomcat");
+//            } catch (TransactionException t) {
+//                t.printStackTrace();
+//                sesh=newSession();
+//                i++;
+//            }
+//        }
+//        throw new RuntimeException("session error, restart tomcat");
     }
 }

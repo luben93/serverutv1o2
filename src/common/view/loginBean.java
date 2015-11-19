@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Created by luben on 2015-11-07.
@@ -19,9 +20,16 @@ public class loginBean {
 
     private String name;
     private String pass;
-    private Profile profile;
-    private String gender;
+//    private Profile profile;
+    private String searchName;
 
+    public void setSearchName(String searchName){
+        this.searchName=searchName;
+    }
+
+    public String getSearchName(){
+        return searchName;
+    }
 
     public String getName() {
         return name;
@@ -52,6 +60,9 @@ public class loginBean {
         }
     }
 
+    public Collection getResults() throws IOException, ClassNotFoundException {
+        return UserHandler.search(searchName);
+    }
 
 
     public String login()  {

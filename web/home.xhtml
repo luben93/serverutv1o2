@@ -5,15 +5,23 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<body>
+<h:body>
 <f:view>
     <div class="profile">
-        <h:outputLabel value="Welcome #{loginBean.profile.name} !"/>
-        <h:outputLabel value="Age: #{loginBean.profile.age} "/>
-        <h:outputLabel value="Description: #{loginBean.profile.description} "/>
-        <h:outputLabel value="gender: #{loginBean.gender} "/>
+        <p><h:outputLabel value="profile: "/>
+            <h:outputLabel value="Welcome #{loginBean.profile.name} !"/>
+            <h:outputLabel value="Age: #{loginBean.profile.age} "/>
+            <h:outputLabel value="Description: #{loginBean.profile.description} "/>
+            <h:outputLabel value="gender: #{loginBean.gender} "/></p>
     </div>
-
+    <div class="search">
+        <h:form>
+            <h:inputText size="20" value="#{loginBean.searchName}"> <f:ajax event="keyup" render="nameList"/>
+            </h:inputText>
+            <h:dataTable id="nameList" value="#{loginBean.results}" var="result" border="1"> <h:column>#{result}</h:column>
+            </h:dataTable>
+        </h:form>
+    </div>
     <div class="logout">
         <h:form id="logout">
             <h:commandButton value="Log out" action="#{loginBean.logout}"/>
@@ -24,5 +32,5 @@
         <h:outputLabel value="wall content"/><!-- TODO foreach -->
     </div>
 </f:view>
-</body>
+</h:body>
 </html>

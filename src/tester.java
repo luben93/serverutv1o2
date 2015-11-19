@@ -2,7 +2,7 @@ import common.bo.HibUtil;
 import common.model.User;
 import common.model.WallPost;
 import org.hibernate.Session;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +12,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by luben on 2015-11-12.
  */
+
 public class tester {
     @Test
     public void evaluatesExpression() {

@@ -2,18 +2,22 @@ package common.bo;
 
 import common.model.User;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 
 /**
  * Created by luben on 2015-11-07.
  */
 public class UserHandler {
-    static Session sesh = HibUtil.getSessionFactory().openSession();
+    static SessionFactory seshF = HibUtil.getSessionFactory();
 
     public static boolean login(String username,String password){
-
+        Session sesh=seshF.openSession();
         sesh.beginTransaction();
         User user = (User) sesh.createQuery("from User where username='"+username+"' and password='"+cryptWithMD5(password)+"'").uniqueResult();
         sesh.getTransaction().commit();
@@ -24,6 +28,7 @@ public class UserHandler {
     }
 
     public static boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
+        Session sesh=seshF.openSession();
         User existing=(User) sesh.createQuery("from User where username='"+name+"'").uniqueResult();
         if(existing!=null){
             throw  new UserAlreadyExistExecption("user already exists");
@@ -38,6 +43,13 @@ public class UserHandler {
 
         ProfileHandler.setDefaultProfile(user);
         return true;
+    }
+
+    public static Collection search(String name) throws IOException, ClassNotFoundException {
+        Session sesh=seshF.openSession();
+        Collection<Serializable> res=sesh.createQuery("from User where username='"+name+"'").list();
+        sesh.close();
+        return res;
     }
 /*
     static int autoIncr(){
