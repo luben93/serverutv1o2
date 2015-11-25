@@ -46,24 +46,24 @@ public class UserHandler {
             existing  =(User) em.createNamedQuery("findUserByUsername")
                     .setParameter("name", name).getSingleResult();
 
-        }catch (NoResultException e){
-
+        }catch (NullPointerException | NoResultException e1){
+            //   sesh.beginTransaction();
+            User user=new User();
+            user.setUsername(name);//TODO check email
+            user.setPassword(cryptWithMD5(pass));
+            em.persist(user);
+            em.getTransaction().commit();
+            em.close();
+       /* sesh.save(user);
+        sesh.getTransaction().commit();
+*/
+            ProfileHandler.setDefaultProfile(user);
         }
          //User existing=(User) sesh.createQuery("from User where username='"+name+"'").uniqueResult();
         if(existing!=null){
             throw  new UserAlreadyExistExecption("user already exists");
         }
-     //   sesh.beginTransaction();
-        User user=new User();
-        user.setUsername(name);//TODO check email
-        user.setPassword(cryptWithMD5(pass));
-        em.persist(user);
-        em.getTransaction().commit();
-        em.close();
-       /* sesh.save(user);
-        sesh.getTransaction().commit();
-*/
-        ProfileHandler.setDefaultProfile(user);
+
         return true;
     }
 

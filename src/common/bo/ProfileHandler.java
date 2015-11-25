@@ -2,30 +2,50 @@ package common.bo;
 
 import common.model.Profile;
 import common.model.User;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import java.io.IOException;
 
 /**
  * Created by sirena on 2015-11-18.
  */
 public class ProfileHandler{
-    static SessionFactory seshF = HibUtil.getSessionFactory();
+
+    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pres_comm");
+    static EntityManager em;
+   // static SessionFactory seshF = HibUtil.getSessionFactory();
 
     public static Profile getProfile(String username) throws IOException, ClassNotFoundException {
-        Session sesh=seshF.openSession();
-        sesh.beginTransaction();
-        User user = (User) sesh.createQuery("from User where username='"+username+"'").uniqueResult();
-        sesh.getTransaction().commit();
-        Profile p =user.getProfile();//får inte returnera
-        sesh.close();
-        return (Profile) Copy.clone(p);
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        User existing = null;
+        try {
+            existing = (User) em.createNamedQuery("findUserByUsername")
+                    .setParameter("name", username).getSingleResult();
+        }catch (NullPointerException e){
+            System.out.printf("The user do not exist");
+        }catch (NoResultException e){
+            System.out.printf("The user do not exist");
+        }
+        if(existing!=null){
+            em.persist(existing);
+            em.getTransaction().commit();
+            Profile p = existing.getProfile();
+            em.close();
+            return (Profile) Copy.clone(p);
+        }
+        return new Profile();
+
     }
 
     static void setDefaultProfile(User u){
-        Session sesh=seshF.openSession();
-        sesh.beginTransaction();
+
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
         Profile p = new Profile();
         p.setAge(-1);
         p.setDescription("update description");
@@ -33,10 +53,13 @@ public class ProfileHandler{
         p.setName(u.getUsername());
         p.setUser(u);
         u.setProfile(p);
-        sesh.save(p);
-        sesh.saveOrUpdate(u);
-        sesh.getTransaction().commit();
-        sesh.close();
+     //   em.refresh(p);
+        em.detach(p);
+        em.detach(u);
+       // em.detach(u);
+       // em.refresh(u);
+        em.getTransaction().commit();
+        em.close();
     }
 
 }
