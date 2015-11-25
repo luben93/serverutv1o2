@@ -10,11 +10,16 @@ import java.util.Set;
  * Created by sirena on 2015-11-10.
  */
 
+
 @NamedQueries({
         @NamedQuery(
                 name = "findUserByUsername",
                 query = "from User u where u.username = :name"
-        )
+        ),
+        @NamedQuery(
+        name = "findUserByUsernamePassword",
+        query = "from User u where u.username = :name and u.password= :password"
+)
 })
 @Entity
 @Table(name="user")

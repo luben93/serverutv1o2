@@ -23,43 +23,40 @@ public class UserHandler {
     static EntityManager em;
 
     public static boolean login(String username,String password){
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
 
+        User existing = null;
+        try {
+            existing  =(User) em.createNamedQuery("findUserByUsernamePassword")
+                    .setParameter("name", username).setParameter("password",password).getSingleResult();
 
+        }catch (NoResultException e){
+            return false;
+        }
 
-       /* Session sesh=seshF.openSession();
-        sesh.beginTransaction();
-        User user = (User) sesh.createQuery("from User where username='"+username+"' and password='"+cryptWithMD5(password)+"'").uniqueResult();
-        sesh.getTransaction().commit();
-        if(user!=null) {
+        if(existing!=null){
             return true;
-        }*/
+        }
+        em.getTransaction().commit();
+        em.close();
         return false;
     }
 
     public static boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
         em = emf.createEntityManager();
         em.getTransaction().begin();
-
-        //Session sesh=seshF.openSession();
         User existing = null;
         try {
             existing  =(User) em.createNamedQuery("findUserByUsername")
                     .setParameter("name", name).getSingleResult();
 
-        }catch (NullPointerException | NoResultException e1){
-            //   sesh.beginTransaction();
+        }catch (NoResultException e1){
             User user=new User();
             user.setUsername(name);//TODO check email
             user.setPassword(cryptWithMD5(pass));
-            em.persist(user);
-            em.getTransaction().commit();
-            em.close();
-       /* sesh.save(user);
-        sesh.getTransaction().commit();
-*/
-            ProfileHandler.setDefaultProfile(user);
+            ProfileHandler.setDefaultProfile(user,em);
         }
-         //User existing=(User) sesh.createQuery("from User where username='"+name+"'").uniqueResult();
         if(existing!=null){
             throw  new UserAlreadyExistExecption("user already exists");
         }

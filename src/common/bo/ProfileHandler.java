@@ -42,10 +42,7 @@ public class ProfileHandler{
 
     }
 
-    static void setDefaultProfile(User u){
-
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
+    static void setDefaultProfile(User u, EntityManager em){
         Profile p = new Profile();
         p.setAge(-1);
         p.setDescription("update description");
@@ -54,8 +51,9 @@ public class ProfileHandler{
         p.setUser(u);
         u.setProfile(p);
      //   em.refresh(p);
-        em.detach(p);
-        em.detach(u);
+     //   em.merge(p);
+        em.persist(p);
+        em.persist(u);
        // em.detach(u);
        // em.refresh(u);
         em.getTransaction().commit();
