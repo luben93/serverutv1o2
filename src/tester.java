@@ -1,12 +1,12 @@
+import common.bo.UserHandler;
+import junit.framework.TestCase;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by luben on 2015-11-12.
  */
 
-public class tester {
+public class tester extends TestCase {
     @Test
     public void evaluatesExpression() {
        /* Session sesh = HibUtil.getSessionFactory().openSession();
@@ -154,13 +154,20 @@ public class tester {
     }
 
     @Test
-    public void testStuff(){
+    public void testStuff() throws Exception {
         common.view.loginBean lb=new common.view.loginBean();
         lb.setName("hej");
         lb.setPass("hem");
 
-            lb.login();
+            String out= lb.login();
 
-        // assertEquals(true,lb.isLoggedIn());
+         assertEquals(out,"home");
     }
+
+
+    @Test
+    public void testModel() throws Exception {
+        UserHandler.login("megan","12345");
+    }
+
 }

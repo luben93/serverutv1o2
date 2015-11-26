@@ -9,17 +9,19 @@
 <f:view>
     <div class="profile">
         <p><h:outputLabel value="profile: "/>
-            <h:outputLabel value="Welcome #{loginBean.profile.name} !"/>
-            <h:outputLabel value="Age: #{loginBean.profile.age} "/>
-            <h:outputLabel value="Description: #{loginBean.profile.description} "/>
+            <h:outputLabel value="Welcome #{loginBean.profileName} !"/>
+            <h:outputLabel value="Age: #{loginBean.age} "/>
+            <h:outputLabel value="Description: #{loginBean.desc} "/>
             <h:outputLabel value="gender: #{loginBean.gender} "/></p>
+            <a href="editProfile.xhtml">Update Info</a>
     </div>
     <div class="search">
 
         <h:form>
             <h:inputText size="20" value="#{loginBean.searchName}"> <f:ajax event="keyup" render="nameList"/>
             </h:inputText>
-            <h:dataTable id="nameList" value="#{loginBean.results}" var="result" border="1"> <h:column>#{result}</h:column>
+            <h:dataTable id="nameList" value="#{loginBean.results}" var="result" border="1">
+                <h:column>#{result}</h:column>
             </h:dataTable>
         </h:form>
     </div>
@@ -30,7 +32,12 @@
     </div>
 
     <div class="wall">
-        <h:outputLabel value="wall content"/><!-- TODO foreach -->
+        <h:outputLabel value="wall content"/>
+        <h:dataTable id="wall" value="#{loginBean.wall}" var="post" border="2">
+            <h:column>posted by me</h:column><h:column>#{post}</h:column>
+        </h:dataTable>
+
+        <!-- TODO foreach -->
     </div>
 </f:view>
 </h:body>

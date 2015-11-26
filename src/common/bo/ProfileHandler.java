@@ -8,6 +8,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by sirena on 2015-11-18.
@@ -42,7 +44,21 @@ public class ProfileHandler{
 
     }
 
-    static void setDefaultProfile(User u, EntityManager em){
+    public static Collection search(String name) throws IOException, ClassNotFoundException {
+        Collection out;//= new ArrayList<SimpleUser>();
+        try {
+            em = emf.createEntityManager();
+            out = em.createNamedQuery("findUserByUsernameContains").setParameter("name", "%"+name+"%").getResultList();
+        } catch (NoResultException e) {
+            out = new ArrayList<String>();
+            out.add("no user found");
+        }finally {
+            em.close();
+        }
+        return out;
+    }
+
+        static void setDefaultProfile(User u, EntityManager em){
         Profile p = new Profile();
         p.setAge(-1);
         p.setDescription("update description");

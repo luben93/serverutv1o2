@@ -1,17 +1,13 @@
 package common.bo;
 
 import common.model.User;
-import common.view.SimpleUser;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by luben on 2015-11-07.
@@ -22,21 +18,21 @@ public class UserHandler {
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pres_comm");
     static EntityManager em;
 
-    public static boolean login(String username,String password){
+    public static boolean login(String username, String password) {
         em = emf.createEntityManager();
         em.getTransaction().begin();
         System.out.printf(" hhaaall aaa ");
         User existing = null;
         try {
-            System.out.println("u name "+username + " pass " + password);
-            existing  =(User) em.createNamedQuery("findUserByUsernamePassword")
-                    .setParameter("name", username).setParameter("password",cryptWithMD5(password)).getSingleResult();
+            System.out.println("u name " + username + " pass " + password);
+            existing = (User) em.createNamedQuery("findUserByUsernamePassword")
+                    .setParameter("name", username).setParameter("password", cryptWithMD5(password)).getSingleResult();
             System.out.println(" dddd " + existing);
-        }catch (NoResultException e){
+        } catch (NoResultException e) {
             return false;
         }
 
-        if(existing!=null){
+        if (existing != null) {
             return true;
         }
         em.getTransaction().commit();
@@ -44,59 +40,35 @@ public class UserHandler {
         return false;
     }
 
-    public static boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
+    public static boolean register(String name, String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
         em = emf.createEntityManager();
         em.getTransaction().begin();
         User existing = null;
         try {
-            existing  =(User) em.createNamedQuery("findUserByUsername")
+            existing = (User) em.createNamedQuery("findUserByUsername")
                     .setParameter("name", name).getSingleResult();
 
-        }catch (NoResultException e1){
-            User user=new User();
+        } catch (NoResultException e1) {
+            User user = new User();
             user.setUsername(name);//TODO check email
             user.setPassword(cryptWithMD5(pass));
-            ProfileHandler.setDefaultProfile(user,em);
+            ProfileHandler.setDefaultProfile(user, em);
         }
-        if(existing!=null){
-            throw  new UserAlreadyExistExecption("user already exists");
+        if (existing != null) {
+            throw new UserAlreadyExistExecption("user already exists");
         }
 
         return true;
     }
 
-    public static Collection search(String name) throws IOException, ClassNotFoundException {
-   /*     Session sesh=seshF.openSession();
-        Collection out= new ArrayList<SimpleUser>();
-        Collection<User> res=sesh.createQuery("from User where username like '%"+name+"%'").list();
-        for (User u: res) {
-            out.add(new SimpleUser(u.getUsername(),u.getU_id()));
-        }
-        sesh.close();
-        return out;*/
-        Collection out= new ArrayList<SimpleUser>();
-        return out;
-    }
-/*
-    static int autoIncr(){
-
-        List<Integer> result=sesh.createQuery("select max(uId) from Users").list();
-        Integer userId=1;
-        if(result.get(0)!=null){
-            userId=result.get(0)+1;
-        }
-        return userId;
-    }
-    */
-
-    static String cryptWithMD5(String pass){
+    static String cryptWithMD5(String pass) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] passBytes = pass.getBytes();
             md.reset();
             byte[] digested = md.digest(passBytes);
             StringBuffer sb = new StringBuffer();
-            for(int i=0;i<digested.length;i++){
+            for (int i = 0; i < digested.length; i++) {
                 sb.append(Integer.toHexString(0xff & digested[i]));
             }
             return sb.toString();
