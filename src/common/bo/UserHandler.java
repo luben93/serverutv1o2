@@ -37,9 +37,8 @@ public class UserHandler {
         return false;
     }
 
-    static User getUser(String name){
-        em=emf.createEntityManager();
-        User out=(User) em.createNamedQuery("findUserByUsername")
+    static User getUser(String name,EntityManager lem){
+        User out=(User) lem.createNamedQuery("findUserByUsername")
                 .setParameter("name", name).getSingleResult();
         return out;
 

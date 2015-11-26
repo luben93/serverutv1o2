@@ -2,13 +2,14 @@ package common.view;
 
 import common.bo.ProfileHandler;
 import common.bo.UserHandler;
+import common.bo.WallHandler;
 import common.model.Profile;
+import common.model.WallPost;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -27,6 +28,15 @@ public class loginBean {
     private int age;
     private String desc;
     private boolean isFemale;
+    private String post;
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
+    }
 
     public String getProfileName() {
         return profileName;
@@ -81,14 +91,21 @@ public class loginBean {
                                                 //TODO även om det är en kopia
     }*/
 
+    public String postToWall(){
+        //do post
+        WallHandler.post(name,post);
+        return "home";
+    }
+
     public String update(){
         //TODO do save stuff here
         ProfileHandler.update(profileName,age,desc,isFemale,name);
         return "home";
     }
 
-    public Collection getWall(){
-        ArrayList<String> out= new ArrayList<String>();
+    public Collection<WallPost> getWall(){
+        /*
+        Collection out= new ArrayList<String>();
         for (int i = 0; i < 5; i++) {
             out.add("Bacon ipsum dolor amet turkey strip steak t-bone chicken capicola. Short loin sirloin landjaeger andouille venison jerky doner ham hock tail turducken ribeye tongue. Pancetta beef ribs biltong cupim. Short loin shank jowl short ribs landjaeger ball tip pig prosciutto chicken. Shoulder sausage drumstick short ribs ham hock picanha rump kevin. Picanha sausage strip steak turkey kevin tri-tip.");
             out.add("Andouille cupim shoulder, sausage drumstick chicken rump pork chop chuck pork belly short ribs pancetta. Strip steak corned beef ball tip beef ribs short ribs cupim swine. Andouille pork belly ham hock beef ribs meatball picanha rump brisket cupim. Bacon jerky ball tip, meatloaf turkey meatball shank hamburger ground round pork chop spare ribs. Ground round landjaeger venison, hamburger short ribs kevin bacon pancetta shank chuck pig. Boudin salami tenderloin pancetta sirloin filet mignon kevin. Shank leberkas turducken pork belly filet mignon.");
@@ -96,7 +113,8 @@ public class loginBean {
             out.add("Frankfurter salami porchetta, drumstick landjaeger ball tip pork belly tri-tip ham tail. Ribeye shank chicken tongue turducken pancetta shankle meatloaf. Short ribs beef ground round meatloaf, pork belly tongue kielbasa cow drumstick pork flank. Ham hock turducken hamburger short ribs biltong t-bone chuck. Prosciutto biltong turducken leberkas brisket jerky turkey picanha pork loin pancetta. Swine ground round flank, short loin pancetta shank prosciutto frankfurter pig rump short ribs drumstick cow pork. Alcatra beef pork, landjaeger sirloin boudin chicken swine shankle rump bacon bresaola cupim pig.");
             out.add("Jowl pork belly boudin venison. Pork tenderloin picanha rump biltong shankle short ribs alcatra pig tongue fatback strip steak. Ribeye biltong pig bresaola short loin cow ham pork belly meatball pork. Kielbasa pork belly bacon picanha.");
         }
-        return out;
+*/
+        return WallHandler.getPosts(name);
     }
 
     public void setGender(String gender){
@@ -115,7 +133,7 @@ public class loginBean {
         }
     }
 
-    public Collection getResults() throws IOException, ClassNotFoundException {
+    public Collection<Profile> getResults() throws IOException, ClassNotFoundException {
         return ProfileHandler.search(searchName);//TODO fuuuuuuuu not safe at all, actuall list of all user with name
     }
 

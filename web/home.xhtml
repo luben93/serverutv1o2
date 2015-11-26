@@ -21,6 +21,7 @@
             <h:inputText size="20" value="#{loginBean.searchName}"> <f:ajax event="keyup" render="nameList"/>
             </h:inputText>
             <h:dataTable id="nameList" value="#{loginBean.results}" var="result" border="1">
+                <h:column> <a href="profile/#{result.user}">#{result.name}</a></h:column>
                 <h:column>#{result}</h:column>
             </h:dataTable>
         </h:form>
@@ -32,12 +33,17 @@
     </div>
 
     <div class="wall">
+        <h:form>
+            <h:outputLabel value="write new post"/>
+            <h:inputTextarea value="#{loginBean.post}"/>
+            <h:commandButton value="Post" action="#{loginBean.postToWall}"/>
+        </h:form>
         <h:outputLabel value="wall content"/>
         <h:dataTable id="wall" value="#{loginBean.wall}" var="post" border="2">
-            <h:column>posted by me</h:column><h:column>#{post}</h:column>
+            <h:column>#{post.user.profile.name}</h:column>
+            <h:column>#{post.post}</h:column>
         </h:dataTable>
 
-        <!-- TODO foreach -->
     </div>
 </f:view>
 </h:body>
