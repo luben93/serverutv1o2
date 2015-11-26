@@ -21,8 +21,10 @@
             <h:inputText size="20" value="#{loginBean.searchName}"> <f:ajax event="keyup" render="nameList"/>
             </h:inputText>
             <h:dataTable id="nameList" value="#{loginBean.results}" var="result" border="1">
-                <h:column> <a href="profile/#{result.user}">#{result.name}</a></h:column>
+                <h:column> <a href="profile/#{result.user.username}">#{result.user.username}</a></h:column>
                 <h:column>#{result}</h:column>
+                <h:column> <h:commandButton value="add friend" action="#{loginBean.addFriend(result)}"/>
+                </h:column>
             </h:dataTable>
         </h:form>
     </div>

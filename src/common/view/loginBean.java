@@ -137,6 +137,10 @@ public class loginBean {
         return ProfileHandler.search(searchName);//TODO fuuuuuuuu not safe at all, actuall list of all user with name
     }
 
+    public void addFriend(Profile p){
+        System.out.println(p);
+        //TODO add friend here
+    }
 
     public String login() throws IOException, ClassNotFoundException  {
         if (UserHandler.login(name, pass)) {
