@@ -44,6 +44,24 @@ public class ProfileHandler{
 
     }
 
+    public static boolean update(String name,int age,String desc,boolean isFemale,String username){
+        em=emf.createEntityManager();
+        em.getTransaction().begin();
+        User u=UserHandler.getUser(username);
+        Profile p=u.getProfile();
+        p.setAge(age);
+        p.setDescription(desc);
+        p.setIsFemale(isFemale);
+        p.setName(name);
+        //p.setUser(u);
+        //em.persist(p);
+        em.merge(p);
+        em.getTransaction().commit();
+        em.close();
+
+        return true;
+    }
+
     public static Collection search(String name) throws IOException, ClassNotFoundException {
         Collection out;//= new ArrayList<SimpleUser>();
         try {

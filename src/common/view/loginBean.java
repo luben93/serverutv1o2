@@ -26,6 +26,7 @@ public class loginBean {
     private String profileName;
     private int age;
     private String desc;
+    private boolean isFemale;
 
     public String getProfileName() {
         return profileName;
@@ -50,8 +51,6 @@ public class loginBean {
     public void setDesc(String desc) {
         this.desc = desc;
     }
-
-
 
     public void setSearchName(String searchName){
         this.searchName=searchName;
@@ -84,7 +83,7 @@ public class loginBean {
 
     public String update(){
         //TODO do save stuff here
-
+        ProfileHandler.update(profileName,age,desc,isFemale,name);
         return "home";
     }
 
@@ -102,15 +101,14 @@ public class loginBean {
 
     public void setGender(String gender){
         if(gender.contains("female")){
-           //is female
+            isFemale=true;
         }else{
-            // is male
-
+            isFemale=false;
         }
     }
 
     public String getGender() throws IOException, ClassNotFoundException {
-        if (ProfileHandler.getProfile(name).getIsFemale()){
+        if (isFemale){
             return "woman";
         }else{
             return "man";
@@ -129,6 +127,7 @@ public class loginBean {
             profileName=tmp.getName();
             age=tmp.getAge();
             desc=tmp.getDescription();
+            isFemale=tmp.getIsFemale();
             return "home";
         }
         //TODO not logged in
