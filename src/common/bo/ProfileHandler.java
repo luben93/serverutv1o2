@@ -42,6 +42,30 @@ public class ProfileHandler{
 
     }
 
+    public static void changeProfile(String name){
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        User existing = null;
+        try {
+            existing = (User) em.createNamedQuery("findUserByUsername")
+                    .setParameter("name", name).getSingleResult();
+            Profile p = existing.getProfile();
+            p.setAge(22);
+            p.setDescription("update description");
+            p.setIsFemale(true);
+            em.merge(p);
+            em.getTransaction().commit();
+            em.close();
+            System.out.println(" eeeexxisting " + existing.getProfile().getAge());
+        }catch (NullPointerException e){
+            System.out.printf("The user do not exist");
+        }catch (NoResultException e){
+            System.out.printf("The user do not exist");
+        }
+
+    }
+
     static void setDefaultProfile(User u, EntityManager em){
         Profile p = new Profile();
         p.setAge(-1);

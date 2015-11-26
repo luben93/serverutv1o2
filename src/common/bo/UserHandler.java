@@ -25,13 +25,10 @@ public class UserHandler {
     public static boolean login(String username,String password){
         em = emf.createEntityManager();
         em.getTransaction().begin();
-        System.out.printf(" hhaaall aaa ");
         User existing = null;
         try {
-            System.out.println("u name "+username + " pass " + password);
             existing  =(User) em.createNamedQuery("findUserByUsernamePassword")
                     .setParameter("name", username).setParameter("password",cryptWithMD5(password)).getSingleResult();
-            System.out.println(" dddd " + existing);
         }catch (NoResultException e){
             return false;
         }

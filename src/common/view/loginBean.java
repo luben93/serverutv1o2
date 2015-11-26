@@ -74,6 +74,11 @@ public class loginBean {
         return "index";
     }
 
+    public boolean changeProfile(){
+        ProfileHandler.changeProfile(name);
+        return false;
+    }
+
     public String logout(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "index";
