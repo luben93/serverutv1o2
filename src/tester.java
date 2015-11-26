@@ -1,3 +1,4 @@
+import common.bo.FriendHandler;
 import common.bo.UserHandler;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -168,6 +169,12 @@ public class tester extends TestCase {
     @Test
     public void testModel() throws Exception {
         UserHandler.login("megan","12345");
+    }
+
+    @Test
+    public void testFollowers(){
+        FriendHandler.getFollowers("luben");
+
     }
 
 }

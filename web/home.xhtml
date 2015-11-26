@@ -9,11 +9,14 @@
 <f:view>
     <div class="profile">
         <p><h:outputLabel value="profile: "/>
-            <h:outputLabel value="Welcome #{loginBean.profileName} !"/>
+            <h:outputLabel value="Welcome #{loginBean.profileName}! "/>
             <h:outputLabel value="Age: #{loginBean.age} "/>
             <h:outputLabel value="Description: #{loginBean.desc} "/>
-            <h:outputLabel value="gender: #{loginBean.gender} "/></p>
-            <a href="editProfile.xhtml">Update Info</a>
+            <h:outputLabel value="gender: #{loginBean.gender} "/>
+            <h:outputLabel value="followers: #{loginBean.nFollowers} "/>
+            <h:commandButton value="update info" action="editProfile"/>
+        </p>
+
     </div>
     <div class="search">
 

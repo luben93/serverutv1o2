@@ -1,5 +1,6 @@
 package common.view;
 
+import common.bo.FriendHandler;
 import common.bo.ProfileHandler;
 import common.bo.UserHandler;
 import common.bo.WallHandler;
@@ -29,6 +30,12 @@ public class loginBean {
     private String desc;
     private boolean isFemale;
     private String post;
+
+    public int getnFollowers() {
+        int out=0;
+        //out = FriendHandler.getFollowers(name).size();//TODO errors from here
+        return out;
+    }
 
     public String getPost() {
         return post;
@@ -105,16 +112,6 @@ public class loginBean {
     }
 
     public Collection<WallPost> getWall(){
-        /*
-        Collection out= new ArrayList<String>();
-        for (int i = 0; i < 5; i++) {
-            out.add("Bacon ipsum dolor amet turkey strip steak t-bone chicken capicola. Short loin sirloin landjaeger andouille venison jerky doner ham hock tail turducken ribeye tongue. Pancetta beef ribs biltong cupim. Short loin shank jowl short ribs landjaeger ball tip pig prosciutto chicken. Shoulder sausage drumstick short ribs ham hock picanha rump kevin. Picanha sausage strip steak turkey kevin tri-tip.");
-            out.add("Andouille cupim shoulder, sausage drumstick chicken rump pork chop chuck pork belly short ribs pancetta. Strip steak corned beef ball tip beef ribs short ribs cupim swine. Andouille pork belly ham hock beef ribs meatball picanha rump brisket cupim. Bacon jerky ball tip, meatloaf turkey meatball shank hamburger ground round pork chop spare ribs. Ground round landjaeger venison, hamburger short ribs kevin bacon pancetta shank chuck pig. Boudin salami tenderloin pancetta sirloin filet mignon kevin. Shank leberkas turducken pork belly filet mignon.");
-            out.add("Frankfurter kielbasa doner bresaola t-bone, andouille sausage turducken pork pastrami. Bacon brisket landjaeger, ribeye tongue cow bresaola chicken shankle hamburger kielbasa tail. Short ribs venison tenderloin pork belly brisket, doner frankfurter landjaeger sirloin ball tip. Swine fatback tenderloin, beef ribs corned beef ribeye chuck sirloin porchetta short loin cow cupim. Venison meatloaf short ribs tongue, jowl pork chop alcatra bresaola ball tip porchetta landjaeger turkey meatball rump.");
-            out.add("Frankfurter salami porchetta, drumstick landjaeger ball tip pork belly tri-tip ham tail. Ribeye shank chicken tongue turducken pancetta shankle meatloaf. Short ribs beef ground round meatloaf, pork belly tongue kielbasa cow drumstick pork flank. Ham hock turducken hamburger short ribs biltong t-bone chuck. Prosciutto biltong turducken leberkas brisket jerky turkey picanha pork loin pancetta. Swine ground round flank, short loin pancetta shank prosciutto frankfurter pig rump short ribs drumstick cow pork. Alcatra beef pork, landjaeger sirloin boudin chicken swine shankle rump bacon bresaola cupim pig.");
-            out.add("Jowl pork belly boudin venison. Pork tenderloin picanha rump biltong shankle short ribs alcatra pig tongue fatback strip steak. Ribeye biltong pig bresaola short loin cow ham pork belly meatball pork. Kielbasa pork belly bacon picanha.");
-        }
-*/
         return WallHandler.getPosts(name);
     }
 
@@ -138,9 +135,11 @@ public class loginBean {
         return ProfileHandler.search(searchName);//TODO fuuuuuuuu not safe at all, actuall list of all user with name
     }
 
-    public void addFriend(Profile p){
+    public String addFriend(Profile p){
         System.out.println(p);
         //TODO add friend here
+        FriendHandler.addFollower(name,p.getUser().getUsername());
+        return "home";//mabey profile/uid here?
     }
 
     public String login() throws IOException, ClassNotFoundException  {
