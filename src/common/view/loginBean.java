@@ -94,6 +94,7 @@ public class loginBean {
     public String postToWall(){
         //do post
         WallHandler.post(name,post);
+        post="";
         return "home";
     }
 

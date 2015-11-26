@@ -53,10 +53,16 @@ public class UserHandler {
                     .setParameter("name", name).getSingleResult();
 
         } catch (NoResultException e1) {
+
             User user = new User();
             user.setUsername(name);//TODO check email
             user.setPassword(cryptWithMD5(pass));
             ProfileHandler.setDefaultProfile(user, em);
+            em.persist(user);
+            // em.detach(u);
+            // em.refresh(u);
+            em.getTransaction().commit();
+            em.close();
         }
         if (existing != null) {
             throw new UserAlreadyExistExecption("user already exists");

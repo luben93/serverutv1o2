@@ -87,11 +87,11 @@ public class ProfileHandler{
      //   em.refresh(p);
      //   em.merge(p);
         em.persist(p);
-        em.persist(u);
-       // em.detach(u);
-       // em.refresh(u);
-        em.getTransaction().commit();
-        em.close();
+//        em.persist(u);
+//       // em.detach(u);
+//       // em.refresh(u);
+//        em.getTransaction().commit();
+//        em.close();
     }
 
 }
