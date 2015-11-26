@@ -9,6 +9,15 @@ import java.io.Serializable;
 /**
  * Created by sirena on 2015-11-10.
  */
+
+
+
+@NamedQueries({
+        @NamedQuery(
+                name = "findUserByUsernameContains",
+                query = "from Profile p where p.name like :name"
+        )
+})
 @Entity
 @Table(name="profile")
 public class Profile implements Serializable{
@@ -75,4 +84,14 @@ public class Profile implements Serializable{
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String toString(){
+        String sex="male";
+        if(getIsFemale()){
+            sex="female";
+        }
+        return name+", "+age+", "+description+", "+sex;
+    }
+
+
 }

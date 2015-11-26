@@ -42,31 +42,40 @@ public class ProfileHandler{
 
     }
 
-    public static void changeProfile(String name){
-        em = emf.createEntityManager();
+
+    public static boolean update(String name,int age,String desc,boolean isFemale,String username){
+        em=emf.createEntityManager();
         em.getTransaction().begin();
+        User u=UserHandler.getUser(username,em);
+        Profile p=u.getProfile();
+        p.setAge(age);
+        p.setDescription(desc);
+        p.setIsFemale(isFemale);
+        p.setName(name);
+        //p.setUser(u);
+        //em.persist(p);
+        em.merge(p);
+        em.getTransaction().commit();
+        em.close();
 
-        User existing = null;
-        try {
-            existing = (User) em.createNamedQuery("findUserByUsername")
-                    .setParameter("name", name).getSingleResult();
-            Profile p = existing.getProfile();
-            p.setAge(22);
-            p.setDescription("update description");
-            p.setIsFemale(true);
-            em.merge(p);
-            em.getTransaction().commit();
-            em.close();
-            System.out.println(" eeeexxisting " + existing.getProfile().getAge());
-        }catch (NullPointerException e){
-            System.out.printf("The user do not exist");
-        }catch (NoResultException e){
-            System.out.printf("The user do not exist");
-        }
-
+        return true;
     }
 
-    static void setDefaultProfile(User u, EntityManager em){
+    public static Collection<Profile> search(String name) throws IOException, ClassNotFoundException {
+        Collection out;//= new ArrayList<SimpleUser>();
+        try {
+            em = emf.createEntityManager();
+            out = em.createNamedQuery("findUserByUsernameContains").setParameter("name", "%"+name+"%").getResultList();
+        } catch (NoResultException e) {
+            out = new ArrayList<String>();
+            out.add("no user found");
+        }finally {
+            em.close();
+        }
+        return out;
+    }
+
+        static void setDefaultProfile(User u, EntityManager em){
         Profile p = new Profile();
         p.setAge(-1);
         p.setDescription("update description");
@@ -77,11 +86,11 @@ public class ProfileHandler{
      //   em.refresh(p);
      //   em.merge(p);
         em.persist(p);
-        em.persist(u);
-       // em.detach(u);
-       // em.refresh(u);
-        em.getTransaction().commit();
-        em.close();
+//        em.persist(u);
+//       // em.detach(u);
+//       // em.refresh(u);
+//        em.getTransaction().commit();
+//        em.close();
     }
 
 }

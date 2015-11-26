@@ -27,9 +27,9 @@ public class UserHandler {
         em.getTransaction().begin();
         User existing = null;
         try {
-            existing  =(User) em.createNamedQuery("findUserByUsernamePassword")
-                    .setParameter("name", username).setParameter("password",cryptWithMD5(password)).getSingleResult();
-        }catch (NoResultException e){
+            existing = (User) em.createNamedQuery("findUserByUsernamePassword")
+                    .setParameter("name", username).setParameter("password", cryptWithMD5(password)).getSingleResult();
+        } catch (NoResultException e) {
             return false;
         }
 
@@ -41,59 +41,48 @@ public class UserHandler {
         return false;
     }
 
-    public static boolean register(String name,String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
+    static User getUser(String name,EntityManager lem){
+        User out=(User) lem.createNamedQuery("findUserByUsername")
+                .setParameter("name", name).getSingleResult();
+        return out;
+
+    }
+
+    public static boolean register(String name, String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {
         em = emf.createEntityManager();
         em.getTransaction().begin();
         User existing = null;
         try {
-            existing  =(User) em.createNamedQuery("findUserByUsername")
+            existing = (User) em.createNamedQuery("findUserByUsername")
                     .setParameter("name", name).getSingleResult();
 
-        }catch (NoResultException e1){
-            User user=new User();
+        } catch (NoResultException e1) {
+
+            User user = new User();
             user.setUsername(name);//TODO check email
             user.setPassword(cryptWithMD5(pass));
-            ProfileHandler.setDefaultProfile(user,em);
+            ProfileHandler.setDefaultProfile(user, em);
+            em.persist(user);
+            // em.detach(u);
+            // em.refresh(u);
+            em.getTransaction().commit();
+            em.close();
         }
-        if(existing!=null){
-            throw  new UserAlreadyExistExecption("user already exists");
+        if (existing != null) {
+            throw new UserAlreadyExistExecption("user already exists");
         }
 
         return true;
     }
 
-    public static Collection search(String name) throws IOException, ClassNotFoundException {
-   /*     Session sesh=seshF.openSession();
-        Collection out= new ArrayList<SimpleUser>();
-        Collection<User> res=sesh.createQuery("from User where username like '%"+name+"%'").list();
-        for (User u: res) {
-            out.add(new SimpleUser(u.getUsername(),u.getU_id()));
-        }
-        sesh.close();
-        return out;*/
-        Collection out= new ArrayList<SimpleUser>();
-        return out;
-    }
-/*
-    static int autoIncr(){
-
-        List<Integer> result=sesh.createQuery("select max(uId) from Users").list();
-        Integer userId=1;
-        if(result.get(0)!=null){
-            userId=result.get(0)+1;
-        }
-        return userId;
-    }
-    */
-
-    static String cryptWithMD5(String pass){
+    static String cryptWithMD5(String pass) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] passBytes = pass.getBytes();
             md.reset();
             byte[] digested = md.digest(passBytes);
             StringBuffer sb = new StringBuffer();
-            for(int i=0;i<digested.length;i++){
+            for (int i = 0; i < digested.length; i++) {
                 sb.append(Integer.toHexString(0xff & digested[i]));
             }
             return sb.toString();

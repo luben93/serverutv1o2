@@ -7,6 +7,12 @@ import java.io.Serializable;
  * Created by sirena on 2015-11-12.
  */
 
+@NamedQueries({
+        @NamedQuery(
+                name = "findPostById",
+                query = "from WallPost p where p.id = :id"
+        )
+})
 @Entity
 @Table(name = "wall_post")
 public class WallPost implements Serializable{

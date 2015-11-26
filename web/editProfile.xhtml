@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:outputLabel value="edit your profile"/>
+
+    <div class="profile">
+        <h:form id="profileForm">
+        <p>
+            <h:outputLabel value="profile: "/></p>
+        <p>
+            <h:outputLabel value="Name: "/>
+            <h:inputText value="#{loginBean.profileName}"/></p>
+        <p>
+            <h:outputLabel value="Age: "/>
+            <h:inputText value="#{loginBean.age}"/></p>
+        <p>
+            <h:outputLabel value="Description: "/>
+            <h:inputText value="#{loginBean.desc}"/></p>
+        <p>
+            <h:outputLabel value="Gender: "/>
+            <h:selectOneRadio id="gender" value="#{loginBean.gender}">
+                <f:selectItem id="male" itemLabel="male" itemValue="male"/>
+                <f:selectItem id="female" itemLabel="female" itemValue="female"/>
+            </h:selectOneRadio></p>
+        <p>
+            <h:commandButton value="update" action="#{loginBean.update}"/></p>
+        </h:form>
+    </div>
+</f:view>
+</html>
