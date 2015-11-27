@@ -1,10 +1,13 @@
 package common.model;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
+
+//import java.util.Collection;
 
 /**
  * Created by sirena on 2015-11-10.
@@ -80,8 +83,8 @@ public class User implements Serializable{
 
     @ManyToMany(cascade =  CascadeType.ALL)
     @JoinTable(name="tbl_friends",
-            joinColumns=@JoinColumn(name="f_id"),
-            inverseJoinColumns=@JoinColumn(name="u_id")
+            joinColumns=@JoinColumn(name="u_id"),
+            inverseJoinColumns=@JoinColumn(name="f_id")
     )
     public Collection<User> getFollowed() {
         return followed;

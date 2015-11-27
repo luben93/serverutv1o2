@@ -16,7 +16,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(
                 name = "findUserByUsernameContains",
-                query = "from Profile p where p.name like :name"
+                query = "from Profile p where (p.name like :search and p.name <> :exclude )"
         )
 })
 @Entity

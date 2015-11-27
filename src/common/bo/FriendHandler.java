@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by luben on 2015-11-26.
@@ -24,18 +25,23 @@ public class FriendHandler {
             TypedQuery<User> query = em.createQuery(
                     "SELECT new User(c.u_id) from User c where c.username = :following", User.class).setParameter("following",following);
             User tmp = query.getSingleResult();
-            User f = new User();
-            f.setU_id(tmp.getU_id());
-            f.setUsername(following);
-            f.setPassword("");
+            User f = UserHandler.getUser(following,em);
             Collection<User> follow=u.getFollow();
-            follow.add(f);
-            em.merge(u);
+            if(follow.contains(f)){
+                out=false;
+                em.getTransaction().rollback();
+            }else {
+                follow.add(f);
+                f.getFollowed().add(u);
+                em.merge(f);
+                em.merge(u);
+                em.getTransaction().commit();
+            }
         }catch (Exception e){
             e.printStackTrace();
+            em.getTransaction().rollback();
             out=false;
         }finally {
-            em.getTransaction().commit();
             em.close();
             return out;
         }
@@ -46,16 +52,24 @@ public class FriendHandler {
         em = emf.createEntityManager();
         User u = UserHandler.getUser(user,em);
         Collection<User> out= u.getFollow();
+        System.out.println(out);
         em.close();
         return out;
     }
 
-    public static Collection<User> getFollowing(String user){
+    public static int countFollowing(String user){
         em = emf.createEntityManager();
         User u = UserHandler.getUser(user,em);
-        Collection<User> out= u.getFollowed();
+        // Collection<User> out= u.getFollowed();
+        List out = em.createNativeQuery("" +
+                "SELECT user.u_id,user.username " +
+                "FROM tbl_friends " +
+                "INNER JOIN user " +
+                "ON user.u_id = tbl_friends.f_id " +
+                "WHERE f_id =:fid").setParameter("fid",u.getU_id()).getResultList();
         em.close();
-        return out;
+
+        return out.size();
     }
 
     public class custom{

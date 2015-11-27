@@ -32,10 +32,12 @@ public class WallHandler {
             u.setWallPost(posts);
             em.persist(post);
             em.merge(u);
+            em.getTransaction().commit();
+
         } catch (Exception e) {
+            e.printStackTrace();
             out = false;
         } finally {
-            em.getTransaction().commit();
             em.close();
             return out;
         }

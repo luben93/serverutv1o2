@@ -1,17 +1,13 @@
 package common.bo;
 
 import common.model.User;
-import common.view.SimpleUser;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by luben on 2015-11-07.
@@ -26,6 +22,7 @@ public class UserHandler {
         em = emf.createEntityManager();
         em.getTransaction().begin();
         User existing = null;
+
         try {
             existing = (User) em.createNamedQuery("findUserByUsernamePassword")
                     .setParameter("name", username).setParameter("password", cryptWithMD5(password)).getSingleResult();
@@ -45,7 +42,6 @@ public class UserHandler {
         User out=(User) lem.createNamedQuery("findUserByUsername")
                 .setParameter("name", name).getSingleResult();
         return out;
-
     }
 
     public static boolean register(String name, String pass) throws NoSuchAlgorithmException, UserAlreadyExistExecption {

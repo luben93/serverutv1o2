@@ -5,12 +5,14 @@ import common.bo.ProfileHandler;
 import common.bo.UserHandler;
 import common.bo.WallHandler;
 import common.model.Profile;
+import common.model.User;
 import common.model.WallPost;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -21,10 +23,10 @@ import java.util.Collection;
 public class loginBean {
 
 
-    private String name;
-    private String pass;
+    private String name="";
+    private String pass="";
 //    private Profile profile;
-    private String searchName;
+    private String searchName="";
     private String profileName;
     private int age;
     private String desc;
@@ -32,9 +34,16 @@ public class loginBean {
     private String post;
 
     public int getnFollowers() {
-        int out=0;
-        //out = FriendHandler.getFollowers(name).size();//TODO errors from here
-        return out;
+        Collection<User> out;
+        out = FriendHandler.getFollowers(name);//TODO errors from here
+        for (User friend : out) {
+            System.out.println(friend);
+        }
+        return out.size();
+    }
+
+    public int getnFollowing(){
+        return FriendHandler.countFollowing(name);
     }
 
     public String getPost() {
@@ -125,15 +134,21 @@ public class loginBean {
 
     public String getGender() throws IOException, ClassNotFoundException {
         if (isFemale){
-            return "woman";
+            return "female";
         }else{
-            return "man";
+            return "male";
         }
     }
 
     public Collection<Profile> getResults() throws IOException, ClassNotFoundException {
-        return ProfileHandler.search(searchName);//TODO fuuuuuuuu not safe at all, actuall list of all user with name
+        if(searchName.equals("")){
+           return new ArrayList<Profile>();
+        }
+        Collection<Profile> out= ProfileHandler.search(searchName,name);//TODO fuuuuuuuu not safe at all, actuall list of all user with searchName
+
+        return out;
     }
+
 
     public String addFriend(Profile p){
         System.out.println(p);

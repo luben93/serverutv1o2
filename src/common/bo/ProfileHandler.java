@@ -63,11 +63,11 @@ public class ProfileHandler{
         return true;
     }
 
-    public static Collection<Profile> search(String name) throws IOException, ClassNotFoundException {
+    public static Collection<Profile> search(String search,String exclude) throws IOException, ClassNotFoundException {
         Collection out;//= new ArrayList<SimpleUser>();
         try {
             em = emf.createEntityManager();
-            out = em.createNamedQuery("findUserByUsernameContains").setParameter("name", "%"+name+"%").getResultList();
+            out = em.createNamedQuery("findUserByUsernameContains").setParameter("search", "%"+search+"%").setParameter("exclude", exclude).getResultList();
         } catch (NoResultException e) {
             out = new ArrayList<String>();
             out.add("no user found");
