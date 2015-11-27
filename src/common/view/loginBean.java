@@ -142,6 +142,10 @@ public class loginBean {
         return "home";//mabey profile/uid here?
     }
 
+   /* public Collection<WallPost> getFriendWall(String username){
+
+    }*/
+
     public String login() throws IOException, ClassNotFoundException  {
         if (UserHandler.login(name, pass)) {
             System.out.println("logged in");
@@ -154,11 +158,6 @@ public class loginBean {
         }
         //TODO not logged in
         return "index";
-    }
-
-    public boolean changeProfile(){
-        ProfileHandler.changeProfile(name);
-        return false;
     }
 
     public String logout(){

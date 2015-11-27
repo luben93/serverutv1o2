@@ -1,7 +1,4 @@
 package common.model;
-
-import org.hibernate.annotations.Parent;
-
 import javax.persistence.Embeddable;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -58,7 +55,7 @@ public class ChatMessage implements Serializable {
 
    // @ManyToOne(cascade= CascadeType.ALL)
    // @JoinColumn(name="u_id",insertable = false, updatable = false)
-    @Parent
+
     public User getUser() {
         return user;
     }

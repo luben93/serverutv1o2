@@ -5,6 +5,7 @@ import common.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.Collection;
 
 /**
@@ -20,11 +21,18 @@ public class FriendHandler {
             em = emf.createEntityManager();
             em.getTransaction().begin();
             User u = UserHandler.getUser(followerName,em);
-            User f = UserHandler.getUser(following,em);
+            TypedQuery<User> query = em.createQuery(
+                    "SELECT new User(c.u_id) from User c where c.username = :following", User.class).setParameter("following",following);
+            User tmp = query.getSingleResult();
+            User f = new User();
+            f.setU_id(tmp.getU_id());
+            f.setUsername(following);
+            f.setPassword("");
             Collection<User> follow=u.getFollow();
             follow.add(f);
             em.merge(u);
         }catch (Exception e){
+            e.printStackTrace();
             out=false;
         }finally {
             em.getTransaction().commit();
@@ -49,4 +57,10 @@ public class FriendHandler {
         em.close();
         return out;
     }
+
+    public class custom{
+        public long u_id;
+        public String username;
+    }
+
 }

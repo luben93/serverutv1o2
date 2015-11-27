@@ -33,6 +33,13 @@ public class User implements Serializable{
     private Collection<User> followed = new ArrayList<>();
     private Collection<User> follow = new ArrayList<>();
 
+    public User(){
+
+    }
+    public User(long u_id){
+        this.u_id = u_id;
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="u_id", unique=true,nullable = false)
