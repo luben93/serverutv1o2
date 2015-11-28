@@ -1,11 +1,20 @@
 package common.model;
 import javax.persistence.Embeddable;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
  * Created by sirena on 2015-11-10.
  */
+
+@NamedQueries({
+        @NamedQuery(
+                name = "getChatMessageBetweenIDandOhterId",
+                query = "from ChatMessage cm where cm.User_ID = :id and cm.user = :OtherId"
+        )
+})
 @Embeddable
 @Table(name="chatmessage")
 public class ChatMessage implements Serializable {

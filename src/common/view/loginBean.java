@@ -1,9 +1,7 @@
 package common.view;
 
-import common.bo.FriendHandler;
-import common.bo.ProfileHandler;
-import common.bo.UserHandler;
-import common.bo.WallHandler;
+import common.bo.*;
+import common.model.ChatMessage;
 import common.model.Profile;
 import common.model.User;
 import common.model.WallPost;
@@ -144,6 +142,13 @@ public class loginBean {
 //        }
 //    }
 
+    public Collection<ChatMessage> getMessages(Profile p){
+        Collection<ChatMessage> out=chatHandler.getMessages(id,p.getU_id());
+        for (ChatMessage cm: out) {
+            System.out.println(cm);
+        }
+        return out;
+    }
 
     public Collection<Profile> getResults() throws IOException, ClassNotFoundException {
        return profile.getResults();

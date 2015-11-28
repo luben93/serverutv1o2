@@ -10,26 +10,14 @@
         <ui:define name="content">
 
 
-            <p><h:outputLabel value=" showing: #{loginBean.showProfile.profileName} "/>
-            </p>
+            <h:outputLabel value=" showing: #{loginBean.showProfile.profileName} "/>
+            <h:outputLabel value=" Age: #{loginBean.showProfile.age} "/>
+            <h:outputLabel value=" Description: #{loginBean.showProfile.desc} "/>
+            <h:outputLabel value=" gender: #{loginBean.showProfile.gender} "/>
+            <h:outputLabel value=" followers: #{loginBean.showProfile.nFollowers} "/>
+            <h:outputLabel value=" following: #{loginBean.showProfile.nFollowing} "/>
+            <h:outputLabel value=" wall content"/>
 
-            <p><h:outputLabel value=" Age: #{loginBean.showProfile.age} "/>
-            </p>
-
-            <p><h:outputLabel value=" Description: #{loginBean.showProfile.desc} "/>
-            </p>
-
-            <p><h:outputLabel value=" gender: #{loginBean.showProfile.gender} "/>
-            </p>
-
-            <p><h:outputLabel value=" followers: #{loginBean.showProfile.nFollowers} "/>
-            </p>
-
-            <p><h:outputLabel value=" following: #{loginBean.showProfile.nFollowing} "/>
-            </p>
-
-            <p><h:outputLabel value=" wall content"/>
-            </p>
             <h:dataTable id="wall" style="margin-left: auto;
 margin-right: auto;" value="#{loginBean.showProfile.wall}" var="post" border="2">
                 <h:column>#{post.user.profile.name}</h:column>

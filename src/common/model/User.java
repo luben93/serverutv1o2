@@ -36,7 +36,7 @@ public class User implements Serializable{
     private String password;
     private Profile profile;
     private Collection<WallPost> wallPost;
-    private Set<ChatMessage> messages;
+    private Set<ChatMessage> messages;//TODO ??????
     private Collection<User> followed = new ArrayList<>();
     private Collection<User> follow = new ArrayList<>();
 
