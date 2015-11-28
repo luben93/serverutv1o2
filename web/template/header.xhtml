@@ -8,17 +8,17 @@
 <f:view>
 <ui:composition>
     <div class="profile">
-        <p><h:outputLabel value="profile: "/>
-            <h:outputLabel value="Welcome #{profileBean.profileName}! "/>
-            <h:outputLabel value="Age: #{profileBean.age} "/>
-            <h:outputLabel value="Description: #{profileBean.desc} "/>
-            <h:outputLabel value="gender: #{profileBean.gender} "/>
-            <h:outputLabel value="followers: #{profileBean.nFollowers} "/>
-            <h:outputLabel value="following: #{profileBean.nFollowing} "/>
+        <h:outputLabel value="profile: "/>
+            <h:outputLabel value="Welcome #{loginBean.profileName}! "/>
+            <h:outputLabel value="Age: #{loginBean.age} "/>
+            <h:outputLabel value="Description: #{loginBean.desc} "/>
+            <h:outputLabel value="gender: #{loginBean.gender} "/>
+            <h:outputLabel value="followers: #{loginBean.nFollowers} "/>
+            <h:outputLabel value="following: #{loginBean.nFollowing} "/>
             <h:form>
                 <h:commandButton value="update info" action="editProfile"/>
             </h:form>
-        </p>
+
 
     </div>
 
@@ -31,12 +31,12 @@
 
         <h:form>
             <h:outputLabel value="Search "/>
-            <h:inputText size="20" value="#{profileBean.searchName}"> <f:ajax event="keyup" render="nameList"/>
+            <h:inputText size="20" value="#{loginBean.searchName}"> <f:ajax event="keyup" render="nameList"/>
             </h:inputText>
-            <h:dataTable id="nameList" value="#{profileBean.results}" var="result" border="1">
+            <h:dataTable id="nameList" value="#{loginBean.results}" var="result" border="1">
                 <h:column>#{result}</h:column>
                 <h:column> <h:commandButton value="follow" action="#{loginBean.addFriend(result)}"/></h:column>
-                <h:column> <h:commandButton value="go to #{result.user.username}" action="#{profileBean.showProfile}"/>
+                <h:column> <h:commandButton value="go to #{result.user.username}" action="#{loginBean.showProfile}"/>
                 </h:column>
             </h:dataTable>
         </h:form>

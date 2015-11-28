@@ -8,14 +8,19 @@
 <f:view>
     <ui:composition>
 
-        <h:outputLabel value="showing: #{profileBean.showProfile.name}"/>
+        <h:outputLabel value="showing: #{loginBean.name}"/>
 
 
         <div id="wallGrid">
 
-
+            <h:form>
+                <h:outputLabel value="write new post"/><br> </br>
+                <h:inputTextarea value="#{loginBean.post}"/>
+                <h:commandButton value="Post" action="#{loginBean.postToWall}"/>
+            </h:form>
             <h:outputLabel value="wall content"/>
-            <h:dataTable id="wall" value="#{profileBean.wall}" var="post" border="2">
+
+            <h:dataTable id="wall" value="#{loginBean.wall}" var="post" border="2">
                 <h:column>#{post.user.profile.name}</h:column>
                 <h:column>#{post.post}</h:column>
             </h:dataTable>

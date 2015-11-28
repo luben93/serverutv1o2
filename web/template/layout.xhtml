@@ -7,37 +7,40 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 
-
 <h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+    <!--
+    -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type=""></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type=""></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
-
-
+    <!--
+-->
 </h:head>
 
 
 <h:body>
     <f:view>
         <div id="page">
-
-            <div id="header">
-                <ui:insert name="header">
-                    <ui:include src="/template/header.xhtml"/>
-                </ui:insert>
-            </div>
-
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <div id="header">
+                            <ui:insert name="header">
+                                <ui:include src="/template/header.xhtml"/>
+                            </ui:insert>
+                        </div>
+                    </div>
+                </div>
+            </nav>
             <div id="content">
                 <ui:insert name="content">
                     <ui:include src="/template/profile.xhtml"/>
                 </ui:insert>
             </div>
-
-
         </div>
     </f:view>
 </h:body>

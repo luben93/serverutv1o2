@@ -6,11 +6,13 @@ import common.bo.UserHandler;
 import common.bo.WallHandler;
 import common.model.Profile;
 import common.model.User;
+import common.model.WallPost;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Created by luben on 2015-11-07.
@@ -22,7 +24,7 @@ public class loginBean {
 
     private String name = "";
     private String pass = "";
-    private long id;
+    private Long id;
     private String post;
     private profileBean profile;
 
@@ -49,22 +51,36 @@ public class loginBean {
 //        return FriendHandler.countFollowing(id);
 //    }
 
+    public Collection<WallPost> getWall(){
+        return profile.getWall();
+    }
 
-//    public String getName() {
-//        return name;
-//    }
+    public String getName() {
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
-//
-//    public String getPass() {
-//        return pass;
-//    }
 
+    public String getPass() {
+        return pass;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setPost(String post) {
         this.post = post;
+    }
+
+    public String getPost(){
+        return post;
     }
 
     public void setPass(String pass) {
@@ -92,7 +108,7 @@ public class loginBean {
 
     public String postToWall() {
         //do post
-        WallHandler.post(id, post);
+        WallHandler.post(id, post);//TODO nullpointer
         post = "";
         return "home";
     }
@@ -122,16 +138,25 @@ public class loginBean {
 //            return "male";
 //        }
 //    }
-//
-//    public Collection<Profile> getResults() throws IOException, ClassNotFoundException {
-//        if(searchName.equals("")){
-//           return new ArrayList<Profile>();
-//        }
-//        Collection<Profile> out= ProfileHandler.search(searchName,name);//TODO fuuuuuuuu not safe at all, actuall list of all user with searchName
-//
-//        return out;
-//    }
 
+    public Collection<Profile> getResults() throws IOException, ClassNotFoundException {
+       return profile.getResults();
+    }
+
+    public profileBean getShowProfile(){
+        return profile;
+    }
+
+    public String getnFollowers(){
+        return  profile.getnFollowers()+"";
+    }
+    public String getnFollowing(){
+        return  profile.getnFollowing()+"";
+    }
+
+    public String getSearchName(){
+        return profile.getSearchName();
+    }
 
     public String addFriend(Profile p) {
         System.out.println(p);
@@ -148,7 +173,8 @@ public class loginBean {
         User u = UserHandler.login(name, pass);
         if (u != null) {
             System.out.println("logged in");
-
+            id=u.getU_id();
+            profile = new profileBean(id);
             return "home";
         }
         //TODO not logged in

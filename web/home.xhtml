@@ -13,15 +13,15 @@
     <f:view>
 
 
-        <ui:composition template="template/profile.xhtml">
-            <ui:define name="content">
-                <h:form>
-                    <h:outputLabel value="write new post"/><br></br>
-                    <h:inputTextarea value="#{loginBean.post}"/>
-                    <h:commandButton value="Post" action="#{loginBean.postToWall}"/>
-                </h:form>
-                <ui:composition template="template/layout.xhtml"></ui:composition>
-            </ui:define>
+        <ui:composition template="template/layout.xhtml">
+            <!--<ui:define name="content">-->
+                <!--<h:form>-->
+                    <!--<h:outputLabel value="write new post"/><br></br>-->
+                    <!--<h:inputTextarea value="#{loginBean.post}"/>-->
+                    <!--<h:commandButton value="Post" action="#{loginBean.postToWall}"/>-->
+                <!--</h:form>-->
+                <!--<ui:composition template="template/layout.xhtml"></ui:composition>-->
+            <!--</ui:define>-->
         </ui:composition>
 
     </f:view>

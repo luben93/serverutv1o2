@@ -7,7 +7,7 @@ import common.model.Profile;
 import common.model.User;
 import common.model.WallPost;
 
-import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,18 +16,30 @@ import java.util.Collection;
 /**
  * Created by luben on 2015-11-07.
  */
-@ManagedBean(name = "profileBean", eager = true)
+//@ManagedBean(name = "profileBean", eager = true)
 @SessionScoped
 public class profileBean {
     private Profile profile;
-    private long id;
+    @ManagedProperty(value="#{loginBean.id}")
+    private Long id;
     private String searchName = "";
 
-    profileBean(long id) throws IOException, ClassNotFoundException {
+    public profileBean() throws IOException, ClassNotFoundException {
+
+        profile = ProfileHandler.getProfile(id);
+//        getProfileName();
+    }
+
+    public profileBean(Long id) throws IOException, ClassNotFoundException {
         this.id = id;
         profile = ProfileHandler.getProfile(id);
     }
 
+    public void setId(String Sid) throws IOException, ClassNotFoundException {
+        id=Long.valueOf(Sid);
+        profile = ProfileHandler.getProfile(id);
+
+    }
 
     public Profile getShowProfile() throws IOException, ClassNotFoundException {
         return ProfileHandler.getProfile(id);
