@@ -46,6 +46,7 @@ public class WallHandler {
     public static Collection<WallPost> getPosts(long username) {
         em = emf.createEntityManager();
         User u = UserHandler.getUser(username, em);
+        //TODO should close em
         return u.getWallPost();
     }
 
