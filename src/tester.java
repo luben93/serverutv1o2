@@ -168,7 +168,7 @@ public class tester extends TestCase {
 
     @Test
     public void testModel() throws Exception {
-        UserHandler.login("megan","12345");
+        UserHandler.login("megan","1q2w3e");
     }
 
     @Test

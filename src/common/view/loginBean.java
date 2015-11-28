@@ -27,6 +27,7 @@ public class loginBean {
     private Long id;
     private String post;
     private profileBean profile;
+    private profileBean showProfile;
 
 
 //    public void setShowProfile(String showProfile) {
@@ -100,6 +101,10 @@ public class loginBean {
         return profile.getGender();
     }
 
+    public void setSearchName(String name){
+        profile.setSearchName(name);
+    }
+
 
     /* public Profile getProfile() throws IOException, ClassNotFoundException {
         return ProfileHandler.getProfile(name);//TODO ajabaja inte skicka model lager
@@ -139,12 +144,13 @@ public class loginBean {
 //        }
 //    }
 
+
     public Collection<Profile> getResults() throws IOException, ClassNotFoundException {
        return profile.getResults();
     }
 
     public profileBean getShowProfile(){
-        return profile;
+        return showProfile;
     }
 
     public String getnFollowers(){
@@ -156,6 +162,18 @@ public class loginBean {
 
     public String getSearchName(){
         return profile.getSearchName();
+    }
+
+    public String showProfile(Profile p) {
+        try {
+            showProfile=new profileBean(p.getU_id());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        setSearchName("");
+        return "profileInfo";
     }
 
     public String addFriend(Profile p) {

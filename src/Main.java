@@ -1,3 +1,7 @@
+import common.view.RegisterBean;
+import common.view.loginBean;
+
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -6,7 +10,23 @@ import java.security.NoSuchAlgorithmException;
 public class Main {
 
     public static void main(final String[] args) throws NoSuchAlgorithmException {
-            // use JUint testing in tester instead
+        // use JUint testing in tester instead
+        try {
+            String n = "name";
+            String p = "pass";
+            RegisterBean r = new RegisterBean();
+            r.setName(n);
+            r.setPass(p);
+            loginBean bean = new loginBean();
+            bean.setName(n);
+            bean.setPass(p);
+
+            bean.login();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

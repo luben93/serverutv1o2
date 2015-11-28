@@ -14,13 +14,14 @@
         <div id="wallGrid">
 
             <h:form>
-                <h:outputLabel value="write new post"/><br> </br>
-                <h:inputTextarea value="#{loginBean.post}"/>
+                <h:outputLabel value="write new post"/><br>
+                <h:inputTextarea value="#{loginBean.post}"/></br>
                 <h:commandButton value="Post" action="#{loginBean.postToWall}"/>
             </h:form>
             <h:outputLabel value="wall content"/>
 
-            <h:dataTable id="wall" value="#{loginBean.wall}" var="post" border="2">
+            <h:dataTable style="margin-left: auto;
+margin-right: auto;" id="wall" value="#{loginBean.wall}" var="post" border="2">
                 <h:column>#{post.user.profile.name}</h:column>
                 <h:column>#{post.post}</h:column>
             </h:dataTable>

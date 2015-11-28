@@ -14,15 +14,16 @@
 
 
         <ui:composition template="template/layout.xhtml">
-            <!--<ui:define name="content">-->
-                <!--<h:form>-->
-                    <!--<h:outputLabel value="write new post"/><br></br>-->
-                    <!--<h:inputTextarea value="#{loginBean.post}"/>-->
-                    <!--<h:commandButton value="Post" action="#{loginBean.postToWall}"/>-->
-                <!--</h:form>-->
-                <!--<ui:composition template="template/layout.xhtml"></ui:composition>-->
-            <!--</ui:define>-->
+
+            <ui:define name="header">
+                <ui:composition template="template/header.xhtml"/>
+
+                <h:form>
+                    <h:commandButton value="update info" action="editProfile"/>
+                </h:form>
+            </ui:define>
         </ui:composition>
+
 
     </f:view>
 </h:body>
