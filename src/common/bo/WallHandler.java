@@ -46,12 +46,15 @@ public class WallHandler {
     public static Collection<WallPost> getPosts(long username) {
         em = emf.createEntityManager();
         User u = UserHandler.getUser(username, em);
+        em.close();
         return u.getWallPost();
     }
 
     public static WallPost getPost(long id) {
         em = emf.createEntityManager();
-        return (WallPost) em.createNamedQuery("findPostById").setParameter("id", id).getSingleResult();
+        WallPost post= (WallPost) em.createNamedQuery("findPostById").setParameter("id", id).getSingleResult();
+        em.close();
+        return post;
     }
 
 }
