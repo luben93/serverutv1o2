@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+<ui:composition>
+    <div class="profile">
+        <p><h:outputLabel value="profile: "/>
+            <h:outputLabel value="Welcome #{profileBean.profileName}! "/>
+            <h:outputLabel value="Age: #{profileBean.age} "/>
+            <h:outputLabel value="Description: #{profileBean.desc} "/>
+            <h:outputLabel value="gender: #{profileBean.gender} "/>
+            <h:outputLabel value="followers: #{profileBean.nFollowers} "/>
+            <h:outputLabel value="following: #{profileBean.nFollowing} "/>
+            <h:form>
+                <h:commandButton value="update info" action="editProfile"/>
+            </h:form>
+        </p>
+
+    </div>
+
+    <div class="logout">
+        <h:form id="logout">
+            <h:commandButton value="Log out" action="#{loginBean.logout}"/>
+        </h:form>
+    </div>
+    <div class="search">
+
+        <h:form>
+            <h:outputLabel value="Search "/>
+            <h:inputText size="20" value="#{profileBean.searchName}"> <f:ajax event="keyup" render="nameList"/>
+            </h:inputText>
+            <h:dataTable id="nameList" value="#{profileBean.results}" var="result" border="1">
+                <h:column>#{result}</h:column>
+                <h:column> <h:commandButton value="follow" action="#{loginBean.addFriend(result)}"/></h:column>
+                <h:column> <h:commandButton value="go to #{result.user.username}" action="#{profileBean.showProfile}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </div>
+
+</ui:composition>
+</f:view>
+</html>

@@ -6,30 +6,44 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
-    <h:outputLabel value="edit your profile"/>
 
-    <div class="profile">
-        <h:form id="profileForm">
-        <p>
-            <h:outputLabel value="profile: "/></p>
-        <p>
-            <h:outputLabel value="Name: "/>
-            <h:inputText value="#{loginBean.profileName}"/></p>
-        <p>
-            <h:outputLabel value="Age: "/>
-            <h:inputText value="#{loginBean.age}"/></p>
-        <p>
-            <h:outputLabel value="Description: "/>
-            <h:inputText value="#{loginBean.desc}"/></p>
-        <p>
-            <h:outputLabel value="Gender: "/>
-            <h:selectOneRadio id="gender" value="#{loginBean.gender}">
-                <f:selectItem id="male" itemLabel="male" itemValue="male"/>
-                <f:selectItem id="female" itemLabel="female" itemValue="female"/>
-            </h:selectOneRadio></p>
-        <p>
-            <h:commandButton value="update" action="#{loginBean.update}"/></p>
-        </h:form>
-    </div>
+    <ui:composition template="template/layout.xhtml">
+
+        <ui:define name="header">
+
+        </ui:define>
+
+        <ui:define name="content">
+            <h:outputLabel value="edit your profile"/>
+
+            <div class="profile">
+                <h:form id="profileForm">
+                    <p>
+                        <h:outputLabel value="profile: "/></p>
+                    <p>
+                        <h:outputLabel value="Name: "/>
+                        <h:inputText value="#{loginBean.profileName}"/></p>
+                    <p>
+                        <h:outputLabel value="Age: "/>
+                        <h:inputText value="#{loginBean.age}"/></p>
+                    <p>
+                        <h:outputLabel value="Description: "/>
+                        <h:inputText value="#{loginBean.desc}"/></p>
+                    <p>
+                        <h:outputLabel value="Gender: "/>
+                        <h:selectOneRadio id="gender" value="#{loginBean.gender}">
+                            <f:selectItem id="male" itemLabel="male" itemValue="male"/>
+                            <f:selectItem id="female" itemLabel="female" itemValue="female"/>
+                        </h:selectOneRadio></p>
+                    <p>
+                        <h:commandButton value="update" action="#{loginBean.update}"/></p>
+                </h:form>
+            </div>
+
+        </ui:define>
+
+    </ui:composition>
+
+
 </f:view>
 </html>

@@ -173,7 +173,7 @@ public class tester extends TestCase {
 
     @Test
     public void testFollowers(){
-        FriendHandler.getFollowers("luben");
+        FriendHandler.getFollowers(1);
 
     }
 

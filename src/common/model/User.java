@@ -16,8 +16,12 @@ import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(
-                name = "findUserByUsername",
+                name = "findUserByUsername",//TODO ajabaja dont use
                 query = "from User u where u.username = :name"
+        ),
+        @NamedQuery(
+                name = "findUserById",
+                query = "from User u where u.u_id = :id"
         ),
         @NamedQuery(
         name = "findUserByUsernamePassword",

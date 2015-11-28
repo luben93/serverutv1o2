@@ -18,29 +18,25 @@ public class UserHandler {
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pres_comm");
     static EntityManager em;
 
-    public static boolean login(String username,String password){
+    public static User login(String username,String password){
         em = emf.createEntityManager();
         em.getTransaction().begin();
         User existing = null;
-
         try {
             existing = (User) em.createNamedQuery("findUserByUsernamePassword")
                     .setParameter("name", username).setParameter("password", cryptWithMD5(password)).getSingleResult();
         } catch (NoResultException e) {
-            return false;
+            return null;
         }
 
-        if(existing!=null){
-            return true;
-        }
         em.getTransaction().commit();
         em.close();
-        return false;
+        return existing;
     }
 
-    static User getUser(String name,EntityManager lem){
-        User out=(User) lem.createNamedQuery("findUserByUsername")
-                .setParameter("name", name).getSingleResult();
+    static User getUser(long id,EntityManager lem){
+        User out=(User) lem.createNamedQuery("findUserById")
+                .setParameter("id", id).getSingleResult();
         return out;
     }
 

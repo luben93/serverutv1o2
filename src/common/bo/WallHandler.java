@@ -17,7 +17,7 @@ public class WallHandler {
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pres_comm");
     static EntityManager em;
 
-    public static boolean post(String username, String postText) {
+    public static boolean post(long username, String postText) {
         boolean out = true;
         try {
             em = emf.createEntityManager();
@@ -43,13 +43,13 @@ public class WallHandler {
         }
     }
 
-    public static Collection<WallPost> getPosts(String username) {
+    public static Collection<WallPost> getPosts(long username) {
         em = emf.createEntityManager();
         User u = UserHandler.getUser(username, em);
         return u.getWallPost();
     }
 
-    public static WallPost getPost(int id) {
+    public static WallPost getPost(long id) {
         em = emf.createEntityManager();
         return (WallPost) em.createNamedQuery("findPostById").setParameter("id", id).getSingleResult();
     }

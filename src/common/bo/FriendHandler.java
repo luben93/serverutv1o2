@@ -16,7 +16,7 @@ public class FriendHandler {
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pres_comm");
     static EntityManager em;
 
-    public static boolean addFollower(String followerName,String following){
+    public static boolean addFollower(long followerName,long following){
         boolean out=true;
         try {
             em = emf.createEntityManager();
@@ -48,7 +48,7 @@ public class FriendHandler {
 
     }
 
-    public static Collection<User> getFollowers(String user){
+    public static Collection<User> getFollowers(long user){
         em = emf.createEntityManager();
         User u = UserHandler.getUser(user,em);
         Collection<User> out= u.getFollow();
@@ -57,7 +57,7 @@ public class FriendHandler {
         return out;
     }
 
-    public static int countFollowing(String user){
+    public static int countFollowing(long user){
         em = emf.createEntityManager();
         User u = UserHandler.getUser(user,em);
         // Collection<User> out= u.getFollowed();
@@ -71,10 +71,10 @@ public class FriendHandler {
 
         return out.size();
     }
-
-    public class custom{
-        public long u_id;
-        public String username;
-    }
+//
+//    public class custom{
+//        public long u_id;
+//        public String username;
+//    }
 
 }

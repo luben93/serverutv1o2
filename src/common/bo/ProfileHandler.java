@@ -20,14 +20,14 @@ public class ProfileHandler{
     static EntityManager em;
    // static SessionFactory seshF = HibUtil.getSessionFactory();
 
-    public static Profile getProfile(String username) throws IOException, ClassNotFoundException {
+    public static Profile getProfile(long username) throws IOException, ClassNotFoundException {
         em = emf.createEntityManager();
         em.getTransaction().begin();
 
         User existing = null;
         try {
-            existing = (User) em.createNamedQuery("findUserByUsername")
-                    .setParameter("name", username).getSingleResult();
+            existing = (User) em.createNamedQuery("findUserById")
+                    .setParameter("id", username).getSingleResult();
         }catch (NullPointerException e){
             System.out.printf("The user do not exist");
         }catch (NoResultException e){
@@ -45,7 +45,7 @@ public class ProfileHandler{
     }
 
 
-    public static boolean update(String name,int age,String desc,boolean isFemale,String username){
+    public static boolean update(String name,int age,String desc,boolean isFemale,long username){
         em=emf.createEntityManager();
         em.getTransaction().begin();
         User u=UserHandler.getUser(username,em);
