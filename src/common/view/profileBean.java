@@ -12,6 +12,8 @@ import javax.faces.bean.SessionScoped;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by luben on 2015-11-07.
@@ -68,6 +70,10 @@ public class profileBean {
         return profile.getAge();
     }
 
+    public long getId(){
+        return profile.getU_id();
+    }
+
     public String getDesc() {
         return profile.getDescription();
     }
@@ -81,7 +87,9 @@ public class profileBean {
     }
 
     public Collection<WallPost> getWall() {
-        return WallHandler.getPosts(profile.getUser().getU_id());
+        Collection<WallPost> out =WallHandler.getPosts(profile.getUser().getU_id());
+        Collections.reverse((List<WallPost>) out);
+        return out;
     }
 
     public String getGender() throws IOException, ClassNotFoundException {

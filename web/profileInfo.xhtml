@@ -18,7 +18,11 @@
             <h:outputLabel value=" following: #{loginBean.showProfile.nFollowing} "/>
             <h:outputLabel value=" wall content"/>
 
-            <h:dataTable id="wall" style="margin-left: auto;
+            <h:dataTable id="chat" style="margin-left: auto;" value="#{loginBean.getMessages(loginBean.showProfile.id)}"
+             var="message" >
+                <h:column>hej</h:column>
+            </h:dataTable>
+            <h:dataTable id="wall" style="#margin-left: auto;
 margin-right: auto;" value="#{loginBean.showProfile.wall}" var="post" border="2">
                 <h:column>#{post.user.profile.name}</h:column>
                 <h:column>#{post.post}</h:column>

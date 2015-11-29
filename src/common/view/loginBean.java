@@ -142,11 +142,12 @@ public class loginBean {
 //        }
 //    }
 
-    public Collection<ChatMessage> getMessages(Profile p){
-        Collection<ChatMessage> out=chatHandler.getMessages(id,p.getU_id());
+    public Collection<ChatMessage> getMessages(String oid){
+        Collection<ChatMessage> out=chatHandler.getMessages(id,Long.valueOf(oid));
         for (ChatMessage cm: out) {
             System.out.println(cm);
         }
+        out.add(new ChatMessage());
         return out;
     }
 
