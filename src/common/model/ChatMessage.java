@@ -1,8 +1,5 @@
 package common.model;
-import javax.persistence.Embeddable;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -11,13 +8,11 @@ import java.io.Serializable;
 
 @NamedQueries({
         @NamedQuery(
-                name = "getChatMessageBetweenSenderAndReceiver",
-                query = "from ChatMessage cm " +
-                        "where (cm.sender = :sender and cm.receiver = :receiver) " +
-                        "or (cm.sender = :receiver and cm.receiver = :sender)"
+                name = "getChat",
+                query = "from ChatMessage cm where (cm.sender = :sender and cm.receiver = :receiver) or (cm.sender = :receiver and cm.receiver = :sender)"
         )
 })
-@Embeddable
+@Entity
 @Table(name="chatmessage")
 public class ChatMessage implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -25,7 +20,20 @@ public class ChatMessage implements Serializable {
     private String message;
     private long sender;
     private long receiver;
+    private long id;
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="id", unique=true,nullable = false)
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Column(name="receiver", nullable = false)
     public long getReceiver() {
         return receiver;
     }
@@ -34,6 +42,7 @@ public class ChatMessage implements Serializable {
         this.receiver = receiver;
     }
 
+    @Column(name="message", nullable = false)
     public String getMessage() {
         return message;
     }
@@ -42,12 +51,18 @@ public class ChatMessage implements Serializable {
         this.message = message;
     }
 
+
+    @Column(name="sender", nullable = false)
     public long getSender() {
         return sender;
     }
 
     public void setSender(long user) {
         this.sender = user;
+    }
+
+    public String toString(){
+        return sender+" said: "+message+". to: " +receiver;
     }
 
 

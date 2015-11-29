@@ -26,6 +26,7 @@ public class loginBean {
     private String post;
     private profileBean profile;
     private profileBean showProfile;
+    private String msg;
 
 
 //    public void setShowProfile(String showProfile) {
@@ -49,6 +50,15 @@ public class loginBean {
 //    public int getnFollowing(){
 //        return FriendHandler.countFollowing(id);
 //    }
+
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
     public Collection<WallPost> getWall(){
         return profile.getWall();
@@ -142,6 +152,8 @@ public class loginBean {
 //        }
 //    }
 
+
+
     public Collection<ChatMessage> getMessages(String oid){
         Collection<ChatMessage> out=chatHandler.getMessages(id,Long.valueOf(oid));
         for (ChatMessage cm: out) {
@@ -149,6 +161,10 @@ public class loginBean {
         }
         out.add(new ChatMessage());
         return out;
+    }
+
+    public void sendMessage (String oid){
+        chatHandler.sendMessage(id,Long.valueOf(oid),msg);
     }
 
     public Collection<Profile> getResults() throws IOException, ClassNotFoundException {

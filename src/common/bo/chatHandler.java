@@ -21,7 +21,7 @@ public class chatHandler {
     public static Collection<ChatMessage> getMessages(long sender, long reciver) {
         em = emf.createEntityManager();
         em.getTransaction().begin();//TODO ??????
-        List<ChatMessage> out = em.createNamedQuery("getChatMessageBetweenSenderAndReceiver").setParameter(":sender", sender).setParameter(":Receiver", reciver).getResultList();
+        List<ChatMessage> out = em.createNamedQuery("getChat").setParameter("sender", sender).setParameter("receiver", reciver).getResultList();
         em.getTransaction().commit();
         em.close();
         return out;

@@ -18,9 +18,15 @@
             <h:outputLabel value=" following: #{loginBean.showProfile.nFollowing} "/>
             <h:outputLabel value=" wall content"/>
 
+            <h:form>
+                <h:outputLabel value="write new message"/><br>
+                <h:inputTextarea value="#{loginBean.msg}"/></br>
+                <h:commandButton value="send" action="#{loginBean.sendMessage(loginBean.showProfile.id)}"/>
+            </h:form>
             <h:dataTable id="chat" style="margin-left: auto;" value="#{loginBean.getMessages(loginBean.showProfile.id)}"
              var="message" >
                 <h:column>hej</h:column>
+                <h:column>#{message}</h:column>
             </h:dataTable>
             <h:dataTable id="wall" style="#margin-left: auto;
 margin-right: auto;" value="#{loginBean.showProfile.wall}" var="post" border="2">
