@@ -3,6 +3,8 @@ package common.view;
 import common.bo.FriendHandler;
 import common.bo.ProfileHandler;
 import common.bo.WallHandler;
+import common.bo.chatHandler;
+import common.model.ChatMessage;
 import common.model.Profile;
 import common.model.User;
 import common.model.WallPost;
@@ -49,13 +51,13 @@ public class profileBean {
 
     public int getnFollowers() {
         Collection<User> out;
-        out = FriendHandler.getFollowers(profile.getUser().getU_id());//TODO errors from here
+        out = FriendHandler.getFollowers(profile.getU_id());//TODO errors from here
 
         return out.size();
     }
 
     public int getnFollowing() {
-        return FriendHandler.countFollowing(profile.getUser().getU_id());
+        return FriendHandler.countFollowing(profile.getU_id());
     }
 
 //    public String getPost() {
@@ -92,6 +94,21 @@ public class profileBean {
         return out;
     }
 
+    public List<ChatMessage> getMessages(long oid){
+        List<ChatMessage> out= chatHandler.getMessages(oid,profile.getU_id());
+        for (ChatMessage cm: out) {
+            System.out.println(cm);
+        }
+        Collections.reverse(out);
+
+        return out;
+    }
+
+    public void sendMessage (long oid,String msg){
+        chatHandler.sendMessage(oid,profile.getU_id(),msg);
+    }
+
+
     public String getGender() throws IOException, ClassNotFoundException {
         if (profile.getIsFemale()) {
             return "female";
@@ -110,6 +127,5 @@ public class profileBean {
         }
         return ProfileHandler.search(searchName, profile.getUser().getUsername());//TODO fuuuuuuuu not safe at all, actuall list of all user with searchName
     }
-
 
 }

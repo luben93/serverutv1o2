@@ -154,17 +154,13 @@ public class loginBean {
 
 
 
-    public Collection<ChatMessage> getMessages(String oid){
-        Collection<ChatMessage> out=chatHandler.getMessages(id,Long.valueOf(oid));
-        for (ChatMessage cm: out) {
-            System.out.println(cm);
-        }
-        out.add(new ChatMessage());
-        return out;
+    public Collection<ChatMessage> getMessages(){
+        return  profile.getMessages(id);
     }
 
-    public void sendMessage (String oid){
-        chatHandler.sendMessage(id,Long.valueOf(oid),msg);
+
+    public void sendMessage (){
+        profile.sendMessage(id,msg);
     }
 
     public Collection<Profile> getResults() throws IOException, ClassNotFoundException {

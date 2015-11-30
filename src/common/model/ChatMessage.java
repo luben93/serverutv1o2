@@ -62,7 +62,7 @@ public class ChatMessage implements Serializable {
     }
 
     public String toString(){
-        return sender+" said: "+message+". to: " +receiver;
+        return  message;
     }
 
 

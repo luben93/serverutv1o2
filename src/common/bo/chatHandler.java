@@ -1,15 +1,11 @@
 package common.bo;
 
 import common.model.ChatMessage;
-import common.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by luben on 2015-11-28.
@@ -18,7 +14,7 @@ public class chatHandler {
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pres_comm");
     static EntityManager em;
 
-    public static Collection<ChatMessage> getMessages(long sender, long reciver) {
+    public static List<ChatMessage> getMessages(long sender, long reciver) {
         em = emf.createEntityManager();
         em.getTransaction().begin();//TODO ??????
         List<ChatMessage> out = em.createNamedQuery("getChat").setParameter("sender", sender).setParameter("receiver", reciver).getResultList();
