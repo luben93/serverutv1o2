@@ -79,10 +79,10 @@ public class profileBean {
         return searchName;
     }
 
-    public Collection<String> getWall() {
-        Collection<String> out =new ArrayList<String>();//WallHandler.getPosts(id);//TODO wall here
-        out.add("hej");
-        Collections.reverse((List<String>) out);
+    public Collection<TupleString> getWall() {
+        Collection<TupleString> out =new ArrayList<TupleString>();//WallHandler.getPosts(id);//TODO wall here
+        out.add(new TupleString("1","hej"));
+        Collections.reverse((List<TupleString>) out);
         System.out.println("wall for " +id);
         System.out.println(out);
         return out;
@@ -127,7 +127,7 @@ public class profileBean {
             return new ArrayList<TupleString>();
         }else{
             ArrayList<TupleString>out=new ArrayList<TupleString>();
-            out.add(new TupleString("userid","username"));
+            out.add(new TupleString("1","username"));
             System.out.println("username searched for "+searchName);
             return out;//placeholder
 

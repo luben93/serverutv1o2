@@ -53,7 +53,7 @@ public class loginBean {
         this.msg = msg;
     }
 
-    public Collection<String> getWall(){
+    public Collection<TupleString> getWall(){
         return profile.getWall();
     }
 
@@ -123,15 +123,18 @@ public class loginBean {
         return "home";
     }
 
-
+    public String home(){
+        showProfile=profile;
+        return "home";
+    }
 
     public Collection<TupleString> getMessages(){
-        return  profile.getMessages(id);
+        return  showProfile.getMessages(id);
     }
 
 
     public void sendMessage (){
-        profile.sendMessage(id,msg);
+        showProfile.sendMessage(id,msg);
     }
 
     public Collection<TupleString> getResults()  {
@@ -156,7 +159,7 @@ public class loginBean {
 
     public String showProfile(String p) {
 
-            showProfile=new profileBean(Long.valueOf(p));
+        showProfile=new profileBean(Long.valueOf(p));
 
         setSearchName("");
         return "profileInfo";
