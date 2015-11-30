@@ -91,7 +91,7 @@ public class profileBean {
     public List<TupleString> getMessages(long oid){
         //TODO get chat
         List<TupleString> out= new ArrayList<TupleString>();//chatHandler.getMessages(oid,profile.getU_id());
-
+        out.add(new TupleString("1","hejhej"));
         for (TupleString cm: out) {
             System.out.println(cm);
         }
