@@ -101,6 +101,7 @@ public class profileBean {
     }
 
     public void sendMessage (long oid,String msg){
+        //TODO chatt blandar ihop uid ibland kolla upp
         //chatHandler.sendMessage(oid,id,msg);
         //TODO send chat here
         System.out.println(oid+" said to "+id+" "+msg);
