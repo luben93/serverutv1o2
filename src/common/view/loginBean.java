@@ -1,11 +1,5 @@
 package common.view;
 
-import common.bo.*;
-import common.model.ChatMessage;
-import common.model.Profile;
-import common.model.User;
-import common.model.WallPost;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -60,7 +54,7 @@ public class loginBean {
         this.msg = msg;
     }
 
-    public Collection<WallPost> getWall(){
+    public Collection<String> getWall(){
         return profile.getWall();
     }
 
@@ -114,47 +108,25 @@ public class loginBean {
     }
 
 
-    /* public Profile getProfile() throws IOException, ClassNotFoundException {
-        return ProfileHandler.getProfile(name);//TODO ajabaja inte skicka model lager
-                                                //TODO även om det är en kopia
-    }*/
+
 
     public String postToWall() {
         //do post
-        WallHandler.post(id, post);//TODO nullpointer
+        //WallHandler.post(id, post);
+        //TODO POST HERE
         post = "";
         return "home";
     }
 
     public String update() throws IOException, ClassNotFoundException {
-        //TODO do save stuff here
-        ProfileHandler.update(profile.getProfileName(),profile.getAge(),profile.getDesc(),profile.isFemale(), id);
+        //ProfileHandler.update(profile.getProfileName(),profile.getAge(),profile.getDesc(),profile.isFemale(), id);
+        //TODO profile update here
         return "home";
     }
 
-//    public Collection<WallPost> getWall(){
-//        return WallHandler.getPosts(id);
-//    }
-//
-//    public void setGender(String gender){
-//        if(gender.contains("female")){
-//            isFemale=true;
-//        }else{
-//            isFemale=false;
-//        }
-//    }
-//
-//    public String getGender() throws IOException, ClassNotFoundException {
-//        if (isFemale){
-//            return "female";
-//        }else{
-//            return "male";
-//        }
-//    }
 
 
-
-    public Collection<ChatMessage> getMessages(){
+    public Collection<TupleString> getMessages(){
         return  profile.getMessages(id);
     }
 
@@ -163,11 +135,12 @@ public class loginBean {
         profile.sendMessage(id,msg);
     }
 
-    public Collection<Profile> getResults() throws IOException, ClassNotFoundException {
+    public Collection<TupleString> getResults() throws IOException, ClassNotFoundException {
        return profile.getResults();
     }
 
     public profileBean getShowProfile(){
+        //TODO behövs??
         return showProfile;
     }
 
@@ -182,9 +155,9 @@ public class loginBean {
         return profile.getSearchName();
     }
 
-    public String showProfile(Profile p) {
+    public String showProfile(String p) {
         try {
-            showProfile=new profileBean(p.getU_id());
+            showProfile=new profileBean(Long.valueOf(p));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -194,10 +167,10 @@ public class loginBean {
         return "profileInfo";
     }
 
-    public String addFriend(Profile p) {
-        System.out.println(p);
+    public String addFriend(String p){//Profile p) {
+        System.out.println(Long.valueOf(p));
         //TODO add friend here
-        FriendHandler.addFollower(id, p.getUser().getU_id());
+        //FriendHandler.addFollower(id, Long.valueOf(p));
         return "home";//mabey profile/uid here?
     }
 
@@ -206,10 +179,12 @@ public class loginBean {
     }*/
 
     public String login() throws IOException, ClassNotFoundException {
-        User u = UserHandler.login(name, pass);
+       // User u = UserHandler.login(name, pass);
+        //TODO login here
+        Long u= new Long(1);
         if (u != null) {
             System.out.println("logged in");
-            id=u.getU_id();
+            id=u;//u.getU_id();
             profile = new profileBean(id);
             return "home";
         }

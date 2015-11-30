@@ -1,15 +1,6 @@
 package common.view;
 
-import common.bo.FriendHandler;
-import common.bo.ProfileHandler;
-import common.bo.WallHandler;
-import common.bo.chatHandler;
-import common.model.ChatMessage;
-import common.model.Profile;
-import common.model.User;
-import common.model.WallPost;
 
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,41 +14,35 @@ import java.util.List;
 //@ManagedBean(name = "profileBean", eager = true)
 @SessionScoped
 public class profileBean {
-    private Profile profile;
-    @ManagedProperty(value="#{loginBean.id}")
+
     private Long id;
     private String searchName = "";
 
-    public profileBean() throws IOException, ClassNotFoundException {
 
-        profile = ProfileHandler.getProfile(id);
-//        getProfileName();
-    }
 
     public profileBean(Long id) throws IOException, ClassNotFoundException {
         this.id = id;
-        profile = ProfileHandler.getProfile(id);
     }
 
     public void setId(String Sid) throws IOException, ClassNotFoundException {
         id=Long.valueOf(Sid);
-        profile = ProfileHandler.getProfile(id);
-
     }
-
+/*
     public Profile getShowProfile() throws IOException, ClassNotFoundException {
         return ProfileHandler.getProfile(id);
     }
-
+*/
     public int getnFollowers() {
-        Collection<User> out;
-        out = FriendHandler.getFollowers(profile.getU_id());//TODO errors from here
-
-        return out.size();
+//        Collection<User> out;
+//        out = FriendHandler.getFollowers(id);
+//TODO get followers
+        return 2;
     }
 
     public int getnFollowing() {
-        return FriendHandler.countFollowing(profile.getU_id());
+        //return FriendHandler.countFollowing(id);
+        //TODO following
+        return 5;
     }
 
 //    public String getPost() {
@@ -65,19 +50,26 @@ public class profileBean {
 //    }
 
     public String getProfileName() {
-        return profile.getName();
+        //TODO get profile name here
+        System.out.println("getting name for" + id);
+
+        return "user";//profile.getName();
     }
 
     public int getAge() {
-        return profile.getAge();
+        //TODO get profile age here
+        System.out.println("getting age for" + id);
+        return 20;//profile.getAge();
     }
 
     public long getId(){
-        return profile.getU_id();
+        return id;
     }
 
     public String getDesc() {
-        return profile.getDescription();
+        //TODO get profile desc here
+        System.out.println("getting desc for" + id);
+        return "nothing special";//profile.getDescription();
     }
 
     public void setSearchName(String searchName) {
@@ -88,15 +80,20 @@ public class profileBean {
         return searchName;
     }
 
-    public Collection<WallPost> getWall() {
-        Collection<WallPost> out =WallHandler.getPosts(profile.getUser().getU_id());
-        Collections.reverse((List<WallPost>) out);
+    public Collection<String> getWall() {
+        Collection<String> out =new ArrayList<String>();//WallHandler.getPosts(id);//TODO wall here
+        out.add("hej");
+        Collections.reverse((List<String>) out);
+        System.out.println("wall for " +id);
+        System.out.println(out);
         return out;
     }
 
-    public List<ChatMessage> getMessages(long oid){
-        List<ChatMessage> out= chatHandler.getMessages(oid,profile.getU_id());
-        for (ChatMessage cm: out) {
+    public List<TupleString> getMessages(long oid){
+        //TODO get chat
+        List<TupleString> out= new ArrayList<TupleString>();//chatHandler.getMessages(oid,profile.getU_id());
+
+        for (TupleString cm: out) {
             System.out.println(cm);
         }
         Collections.reverse(out);
@@ -105,27 +102,38 @@ public class profileBean {
     }
 
     public void sendMessage (long oid,String msg){
-        chatHandler.sendMessage(oid,profile.getU_id(),msg);
+        //chatHandler.sendMessage(oid,id,msg);
+        //TODO send chat here
+        System.out.println(oid+" said to "+id+" "+msg);
     }
 
 
     public String getGender() throws IOException, ClassNotFoundException {
-        if (profile.getIsFemale()) {
+        boolean isfemale=true;
+        //TODO get isFemale here
+        System.out.println("get gender");
+        if (isfemale) {
             return "female";
         } else {
             return "male";
         }
     }
 
-    boolean isFemale(){
-        return profile.getIsFemale();
-    }
+//    boolean isFemale(){
+//        return profile.getIsFemale();
+//    }
 
-    public Collection<Profile> getResults() throws IOException, ClassNotFoundException {
+    public Collection<TupleString> getResults() throws IOException, ClassNotFoundException {
         if (searchName.equals("")) {
-            return new ArrayList<Profile>();
+            return new ArrayList<TupleString>();
+        }else{
+            ArrayList<TupleString>out=new ArrayList<TupleString>();
+            out.add(new TupleString("userid","username"));
+            System.out.println("username searched for "+searchName);
+            return out;//placeholder
+
         }
-        return ProfileHandler.search(searchName, profile.getUser().getUsername());//TODO fuuuuuuuu not safe at all, actuall list of all user with searchName
+        //return ProfileHandler.search(searchName, profile.getUser().getUsername());//TODO call search here
     }
 
 }
