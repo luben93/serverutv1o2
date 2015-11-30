@@ -2,7 +2,6 @@ package common.view;
 
 
 import javax.faces.bean.SessionScoped;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,11 +19,11 @@ public class profileBean {
 
 
 
-    public profileBean(Long id) throws IOException, ClassNotFoundException {
+    public profileBean(Long id)  {
         this.id = id;
     }
 
-    public void setId(String Sid) throws IOException, ClassNotFoundException {
+    public void setId(String Sid)  {
         id=Long.valueOf(Sid);
     }
 /*
@@ -108,7 +107,7 @@ public class profileBean {
     }
 
 
-    public String getGender() throws IOException, ClassNotFoundException {
+    public String getGender()  {
         boolean isfemale=true;
         //TODO get isFemale here
         System.out.println("get gender");
@@ -123,7 +122,7 @@ public class profileBean {
 //        return profile.getIsFemale();
 //    }
 
-    public Collection<TupleString> getResults() throws IOException, ClassNotFoundException {
+    public Collection<TupleString> getResults()  {
         if (searchName.equals("")) {
             return new ArrayList<TupleString>();
         }else{

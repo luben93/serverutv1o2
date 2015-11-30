@@ -1,11 +1,7 @@
 package common.view;
 
-import common.bo.UserAlreadyExistExecption;
-import common.bo.UserHandler;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by luben on 2015-11-07.
@@ -32,17 +28,15 @@ public class RegisterBean {
         this.pass = pass;
     }
 
-    public String login(){
-        try {
-            if(UserHandler.register(name,pass)) {
+    public String register(){
+        boolean success=true;
+        //success=UserHandler.register(name,pass)
+        //TODO registrera
+        System.out.println("registrear" + name);
+            if(success) {
                 return "home";
             }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UserAlreadyExistExecption userAlreadyExistExecption) {
-            userAlreadyExistExecption.printStackTrace();
-            return "index";
-        }
+
         //TODO not logged in
         return "index";
     }

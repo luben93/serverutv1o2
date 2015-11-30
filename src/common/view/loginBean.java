@@ -3,7 +3,6 @@ package common.view;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -67,7 +66,7 @@ public class loginBean {
     }
 
     public String getPass() {
-        return pass;
+        return "";
     }
 
     public long getId() {
@@ -99,7 +98,7 @@ public class loginBean {
     public String getDesc() {
         return profile.getDesc();
     }
-    public String getGender() throws IOException, ClassNotFoundException {
+    public String getGender() {
         return profile.getGender();
     }
 
@@ -118,7 +117,7 @@ public class loginBean {
         return "home";
     }
 
-    public String update() throws IOException, ClassNotFoundException {
+    public String update()  {
         //ProfileHandler.update(profile.getProfileName(),profile.getAge(),profile.getDesc(),profile.isFemale(), id);
         //TODO profile update here
         return "home";
@@ -135,7 +134,7 @@ public class loginBean {
         profile.sendMessage(id,msg);
     }
 
-    public Collection<TupleString> getResults() throws IOException, ClassNotFoundException {
+    public Collection<TupleString> getResults()  {
        return profile.getResults();
     }
 
@@ -156,13 +155,9 @@ public class loginBean {
     }
 
     public String showProfile(String p) {
-        try {
+
             showProfile=new profileBean(Long.valueOf(p));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
         setSearchName("");
         return "profileInfo";
     }
@@ -178,7 +173,7 @@ public class loginBean {
 
     }*/
 
-    public String login() throws IOException, ClassNotFoundException {
+    public String login()  {
        // User u = UserHandler.login(name, pass);
         //TODO login here
         Long u= new Long(1);
