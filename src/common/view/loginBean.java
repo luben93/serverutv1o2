@@ -199,6 +199,7 @@ public class loginBean {
         return "index";
     }
 
+
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "index";
