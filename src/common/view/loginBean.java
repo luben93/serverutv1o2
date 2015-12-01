@@ -20,7 +20,7 @@ public class loginBean {
     private profileBean profile;
     private profileBean showProfile;
     private String msg;
-
+ //TODO git fuckup
 
 //    public void setShowProfile(String showProfile) {
 //        this.showProfile = showProfile;
