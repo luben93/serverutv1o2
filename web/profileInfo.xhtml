@@ -10,33 +10,56 @@
         <ui:define name="content">
 
 
-            <p><h:outputLabel value=" showing: #{loginBean.showProfile.profileName} "/>
-            </p>
+            <h:outputLabel value=" showing: #{loginBean.showProfile.profileName}  Age: #{loginBean.showProfile.age}  Description: #{loginBean.showProfile.desc} Gender: #{loginBean.showProfile.gender}
+           Followers: #{loginBean.showProfile.nFollowers} Following: #{loginBean.showProfile.nFollowing}"/>
 
-            <p><h:outputLabel value=" Age: #{loginBean.showProfile.age} "/>
-            </p>
 
-            <p><h:outputLabel value=" Description: #{loginBean.showProfile.desc} "/>
-            </p>
 
-            <p><h:outputLabel value=" gender: #{loginBean.showProfile.gender} "/>
-            </p>
-
-            <p><h:outputLabel value=" followers: #{loginBean.showProfile.nFollowers} "/>
-            </p>
-
-            <p><h:outputLabel value=" following: #{loginBean.showProfile.nFollowing} "/>
-            </p>
-
-            <p><h:outputLabel value=" wall content"/>
-            </p>
-            <h:dataTable id="wall" style="margin-left: auto;
-margin-right: auto;" value="#{loginBean.showProfile.wall}" var="post" border="2">
-                <h:column>#{post.user.profile.name}</h:column>
-                <h:column>#{post.post}</h:column>
-            </h:dataTable>
-
-        </ui:define>
-    </ui:composition>
+            <div>
+                <table style="margin-left: auto;
+            margin-right: auto;">
+                    <thead>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="write new message"/>
+                        </td>
+                        <td>
+                            <h:outputLabel value=" wall content"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:form>
+                                <h:inputTextarea value="#{loginBean.msg}"/>
+                            <h:commandButton value="send" action="#{loginBean.sendMessage()}"/>
+                        </h:form>
+                    </td>
+                    <td>
+                        wall
+                    </td>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <h:dataTable id="chat" value="#{loginBean.getMessages()}"
+                                     var="message" border="2" style="margin-left: auto;
+            margin-right: auto;">
+                            <h:column>#{message.message}</h:column>
+                        </h:dataTable>
+                    </td>
+                    <td>
+                        <h:dataTable id="wall" value="#{loginBean.showProfile.wall}" var="post" border="2" style="margin-left: auto;
+            margin-right: auto;">
+                            <h:column>#{post.key}</h:column>
+                            <h:column>#{post.value}</h:column>
+                        </h:dataTable>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </ui:define>
+</ui:composition>
 </f:view>
-</html>
+        </html>
