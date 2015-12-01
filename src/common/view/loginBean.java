@@ -155,12 +155,12 @@ public class loginBean {
 
 
     public Collection<ChatMessage> getMessages(){
-        return  profile.getMessages(id);
+        return  showProfile.getMessages(id);
     }
 
 
     public void sendMessage (){
-        profile.sendMessage(id,msg);
+        showProfile.sendMessage(id,msg);
     }
 
     public Collection<Profile> getResults() throws IOException, ClassNotFoundException {
