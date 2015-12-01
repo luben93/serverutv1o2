@@ -6,10 +6,7 @@ import common.model.User;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -42,15 +39,24 @@ public class RegisterBean {
         //success=UserHandler.register(name,pass)
         //TODO registrera
 
+      /*  ClientConfig config = new DefaultClientConfig();
+        Client client = Client.create(config);
+        WebResource service = client.resource(getBaseURI());
+        Employee employee = new Employee();
+        employee.setEmployeeId(3);
+        employee.setEmployeeName("srinivas");*/
+
         Client cli;
         cli = ClientBuilder.newClient();
         //    Client cli = ClientBuilder.newClient();
-        WebTarget trgt =cli.target("http://130.237.84.10:8081/starter/rest/register");
+        WebTarget trgt =cli.target("http://130.237.84.10:8081/ServerutvLabb2-master/rest");
         Gson gson = new Gson();
         User user = new User();
         user.setPassword(pass);
         user.setUsername(name);
-        String json=trgt.request(MediaType.APPLICATION_JSON).post(Entity.entity(gson.toJson(user),MediaType.APPLICATION_JSON),String.class);
+        String json;
+        Invocation.Builder trgtToPost = trgt.path("/user/register").request(MediaType.TEXT_PLAIN);
+        json= trgtToPost.post(Entity.entity(gson.toJson(user),MediaType.TEXT_PLAIN),String.class);
         user = gson.fromJson(json,User.class);
 
 

@@ -1,13 +1,7 @@
-import common.view.RegisterBean;
-import common.view.TupleString;
-import common.view.loginBean;
-import junit.framework.TestCase;
-import org.junit.Test;
-
 /**
  * Created by luben on 2015-11-12.
  */
-
+/*
 public class tester extends TestCase {
 
     @Test
@@ -53,3 +47,4 @@ public class tester extends TestCase {
     }
 
 }
+*/
