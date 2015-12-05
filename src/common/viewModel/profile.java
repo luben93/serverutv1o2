@@ -10,7 +10,12 @@ public class profile {
     private boolean isFemale;
     private String desc;
 
+    public profile(String name) {
+        this.name = name;
+    }
+
     public long getUid() {
+
         return uid;
     }
 

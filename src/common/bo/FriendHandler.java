@@ -1,11 +1,13 @@
 package common.bo;
 
 import common.model.User;
+import common.viewModel.Follower;
+import common.viewModel.profile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,16 +18,16 @@ public class FriendHandler {
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pres_comm");
     static EntityManager em;
 
-    public static boolean addFollower(long followerName,long following){
+    public static boolean addFollower(Follower a){
         boolean out=true;
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
-            User u = UserHandler.getUser(followerName,em);
-            TypedQuery<User> query = em.createQuery(
-                    "SELECT new User(c.u_id) from User c where c.username = :following", User.class).setParameter("following",following);
-            User tmp = query.getSingleResult();
-            User f = UserHandler.getUser(following,em);
+            User u = UserHandler.getUser(a.getMe(),em);
+           // TypedQuery<User> query = em.createQuery(
+            //        "SELECT new User(c.u_id) from User c where c.username = :following", User.class).setParameter("following",a.getFollowing());
+            //User tmp = query.getSingleResult();
+            User f = UserHandler.getUser(a.getFollowing(),em);
             Collection<User> follow=u.getFollow();
             if(follow.contains(f)){
                 out=false;
@@ -48,16 +50,21 @@ public class FriendHandler {
 
     }
 
-    public static Collection<User> getFollowers(long user){
+    public static Collection<profile> getFollowers(long user){//TODO id only
         em = emf.createEntityManager();
-        User u = UserHandler.getUser(user,em);
-        Collection<User> out= u.getFollow();
+        User me = UserHandler.getUser(user,em);
+        Collection<User> out= me.getFollow();
+
+        ArrayList<profile> followers= new ArrayList<>();
+        for (User u:out) {
+            followers.add(new profile(u.getU_id(), u.getProfile().getName(), u.getProfile().getAge(), u.getProfile().getIsFemale(), u.getProfile().getDescription()));
+        }
         System.out.println(out);
         em.close();
-        return out;
+        return followers;
     }
 
-    public static int countFollowing(long user){
+    public static int countFollowing(long user){//TODO id only
         em = emf.createEntityManager();
         User u = UserHandler.getUser(user,em);
         // Collection<User> out= u.getFollowed();

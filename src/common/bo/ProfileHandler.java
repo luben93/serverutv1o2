@@ -2,6 +2,7 @@ package common.bo;
 
 import common.model.Profile;
 import common.model.User;
+import common.viewModel.profile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,7 +21,7 @@ public class ProfileHandler{
     static EntityManager em;
    // static SessionFactory seshF = HibUtil.getSessionFactory();
 
-    public static Profile getProfile(long username) throws IOException, ClassNotFoundException {
+    public static Profile getProfile(long username) throws IOException, ClassNotFoundException {//TODO id only
         em = emf.createEntityManager();
         em.getTransaction().begin();
 
@@ -45,15 +46,15 @@ public class ProfileHandler{
     }
 
 
-    public static boolean update(String name,int age,String desc,boolean isFemale,long username){
+    public static boolean update(profile me){
         em=emf.createEntityManager();
         em.getTransaction().begin();
-        User u=UserHandler.getUser(username,em);
+        User u=UserHandler.getUser(me.getUid(),em);
         Profile p=u.getProfile();
-        p.setAge(age);
-        p.setDescription(desc);
-        p.setIsFemale(isFemale);
-        p.setName(name);
+        p.setAge(me.getAge());
+        p.setDescription(me.getDesc());
+        p.setIsFemale(me.isFemale());
+        p.setName(me.getName());
         //p.setUser(u);
         //em.persist(p);
         em.merge(p);
@@ -63,14 +64,13 @@ public class ProfileHandler{
         return true;
     }
 
-    public static Collection<Profile> search(String search,String exclude) throws IOException, ClassNotFoundException {
-        Collection out;//= new ArrayList<SimpleUser>();
+    public static Collection<profile> search(profile search,profile me) throws IOException, ClassNotFoundException {
+        Collection<profile> out;//= new ArrayList<SimpleUser>();
         try {
             em = emf.createEntityManager();
-            out = em.createNamedQuery("findUserByUsernameContains").setParameter("search", "%"+search+"%").setParameter("exclude", exclude).getResultList();
+            out = em.createNamedQuery("findUserByUsernameContains").setParameter("search", "%"+search.getName()+"%").setParameter("exclude", me.getName()).getResultList();
         } catch (NoResultException e) {
-            out = new ArrayList<String>();
-            out.add("no user found");
+            out = new ArrayList<>();
         }finally {
             em.close();
         }
