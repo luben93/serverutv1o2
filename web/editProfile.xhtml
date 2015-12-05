@@ -22,16 +22,16 @@
                         <h:outputLabel value="profile: "/></p>
                     <p>
                         <h:outputLabel value="Name: "/>
-                        <h:inputText value="#{loginBean.profileName}"/></p>
+                        <h:inputText value="#{loginBean.me.name}"/></p>
                     <p>
                         <h:outputLabel value="Age: "/>
-                        <h:inputText value="#{loginBean.age}"/></p>
+                        <h:inputText value="#{loginBean.me.age}"/></p>
                     <p>
                         <h:outputLabel value="Description: "/>
-                        <h:inputText value="#{loginBean.desc}"/></p>
+                        <h:inputText value="#{loginBean.me.desc}"/></p>
                     <p>
                         <h:outputLabel value="Gender: "/>
-                        <h:selectOneRadio id="gender" value="#{loginBean.gender}">
+                        <h:selectOneRadio id="gender" value="#{loginBean.me.gender}">
                             <f:selectItem id="male" itemLabel="male" itemValue="male"/>
                             <f:selectItem id="female" itemLabel="female" itemValue="female"/>
                         </h:selectOneRadio></p>

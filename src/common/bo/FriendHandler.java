@@ -34,8 +34,8 @@ public class FriendHandler {
                 em.getTransaction().rollback();
             }else {
                 follow.add(f);
-                f.getFollowed().add(u);
-                em.merge(f);
+                //f.getFollowed().add(u);
+                //em.merge(f);
                 em.merge(u);
                 em.getTransaction().commit();
             }
@@ -63,6 +63,8 @@ public class FriendHandler {
         em.close();
         return followers;
     }
+
+
 
     public static int countFollowing(long user){//TODO id only
         em = emf.createEntityManager();

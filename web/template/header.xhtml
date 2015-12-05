@@ -9,12 +9,7 @@
 <ui:composition>
     <div class="profile">
         <h:outputLabel value="profile: "/>
-            <h:outputLabel value=" _Welcome #{loginBean.profileName}! "/>
-            <h:outputLabel value=" _Age: #{loginBean.age} "/>
-            <h:outputLabel value=" _Description: #{loginBean.desc} "/>
-            <h:outputLabel value=" _gender: #{loginBean.gender} "/>
-            <h:outputLabel value=" _followers: #{loginBean.nFollowers} "/>
-            <h:outputLabel value=" _following: #{loginBean.nFollowing} "/>
+            <h:outputLabel value=" Welcome #{loginBean.me.name}! Age: #{loginBean.me.age} Description: #{loginBean.me.desc} gender: #{loginBean.me.gender} followers: #{loginBean.nFollowers} following: #{loginBean.nFollowing} "/>
             <h:form>
                 <h:commandButton value="home" action="home"/>
                 <h:commandButton value="Log out" action="#{loginBean.logout}"/>
@@ -35,9 +30,9 @@
             <h:inputText size="20" value="#{loginBean.searchName}"> <f:ajax event="keyup" render="nameList"/>
             </h:inputText>
             <h:dataTable id="nameList" value="#{loginBean.results}" var="result" border="1">
-                <h:column>#{result}</h:column>
-                <h:column> <h:commandButton value="follow" action="#{loginBean.addFriend(result)}"/></h:column>
-                <h:column> <h:commandButton value="go to #{result.user.username}" action="#{loginBean.showProfile(result)}"/>
+                <h:column>#{result.name}</h:column>
+                <h:column> <h:commandButton value="follow" action="#{loginBean.addFriend(result.uid)}"/></h:column>
+                <h:column> <h:commandButton value="go to #{result.name}" action="#{loginBean.showThisProfile(result.uid)}"/>
                 </h:column>
             </h:dataTable>
         </h:form>

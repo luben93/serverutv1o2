@@ -10,9 +10,8 @@
         <ui:define name="content">
 
 
-            <h:outputLabel value=" showing: #{loginBean.showProfile.profileName}  Age: #{loginBean.showProfile.age}  Description: #{loginBean.showProfile.desc} Gender: #{loginBean.showProfile.gender}
-           Followers: #{loginBean.showProfile.nFollowers} Following: #{loginBean.showProfile.nFollowing}"/>
-
+            <h:outputLabel value=" showing: #{loginBean.showProfile.name}  Age: #{loginBean.showProfile.age}  Description: #{loginBean.showProfile.desc} Gender: #{loginBean.showProfile.gender}
+           Followers: #{loginBean.othernFollowers} Following: #{loginBean.othernFollowing}"/>
 
 
             <div>
@@ -49,10 +48,10 @@
                         </h:dataTable>
                     </td>
                     <td>
-                        <h:dataTable id="wall" value="#{loginBean.showProfile.wall}" var="post" border="2" style="margin-left: auto;
+                        <h:dataTable id="wall" value="#{loginBean.otherWall}" var="post" border="2" style="margin-left: auto;
             margin-right: auto;">
-                            <h:column>#{post.user.profile.name}</h:column>
-                            <h:column>#{post.post}</h:column>
+                            <h:column>#{loginBean.showProfile.name} wrote </h:column>
+                            <h:column>#{post.message}</h:column>
                         </h:dataTable>
                     </td>
                 </tr>

@@ -61,10 +61,14 @@ public class ProfileHandler{
     }
 
     public static Collection<profile> search(profile search,profile me){
-        Collection<profile> out;//= new ArrayList<SimpleUser>();
+        Collection<profile> out = new ArrayList<profile>();
         try {
             em = emf.createEntityManager();
-            out = em.createNamedQuery("findUserByUsernameContains").setParameter("search", "%"+search.getName()+"%").setParameter("exclude", me.getName()).getResultList();
+            Collection <Profile> tmp = em.createNamedQuery("findUserByUsernameContains").setParameter("search", "%"+search.getName()+"%").setParameter("exclude", me.getName()).getResultList();
+
+            for (Profile p: tmp) {
+               out.add(new profile(p.getU_id(),p.getName(),p.getAge(),p.getIsFemale(),p.getDescription()));
+            }
         } catch (NoResultException e) {
             out = new ArrayList<>();
         }finally {

@@ -35,6 +35,20 @@ public class profile {
         return age;
     }
 
+    public String getGender(){
+        if(isFemale){
+            return "female";
+        }
+        return "male";
+    }
+
+    public void setGender(String in){
+        if(in.equals("female")){
+            isFemale=true;
+        }
+        isFemale=false;
+    }
+
     public void setAge(int age) {
         this.age = age;
     }

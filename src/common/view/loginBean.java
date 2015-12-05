@@ -24,9 +24,9 @@ public class loginBean {
     private Long id;
     private String post;
     private String msg;
-    private String searchName;
+    private String searchName="";
     private profile me;
-    private profile other;
+    private profile other;//?????????
 
 
 
@@ -51,13 +51,13 @@ public class loginBean {
         return pass;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public void setPost(String post) {
         this.post = post;
@@ -75,25 +75,33 @@ public class loginBean {
 
 
     //TODO here
-    public String getProfileName() {
-        return me.getName();
-    }
-    public String getAge() {
-        return me.getAge()+"";
-    }
-    public String getDesc() {
-        return me.getDesc();
-    }
-    public String getGender() {
-        if (me.isFemale()) {
-            return "female";
-        } else {
-            return "male";
-        }
-    }
+//    public String getProfileName() {
+//        return me.getName();
+//    }
+//    public String getAge() {
+//        return me.getAge()+"";
+//    }
+//    public String getDesc() {
+//        return me.getDesc();
+//    }
+//    public String getGender() {
+//        me.getGender();
+//    }
     public Collection<post> getWall(){
         List<post> out;
         out=WallHandler.getPosts(id);
+        Collections.reverse(out);
+        return out;
+
+    }
+
+    public profile getMe(){
+        return me;
+    }
+
+    public Collection<post> getOtherWall(){
+        List<post> out;
+        out=WallHandler.getPosts(other.getUid());
         Collections.reverse(out);
         return out;
 
@@ -132,15 +140,20 @@ public class loginBean {
 
     public Collection<profile> getResults() {
         if (searchName.equals("")) {
-            return new ArrayList<>();
+            return new ArrayList<profile>();
         }else{
            return ProfileHandler.search(new profile(searchName),me);
         }
     }
 
-    public profile getShowProfile(long otherID){
-        return ProfileHandler.getProfile(otherID);
+    public String showThisProfile(long otherID){
+        other = getProfile(otherID);
+        setSearchName("");
+        return "profileInfo";
+    }
 
+    private profile getProfile(long id){
+        return ProfileHandler.getProfile(id);
     }
 
     public String getnFollowers(){
@@ -154,10 +167,16 @@ public class loginBean {
         return searchName;
     }
 
-    public String showProfile(long otherID) {
-        other = ProfileHandler.getProfile(otherID);
-        setSearchName("");
-        return "profileInfo";
+    public profile getShowProfile() {
+        return other;
+    }
+
+    public String getOthernFollowers(){
+        return FriendHandler.getFollowers(other.getUid()).size()+"";
+    }
+
+    public String getOthernFollowing(){
+        return FriendHandler.countFollowing(other.getUid())+"";
     }
 
     public String addFriend(long otherID) {
@@ -194,7 +213,7 @@ public class loginBean {
 
         if(tmp > 0){//success
             id=tmp;
-            me = getShowProfile(id);
+            me = getProfile(id);
             return "home";
         }
         return "index";

@@ -22,8 +22,8 @@
 
             <h:dataTable style="margin-left: auto;
 margin-right: auto;" id="wall" value="#{loginBean.wall}" var="post" border="2">
-                <h:column>#{post.user.profile.name}</h:column>
-                <h:column>#{post.post}</h:column>
+                <h:column>#{loginBean.name} wrote</h:column>
+                <h:column>#{post.message}</h:column>
             </h:dataTable>
 
         </div>

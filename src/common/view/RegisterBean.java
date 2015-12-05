@@ -2,6 +2,7 @@ package common.view;
 
 import common.bo.UserAlreadyExistExecption;
 import common.bo.UserHandler;
+import common.viewModel.ViewUser;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -34,7 +35,7 @@ public class RegisterBean {
 
     public String login(){
         try {
-            if(UserHandler.register(name,pass)) {
+            if(UserHandler.register(new ViewUser(name,pass))) {
                 return "home";
             }
         } catch (NoSuchAlgorithmException e) {
