@@ -13,9 +13,9 @@ public class Main {
         // use JUint testing in tester instead
         System.out.println("hej");
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("localhost:8081/rest/");
-        Response out = target.path("hej").request().get();
-        System.out.println(out);
+        WebTarget target = cli.target("http://localhost:8081/rest/users/hejsan/lucas");
+        Response out = target.request().get();
+        System.out.println(out.readEntity(String.class));
 
     }
 

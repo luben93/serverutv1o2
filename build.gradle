@@ -1,36 +1,53 @@
 apply plugin: 'java'
-apply plugin: 'idea'
-//apply plugin: 'tomcat'
+apply plugin: 'eclipse'
 apply plugin: 'war'
-
-
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
-version = '1.0'
 
 repositories {
     mavenCentral()
 }
 
-
-
 dependencies {
-    compile 'javax.servlet:javax.servlet-api:3.0.1'
-    //compile group: 'org.hibernate', name: 'hibernate-core', version: '4.3.5.Final'
-    //compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
-    //compile 'org.hibernate:hibernate-core:5.0.2.Final'
-    compile 'org.hibernate:hibernate-core:4.2.2.Final'
-    compile 'mysql:mysql-connector-java:5.1.37'
-    compile 'org.primefaces:primefaces:5.2'
-    compile 'javax.servlet:jstl:1.1.0'
-    compile 'org.glassfish:javax.faces:2.2.1'// error at opaque part line 83 ...
-    compile 'com.sun.faces:jsf-api:2.2.9'
-    compile 'com.sun.faces:jsf-impl:2.2.9'
+	compile "javax.ws.rs:jsr311-api:1.1.1"
+	compile 'javax.persistence:persistence-api:1.0.2'
 
+	compile 'mysql:mysql-connector-java:5.1.37'
+
+	compile 'com.google.code.gson:gson:2.2.4'
+	compile group: 'org.hibernate', name: 'hibernate-commons-annotations', version: '3.2.0.Final'
+	compile group: 'org.hibernate', name: 'hibernate-core', version: '4.2.7.SP1'
+	compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.2.3.Final'
+
+	compile 'com.sun.jersey:jersey-server:1.16'
+	compile 'com.sun.jersey:jersey-core:1.16'
+	compile 'com.sun.jersey:jersey-client:1.16'
+	compile 'com.sun.jersey:jersey-servlet:1.16'
+	compile 'com.sun.jersey:jersey-json:1.16'
+
+	compile 'org.primefaces:primefaces:5.3'
+	compile 'org.primefaces:primefaces:5.2'
+	compile 'javax.servlet:jstl:1.1.0'
+	compile 'org.glassfish:javax.faces:2.2.1'
+	compile 'com.sun.faces:jsf-api:2.2.9'
+	compile 'com.sun.faces:jsf-impl:2.2.9'
+	
+	compile 'com.yammer.metrics:metrics-core:2.2.0'
+	compile 'com.yammer.metrics:metrics-servlet:2.2.0'
+	compile 'com.yammer.metrics:metrics-jersey:2.2.0'
+	compile 'com.yammer.metrics:metrics-graphite:2.2.0'
+	
+	compile 'log4j:log4j:1.2.16'
+
+	testCompile "junit:junit-dep:4.10"
+
+	runtime group: 'org.hibernate', name: 'hibernate-commons-annotations', version: '3.2.0.Final'
+	runtime group: 'org.hibernate', name: 'hibernate-core', version: '4.2.7.SP1'
+	runtime group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.2.3.Final'
 
 }
 
-war {
-    webXml = file('web/WEB-INF/web.xml')
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
 }

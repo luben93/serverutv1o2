@@ -1,9 +1,6 @@
 package common.view;
 
-import common.bo.FriendHandler;
-import common.bo.ProfileHandler;
-import common.bo.WallHandler;
-import common.bo.chatHandler;
+
 import common.viewModel.*;
 
 import javax.faces.bean.ManagedBean;
@@ -13,6 +10,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,12 +33,7 @@ public class loginBean {
     private String searchName = "";
     private profile me;
     private profile other;//?????????
-    private WebTarget target;
 
-    public loginBean(){
-        Client cli = ClientBuilder.newClient();
-        target = cli.target("ip:8081/rest/");
-    }
 
     public String getMsg() {
         return msg;
@@ -92,7 +85,7 @@ public class loginBean {
     //TODO implementera rest härifrån och ner
 
     public Collection<post> getWall() {
-        List<post> out;
+        List<post> out = null;
         out = WallHandler.getPosts(id);
         Collections.reverse(out);
         return out;
@@ -101,7 +94,7 @@ public class loginBean {
 
 
     public Collection<post> getOtherWall() {
-        List<post> out;
+        List<post> out = null;
         out = WallHandler.getPosts(other.getUid());
         Collections.reverse(out);
         return out;
@@ -123,7 +116,7 @@ public class loginBean {
 
 
     public Collection<message> getMessages() {
-        List<message> out;
+        List<message> out = null;
         message between = new message(id, other.getUid());
         out = chatHandler.getMessages(between);
         Collections.reverse(out);
@@ -140,6 +133,11 @@ public class loginBean {
         if (searchName.equals("")) {
             return new ArrayList<profile>();
         } else {
+            Client cli = ClientBuilder.newClient();
+            WebTarget target = cli.target("http://localhost:8081/rest/profile/search/"+id+"/"+searchName);
+            Response resp = target.request().get();
+            List<profile> tmp=resp.readEntity(new GenericType<List<profile>>() {});
+
             return ProfileHandler.search(new profile(searchName), me);
         }
     }
@@ -151,35 +149,56 @@ public class loginBean {
     }
 
     private profile getProfile(long id) {
-        return ProfileHandler.getProfile(id);
+
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/profile/"+id);
+        Response resp = target.request().get();
+
+        return resp.readEntity(profile.class);
     }
 
     public String getnFollowers() {
-        return FriendHandler.getFollowers(id).size() + "";
+        return getFollowers(id);
     }
 
     public String getnFollowing() {
-        return FriendHandler.countFollowing(id) + "";
+        return getFollowing(id);
     }
 
-
     public String getOthernFollowers() {
-        return FriendHandler.getFollowers(other.getUid()).size() + "";
+        return getFollowers(other.getUid());
     }
 
     public String getOthernFollowing() {
-        WebTarget wt = target.path("following");
-        Response resp = wt.request().post(Entity.json(other.getUid()));
-        return resp.getEntity().toString();
+        return getFollowing(other.getUid());
     }
+
+    private String getFollowers(long id){
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/friends/followers/"+id);
+        Response resp = target.request().get();
+        List<profile> tmp=resp.readEntity(new GenericType<List<profile>>() {});
+        return tmp + "";
+    }
+
+    private String getFollowing(long id){
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/friends/following/"+id);
+        Response resp = target.request().get();
+        return resp.readEntity(Integer.class)+"";
+    }
+
+
 
     public String addFriend(long otherID) {
         System.out.println(otherID);
         //TODO add friend here
         Follower follow = new Follower(id, otherID);
-        WebTarget wt = target.path("friends");
-        Response resp = wt.request().post(Entity.json(follow));
+
         //FriendHandler.addFollower(follow);
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/friends");
+        target.request().post(Entity.json(follow));//TODO check status maybe?
 
         return "home";//mabey profile/uid here?
     }
@@ -196,14 +215,15 @@ public class loginBean {
 //        //TODO not logged in
 //        return "index";
 
-        WebTarget wt = target.path("login");
         ViewUser user = new ViewUser(username, pass);
+
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/users/login");
+        Response resp = target.request().post(Entity.json(user));
+        Long tmp=resp.readEntity(Long.class);
+
+
 //        long tmp = UserHandler.login(user);
-        Response resp = wt.request().post(Entity.json(user));
-        System.out.println(resp);
-        System.out.println(resp.getStatus());
-        System.out.println(resp.getEntity());
-        long tmp = Long.valueOf(resp.getEntity().toString());
 
         if (tmp > 0) {//success
             id = tmp;
