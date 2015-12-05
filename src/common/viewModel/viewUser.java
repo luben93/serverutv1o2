@@ -1,14 +1,20 @@
 package common.viewModel;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by luben on 2015-12-05.
  */
+@XmlRootElement
+
 public class ViewUser {
     private String username;
     private String pass;
+
+    public ViewUser() {
+    }
 
     public String getUsername() {
         return username;
