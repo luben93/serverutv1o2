@@ -1,10 +1,12 @@
 package common.bo;
 
 import common.model.ChatMessage;
+import common.viewModel.message;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,22 +16,28 @@ public class chatHandler {
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pres_comm");
     static EntityManager em;
 
-    public static List<ChatMessage> getMessages(long sender, long reciver) {
+    public static List<message> getMessages(message messages) {
         em = emf.createEntityManager();
-        em.getTransaction().begin();//TODO ??????
-        List<ChatMessage> out = em.createNamedQuery("getChat").setParameter("sender", sender).setParameter("receiver", reciver).getResultList();
+        em.getTransaction().begin();
+        List<ChatMessage> out = em.createNamedQuery("getChat").setParameter("sender", messages.getSender()).setParameter("receiver", messages.getRecvier()).getResultList();
         em.getTransaction().commit();
+
+
+        ArrayList<message> outMessage = new ArrayList<>();
+        for (ChatMessage msg: out) {
+            outMessage.add(new message(msg.getSender(),msg.getReceiver(),msg.getMessage()));
+        }
         em.close();
-        return out;
+        return outMessage;
     }
 
-    public static boolean sendMessage(long sender,long reciver, String msgtxt){
+    public static boolean sendMessage(message m){
         em = emf.createEntityManager();
         em.getTransaction().begin();
         ChatMessage msg = new ChatMessage();
-        msg.setMessage(msgtxt);
-        msg.setReceiver(reciver);
-        msg.setSender(sender);
+        msg.setMessage(m.getMessage());
+        msg.setReceiver(m.getRecvier());
+        msg.setSender(m.getSender());
         em.persist(msg);
         em.getTransaction().commit();
         em.close();

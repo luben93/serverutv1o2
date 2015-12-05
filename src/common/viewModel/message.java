@@ -8,7 +8,13 @@ public class message {
     private long recvier;
     private String message;
 
+    public message(long sender, long recvier) {
+        this.sender = sender;
+        this.recvier = recvier;
+    }
+
     public long getSender() {
+
         return sender;
     }
 
