@@ -1,3 +1,7 @@
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -7,6 +11,11 @@ public class Main {
 
     public static void main(final String[] args) throws NoSuchAlgorithmException {
         // use JUint testing in tester instead
+        System.out.println("hej");
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("localhost:8081/rest/");
+        Response out = target.path("hej").request().get();
+        System.out.println(out);
 
     }
 
