@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -21,7 +20,7 @@ public class ProfileHandler{
     static EntityManager em;
    // static SessionFactory seshF = HibUtil.getSessionFactory();
 
-    public static Profile getProfile(long username) throws IOException, ClassNotFoundException {//TODO id only
+    public static profile getProfile(long username)  {//TODO id only
         em = emf.createEntityManager();
         em.getTransaction().begin();
 
@@ -35,13 +34,10 @@ public class ProfileHandler{
             System.out.printf("The user do not exist");
         }
         if(existing!=null){
-            em.persist(existing);
-            em.getTransaction().commit();
-            Profile p = existing.getProfile();
-            em.close();
-            return (Profile) Copy.clone(p);
+            Profile p=existing.getProfile();
+            return new profile(p.getU_id(),p.getName(),p.getAge(),p.getIsFemale(),p.getDescription());
         }
-        return new Profile();
+        return null;
 
     }
 
@@ -64,7 +60,7 @@ public class ProfileHandler{
         return true;
     }
 
-    public static Collection<profile> search(profile search,profile me) throws IOException, ClassNotFoundException {
+    public static Collection<profile> search(profile search,profile me){
         Collection<profile> out;//= new ArrayList<SimpleUser>();
         try {
             em = emf.createEntityManager();

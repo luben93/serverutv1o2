@@ -5,7 +5,7 @@ package common.viewModel;
  */
 public class post {
     private long uid;
-    private long id;
+//    private long id;
     private String message;
 
     public long getUid() {
@@ -16,13 +16,13 @@ public class post {
         this.uid = uid;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
 
     public String getMessage() {
         return message;
@@ -32,10 +32,15 @@ public class post {
         this.message = message;
     }
 
-    public post(long uid, long id, String message) {
+//    public post(long uid, long id, String message) {
+//
+//        this.uid = uid;
+//        this.id = id;
+//        this.message = message;
+//    }
 
+    public post(long uid, String message) {
         this.uid = uid;
-        this.id = id;
         this.message = message;
     }
 }
