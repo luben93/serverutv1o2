@@ -13,7 +13,7 @@ public class Main {
         // use JUint testing in tester instead
         System.out.println("hej");
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/users/hejsan/lucas");
+        WebTarget target = cli.target("http://localhost:8081/rest/users/hejsan/1/lucas");
         Response out = target.request().get();
         System.out.println(out.readEntity(String.class));
 

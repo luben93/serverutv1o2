@@ -74,6 +74,7 @@ public class loginBean {
     public void setPass(String pass) {
         this.pass = pass;
     }
+
     public profile getMe() {
         return me;
     }
@@ -82,43 +83,72 @@ public class loginBean {
         searchName = name;
     }
 
-    //TODO implementera rest härifrån och ner
-
     public Collection<post> getWall() {
-        List<post> out = null;
-        out = WallHandler.getPosts(id);
-        Collections.reverse(out);
-        return out;
-
+        return getWall(id);
     }
-
 
     public Collection<post> getOtherWall() {
-        List<post> out = null;
-        out = WallHandler.getPosts(other.getUid());
-        Collections.reverse(out);
-        return out;
-
+        return getWall(other.getUid());
     }
 
+    public String getnFollowers() {
+        return getFollow(id,"ers");
+    }
+
+    public String getnFollowing() {
+        return getFollow(id,"ing");
+    }
+
+    public String getOthernFollowers() {
+        return getFollow(other.getUid(),"ers");
+    }
+
+    public String getOthernFollowing() {
+        return getFollow(other.getUid(),"ing");
+    }
+
+    //TODO implementera rest härifrån och ner
+
+    private Collection<post> getWall(long id) {
+        List<post> out = null;
+//        out = WallHandler.getPosts(id);
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/wall/" + id);// /me/other
+        Response rsp = target.request().get();
+        out = rsp.readEntity(new GenericType<List<post>>() {
+        });
+        Collections.reverse(out);
+        return out;
+    }
 
     public String postToWall() {
-        WallHandler.post(new post(id, post));//TODO nullpointer
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/wall");
+        target.request().post(Entity.json(new post(id,post)));//TODO check status
+//        WallHandler.post(new post(id, post));//TODO nullpointer
         post = "";
         return "home";
     }
 
     public String update() {
         //TODO do save stuff here
-        ProfileHandler.update(me);
+        //ProfileHandler.update(me);
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/profile");
+        target.request().post(Entity.json(me));//TODO check status
         return "home";
     }
 
 
     public Collection<message> getMessages() {
         List<message> out = null;
-        message between = new message(id, other.getUid());
-        out = chatHandler.getMessages(between);
+        //message between = new message(id, other.getUid());
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/chat/" + id + "/" + other.getUid());
+        Response rsp = target.request().get();
+        out = rsp.readEntity(new GenericType<List<message>>() {
+        });
+        //out = chatHandler.getMessages(between);
         Collections.reverse(out);
         return out;
     }
@@ -126,7 +156,11 @@ public class loginBean {
 
     public void sendMessage() {
         message out = new message(id, other.getUid(), msg);
-        chatHandler.sendMessage(out);
+        Client cli = ClientBuilder.newClient();
+        WebTarget target = cli.target("http://localhost:8081/rest/chat");
+        target.request().post(Entity.json(out));//TODO check status
+//        Long tmp=resp.readEntity(Long.class);
+//        chatHandler.sendMessage(out);
     }
 
     public Collection<profile> getResults() {
@@ -134,11 +168,12 @@ public class loginBean {
             return new ArrayList<profile>();
         } else {
             Client cli = ClientBuilder.newClient();
-            WebTarget target = cli.target("http://localhost:8081/rest/profile/search/"+id+"/"+searchName);
-            Response resp = target.request().get();
-            List<profile> tmp=resp.readEntity(new GenericType<List<profile>>() {});
+            WebTarget target = cli.target("http://localhost:8081/rest/profile/search/");
+            Response resp = target.request().post(Entity.json(new Search(searchName,me.getName())));
+            List<profile> tmp = resp.readEntity(new GenericType<List<profile>>() {
+            });
 
-            return ProfileHandler.search(new profile(searchName), me);
+            return tmp;
         }
     }
 
@@ -151,43 +186,32 @@ public class loginBean {
     private profile getProfile(long id) {
 
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/profile/"+id);
+        WebTarget target = cli.target("http://localhost:8081/rest/profile/" + id);
         Response resp = target.request().get();
 
         return resp.readEntity(profile.class);
     }
 
-    public String getnFollowers() {
-        return getFollowers(id);
-    }
 
-    public String getnFollowing() {
-        return getFollowing(id);
-    }
 
-    public String getOthernFollowers() {
-        return getFollowers(other.getUid());
-    }
+//    private String getFollowers(long id) {
+//        Client cli = ClientBuilder.newClient();
+//        WebTarget target = cli.target("http://localhost:8081/rest/friends/followers/" + id);
+//        Response resp = target.request().get();
+//        List<profile> tmp = resp.readEntity(new GenericType<List<profile>>() {
+//        });
+//        return tmp + "";
+//    }
 
-    public String getOthernFollowing() {
-        return getFollowing(other.getUid());
-    }
-
-    private String getFollowers(long id){
+    private String getFollow(long id,String ingOrErs) {
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/friends/followers/"+id);
+        WebTarget target = cli.target("http://localhost:8081/rest/friends/follow"+ingOrErs+"/" + id);
         Response resp = target.request().get();
-        List<profile> tmp=resp.readEntity(new GenericType<List<profile>>() {});
+        List<profile> tmp = resp.readEntity(new GenericType<List<profile>>() {
+        });
         return tmp + "";
+       // return resp.readEntity(Integer.class) + "";
     }
-
-    private String getFollowing(long id){
-        Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/friends/following/"+id);
-        Response resp = target.request().get();
-        return resp.readEntity(Integer.class)+"";
-    }
-
 
 
     public String addFriend(long otherID) {
@@ -220,7 +244,7 @@ public class loginBean {
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/users/login");
         Response resp = target.request().post(Entity.json(user));
-        Long tmp=resp.readEntity(Long.class);
+        Long tmp = resp.readEntity(Long.class);
 
 
 //        long tmp = UserHandler.login(user);
