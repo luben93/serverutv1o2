@@ -2,6 +2,7 @@ package common.view;
 
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import common.viewModel.*;
 
 import javax.faces.bean.ManagedBean;
@@ -14,6 +15,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -124,8 +126,11 @@ public class loginBean {
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/wall/" + id);// /me/other
         Response rsp = target.request().get();
-        out = rsp.readEntity(new GenericType<List<post>>() {
-        });
+        out = gson.fromJson(rsp.readEntity(String.class), new TypeToken<ArrayList<post>>() {
+        }.getType());
+
+//        out = rsp.readEntity(new GenericType<List<post>>() {
+//        });
         Collections.reverse(out);
         return out;
     }
@@ -155,8 +160,10 @@ public class loginBean {
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/chat/" + id + "/" + other.getUid());
         Response rsp = target.request().get();
-        out = rsp.readEntity(new GenericType<List<message>>() {
-        });
+        Type listType = new TypeToken<ArrayList<message>>() {
+        }.getType();
+        List<message> out = gson.fromJson(rsp.readEntity(String.class), listType);
+
         //out = chatHandler.getMessages(between);
         Collections.reverse(out);
         return out;
@@ -180,8 +187,9 @@ public class loginBean {
             WebTarget target = cli.target("http://localhost:8081/rest/profile/search/");
 //            Response resp = target.request().post(Entity.json(new Search(searchName,me.getName())));
             Response resp = target.request().post(Entity.entity(gson.toJson(new Search(searchName,me.getName())),MediaType.APPLICATION_JSON));
-            List<profile> tmp = resp.readEntity(new GenericType<List<profile>>() {
-            });
+            Type profileListType = new TypeToken<ArrayList<profile>>() {
+            }.getType();
+            List<profile> tmp = gson.fromJson(resp.readEntity(String.class), profileListType);
 
             return tmp;
         }
@@ -194,8 +202,9 @@ public class loginBean {
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/profile/" + id);
         Response resp = target.request().get();
+//        Response resp = target.request(MediaType.APPLICATION_JSON).get();
 
-        return resp.readEntity(profile.class);
+        return gson.fromJson(resp.readEntity(String.class),profile.class);
     }
 
 
@@ -213,9 +222,12 @@ public class loginBean {
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/friends/follow"+ingOrErs+"/" + id);
         Response resp = target.request().get();
-        List<profile> tmp = resp.readEntity(new GenericType<List<profile>>() {
-        });
-        return tmp + "";
+        Type profileListType = new TypeToken<ArrayList<profile>>() {
+        }.getType();
+        List<profile> tmp = gson.fromJson(resp.readEntity(String.class), profileListType);
+//        List<profile> tmp = resp.readEntity(new GenericType<List<profile>>() {
+//        });
+        return tmp.size() + "";
        // return resp.readEntity(Integer.class) + "";
     }
 
