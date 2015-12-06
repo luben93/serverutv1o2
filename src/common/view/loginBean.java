@@ -35,7 +35,7 @@ public class loginBean {
     private String searchName = "";
     private profile me;
     private profile other;
-    private Gson gson
+    private Gson gson;
 
 
 
