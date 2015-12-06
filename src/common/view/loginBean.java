@@ -12,7 +12,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.lang.reflect.Type;
@@ -162,7 +161,7 @@ public class loginBean {
         Response rsp = target.request().get();
         Type listType = new TypeToken<ArrayList<message>>() {
         }.getType();
-        List<message> out = gson.fromJson(rsp.readEntity(String.class), listType);
+        out = gson.fromJson(rsp.readEntity(String.class), listType);
 
         //out = chatHandler.getMessages(between);
         Collections.reverse(out);
