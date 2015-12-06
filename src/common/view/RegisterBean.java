@@ -1,6 +1,7 @@
 package common.view;
 
 
+import com.google.gson.Gson;
 import common.viewModel.ViewUser;
 
 import javax.faces.bean.ManagedBean;
@@ -9,6 +10,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -54,8 +56,9 @@ public class RegisterBean {
         user.doCrypt();
 
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/users/reg");
-        Response resp = target.request().post(Entity.json(user));
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/users/reg");
+
+        Response resp = target.request().post(Entity.entity(new Gson().toJson(user), MediaType.APPLICATION_JSON));//TODO GSON
         boolean tmp = resp.readEntity(Boolean.class);
         if(tmp){
             return "index";//success home eller index? lat?

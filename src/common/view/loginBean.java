@@ -3,6 +3,7 @@ package common.view;
 
 import com.google.gson.Gson;
 import common.viewModel.*;
+import common.viewModel.ProfileList;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -121,7 +122,7 @@ public class loginBean {
         List<post> out = null;
 //        out = WallHandler.getPosts(id);
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/wall/" + id);// /me/other
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/wall/" + id);// /me/other
         Response rsp = target.request().get();
         String json=rsp.readEntity(String.class);
         out = gson.fromJson(json,PostList.class).getList();
@@ -136,7 +137,7 @@ public class loginBean {
 
     public String postToWall() {
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/wall");
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/wall");
         target.request().post(Entity.entity(gson.toJson(new post(id,post)),MediaType.APPLICATION_JSON));//TODO check status
 //        WallHandler.post(new post(id, post));//TODO nullpointer
         post = "";
@@ -147,7 +148,7 @@ public class loginBean {
         //TODO do save stuff here
         //ProfileHandler.update(me);
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/profile");
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/profile");
         target.request().post(Entity.entity(gson.toJson(me),MediaType.APPLICATION_JSON));//TODO check status
         return "home";
     }
@@ -157,7 +158,7 @@ public class loginBean {
         List<message> out = null;
         //message between = new message(id, other.getUid());
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/chat/" + id + "/" + other.getUid());
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/chat/" + id + "/" + other.getUid());
         Response rsp = target.request().get();
 //        Type listType = new TypeToken<List<message>>() {
 //        }.getType();
@@ -172,7 +173,7 @@ public class loginBean {
     public void sendMessage() {
         message out = new message(id, other.getUid(), msg);
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/chat");
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/chat");
         target.request().post(Entity.entity(gson.toJson(out),MediaType.APPLICATION_JSON));//TODO check status
 //        Long tmp=resp.readEntity(Long.class);
 //        chatHandler.sendMessage(out);
@@ -183,7 +184,7 @@ public class loginBean {
             return new ArrayList<profile>();
         } else {
             Client cli = ClientBuilder.newClient();
-            WebTarget target = cli.target("http://localhost:8081/rest/profile/search/");
+            WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/profile/search/");
 //            Response resp = target.request().post(Entity.json(new Search(searchName,me.getName())));
             Response resp = target.request().post(Entity.entity(gson.toJson(new Search(searchName,me.getName())),MediaType.APPLICATION_JSON));
 //            Type profileListType = new TypeToken<Collection<profile>>() {
@@ -199,7 +200,7 @@ public class loginBean {
     private profile getProfile(long id) {
 
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/profile/" + id);
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/profile/" + id);
         Response resp = target.request().get();
 //        Response resp = target.request(MediaType.APPLICATION_JSON).get();
 
@@ -210,7 +211,7 @@ public class loginBean {
 
 //    private String getFollowers(long id) {
 //        Client cli = ClientBuilder.newClient();
-//        WebTarget target = cli.target("http://localhost:8081/rest/friends/followers/" + id);
+//        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/friends/followers/" + id);
 //        Response resp = target.request().get();
 //        List<profile> tmp = resp.readEntity(new GenericType<List<profile>>() {
 //        });
@@ -219,7 +220,7 @@ public class loginBean {
 
     private String getFollow(long id,String ingOrErs) {
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/friends/follow"+ingOrErs+"/" + id);
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/friends/follow"+ingOrErs+"/" + id);
         Response resp = target.request().get();
         //Type profileListType = new TypeToken<List<profile>>() {
         //}.getType();
@@ -240,7 +241,7 @@ public class loginBean {
 
         //FriendHandler.addFollower(follow);
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/friends");
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/friends");
         target.request().post(Entity.entity(gson.toJson(follow),MediaType.APPLICATION_JSON));//TODO check status maybe?
 
         return "home";//mabey profile/uid here?
@@ -262,7 +263,7 @@ public class loginBean {
         user.doCrypt();
 
         Client cli = ClientBuilder.newClient();
-        WebTarget target = cli.target("http://localhost:8081/rest/users/login");
+        WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/users/login");
         gson=new Gson();
         System.out.println(gson.toJson(user));
         Response resp = target.request().post(Entity.entity(gson.toJson(user), MediaType.APPLICATION_JSON));
