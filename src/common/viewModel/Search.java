@@ -1,12 +1,13 @@
 package common.viewModel;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * Created by luben on 2015-12-06.
  */
 @XmlRootElement
-public class Search {
+public class Search implements Serializable {
     private String search;
     private String exclude;
 

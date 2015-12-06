@@ -1,13 +1,14 @@
 package common.viewModel;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * Created by luben on 2015-12-05.
  */
 @XmlRootElement
 
-public class message {
+public class message implements Serializable {
     private long sender;
     private long recvier;
     private String message;

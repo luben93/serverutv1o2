@@ -1,18 +1,20 @@
 package common.viewModel;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * Created by luben on 2015-12-05.
  */
 @XmlRootElement
 
-public class profile {
+public class profile implements Serializable {
     private long uid;
     private String name;
     private int age;
     private boolean isFemale;
     private String desc;
+    private String gender;//TODO GSON magi?
 
     public profile(String name) {
         this.name = name;
