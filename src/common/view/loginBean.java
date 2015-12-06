@@ -1,6 +1,7 @@
 package common.view;
 
 
+import com.google.gson.Gson;
 import common.viewModel.*;
 
 import javax.faces.bean.ManagedBean;
@@ -11,6 +12,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +34,9 @@ public class loginBean {
     private String msg;
     private String searchName = "";
     private profile me;
-    private profile other;//?????????
+    private profile other;
+    private Gson gson
+
 
 
     public String getMsg() {
@@ -107,6 +111,11 @@ public class loginBean {
         return getFollow(other.getUid(),"ing");
     }
 
+    public String showThisProfile(long otherID) {
+        other = getProfile(otherID);
+        setSearchName("");
+        return "profileInfo";
+    }
     //TODO implementera rest härifrån och ner
 
     private Collection<post> getWall(long id) {
@@ -124,7 +133,7 @@ public class loginBean {
     public String postToWall() {
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/wall");
-        target.request().post(Entity.json(new post(id,post)));//TODO check status
+        target.request().post(Entity.entity(gson.toJson(new post(id,post)),MediaType.APPLICATION_JSON));//TODO check status
 //        WallHandler.post(new post(id, post));//TODO nullpointer
         post = "";
         return "home";
@@ -135,7 +144,7 @@ public class loginBean {
         //ProfileHandler.update(me);
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/profile");
-        target.request().post(Entity.json(me));//TODO check status
+        target.request().post(Entity.entity(gson.toJson(me),MediaType.APPLICATION_JSON));//TODO check status
         return "home";
     }
 
@@ -158,7 +167,7 @@ public class loginBean {
         message out = new message(id, other.getUid(), msg);
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/chat");
-        target.request().post(Entity.json(out));//TODO check status
+        target.request().post(Entity.entity(gson.toJson(out),MediaType.APPLICATION_JSON));//TODO check status
 //        Long tmp=resp.readEntity(Long.class);
 //        chatHandler.sendMessage(out);
     }
@@ -169,7 +178,8 @@ public class loginBean {
         } else {
             Client cli = ClientBuilder.newClient();
             WebTarget target = cli.target("http://localhost:8081/rest/profile/search/");
-            Response resp = target.request().post(Entity.json(new Search(searchName,me.getName())));
+//            Response resp = target.request().post(Entity.json(new Search(searchName,me.getName())));
+            Response resp = target.request().post(Entity.entity(gson.toJson(new Search(searchName,me.getName())),MediaType.APPLICATION_JSON));
             List<profile> tmp = resp.readEntity(new GenericType<List<profile>>() {
             });
 
@@ -177,11 +187,7 @@ public class loginBean {
         }
     }
 
-    public String showThisProfile(long otherID) {
-        other = getProfile(otherID);
-        setSearchName("");
-        return "profileInfo";
-    }
+
 
     private profile getProfile(long id) {
 
@@ -222,7 +228,7 @@ public class loginBean {
         //FriendHandler.addFollower(follow);
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/friends");
-        target.request().post(Entity.json(follow));//TODO check status maybe?
+        target.request().post(Entity.entity(gson.toJson(follow),MediaType.APPLICATION_JSON));//TODO check status maybe?
 
         return "home";//mabey profile/uid here?
     }
@@ -240,14 +246,16 @@ public class loginBean {
 //        return "index";
 
         ViewUser user = new ViewUser(username, pass);
+        user.doCrypt();
 
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/users/login");
-        Response resp = target.request().post(Entity.json(user));
-        Long tmp = resp.readEntity(Long.class);
-
-
-//        long tmp = UserHandler.login(user);
+        gson=new Gson();
+        System.out.println(gson.toJson(user));
+        Response resp = target.request().post(Entity.entity(gson.toJson(user), MediaType.APPLICATION_JSON));
+        String back= resp.readEntity(String.class);
+        profile p= gson.fromJson(back,profile.class);
+        long tmp = p.getUid();
 
         if (tmp > 0) {//success
             id = tmp;

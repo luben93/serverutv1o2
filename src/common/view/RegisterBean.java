@@ -51,6 +51,7 @@ public class RegisterBean {
         //TODO not logged in
 
         ViewUser user = new ViewUser( name, pass);
+        user.doCrypt();
 
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://localhost:8081/rest/users/reg");
