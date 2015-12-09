@@ -39,18 +39,6 @@ public class RegisterBean {
     }
 
     public String login(){
-       /* try {
-            if(UserHandler.register(new ViewUser(name,pass))) {
-                return "home";
-            }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UserAlreadyExistExecption userAlreadyExistExecption) {
-            userAlreadyExistExecption.printStackTrace();
-            return "index";
-        }*/
-        //TODO rest all up in here
-        //TODO not logged in
 
         ViewUser user = new ViewUser( name, pass);
         user.doCrypt();
@@ -58,7 +46,7 @@ public class RegisterBean {
         Client cli = ClientBuilder.newClient();
         WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/users/reg");
 
-        Response resp = target.request().post(Entity.entity(new Gson().toJson(user), MediaType.APPLICATION_JSON));//TODO GSON
+        Response resp = target.request().post(Entity.entity(new Gson().toJson(user), MediaType.APPLICATION_JSON));
         //TODO check success by status?
         System.out.println(resp.getStatus());
         return "index";
