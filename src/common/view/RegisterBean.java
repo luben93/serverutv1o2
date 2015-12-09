@@ -59,10 +59,8 @@ public class RegisterBean {
         WebTarget target = cli.target("http://130.237.84.10:8081/starter/rest/users/reg");
 
         Response resp = target.request().post(Entity.entity(new Gson().toJson(user), MediaType.APPLICATION_JSON));//TODO GSON
-        boolean tmp = resp.readEntity(Boolean.class);
-        if(tmp){
-            return "index";//success home eller index? lat?
-        }
+        //TODO check success by status?
+        System.out.println(resp.getStatus());
         return "index";
     }
 
