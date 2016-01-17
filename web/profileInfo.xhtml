@@ -41,7 +41,14 @@
                     </td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody><tr>
+                    <td>
+                        <iframe src="http://130.237.84.193:8082?id=#{loginBean.me.uid}&amp;other=#{loginBean.showProfile.uid}"></iframe>
+                    </td>
+                    <td>
+                        <iframe src="http://130.237.84.193:3000/#{loginBean.me.uid}/#{loginBean.showProfile.uid}"></iframe>
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         <h:dataTable id="chat" value="#{loginBean.getMessages()}"
